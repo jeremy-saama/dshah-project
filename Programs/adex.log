@@ -1,0 +1,367 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         /**-------------------------------------------------------------------------------------------**
+ 74         ** PROGRAM:    ADAE.SAS
+ 75         ** CREATED:    December 2019
+ 76         ** PURPOSE:    Create ADEX dataset from SDTM EX and ADSL dataset
+ 77         ** PROGRAMMER: Deepti Shah
+ 78         ** INPUT:      sdtmlib.ex, adsllib.adsl
+ 79         ** OUTPUT:     adsllib.adex
+ 80         ** PROTOCOL:   PROD-124
+ 81         **-------------------------------------------------------------------------------------------**
+ 82         /* ----------- SAS University Edition 9.4 ----------- */
+ 83         
+ 84         
+ 85         
+ 86         
+ 87         
+ 88         /* Bring SDTM EX and ADSL Dataset */
+ 89         
+ 90         
+ 91         
+ 92         /* ----------- Clear worl library ----------- */
+ 93         
+ 94         proc delete data=work._all_;
+ 95         run;
+ 
+ NOTE: Deleting WORK.ADSL_A1 (memtype=DATA).
+ NOTE: Deleting WORK.ADSL_DM_SUP (memtype=DATA).
+ NOTE: Deleting WORK.ADSL_TEMP (memtype=DATA).
+ NOTE: Deleting WORK.AE (memtype=DATA).
+ NOTE: Deleting WORK.AE_A1 (memtype=DATA).
+ NOTE: Deleting WORK.ARM (memtype=DATA).
+ NOTE: Deleting WORK.ARM_1 (memtype=DATA).
+ NOTE: Deleting WORK.BS (memtype=DATA).
+ NOTE: Deleting WORK.BS_S (memtype=DATA).
+ NOTE: Deleting WORK.BS_STAT (memtype=DATA).
+ NOTE: Deleting WORK.BS_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.CH1 (memtype=DATA).
+ NOTE: Deleting WORK.CH1_S (memtype=DATA).
+ NOTE: Deleting WORK.CH1_STAT (memtype=DATA).
+ NOTE: Deleting WORK.CH1_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.CH2 (memtype=DATA).
+ NOTE: Deleting WORK.CH2_S (memtype=DATA).
+ NOTE: Deleting WORK.CH2_STAT (memtype=DATA).
+ NOTE: Deleting WORK.CH2_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.CH_STAT (memtype=DATA).
+ NOTE: Deleting WORK.CH_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_ARM (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_MASTER (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_RFENDT (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_RFENDTC (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_RFSTDT (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_RFSTDTC (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_SUPP (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_SUPP1 (memtype=DATA).
+ NOTE: Deleting WORK.DEMO_TRAN (memtype=DATA).
+ NOTE: Deleting WORK.DM (memtype=DATA).
+ NOTE: Deleting WORK.DM_TREAT (memtype=DATA).
+ NOTE: Deleting WORK.EX (memtype=DATA).
+ NOTE: Deleting WORK.EXENDT (memtype=DATA).
+ NOTE: Deleting WORK.EXENDT_1 (memtype=DATA).
+ NOTE: Deleting WORK.EXSTDT (memtype=DATA).
+ NOTE: Deleting WORK.EXSTDT_1 (memtype=DATA).
+ NOTE: Deleting WORK.EX_E1 (memtype=DATA).
+ NOTE: Deleting WORK.SAE (memtype=DATA).
+ NOTE: Deleting WORK.SAE1 (memtype=DATA).
+ NOTE: Deleting WORK.SAE1_S (memtype=DATA).
+ NOTE: Deleting WORK.SAE1_S1 (memtype=DATA).
+ NOTE: Deleting WORK.SUB_AE (memtype=DATA).
+ NOTE: Deleting WORK.SUB_AE1 (memtype=DATA).
+ NOTE: Deleting WORK.SUB_AET (memtype=DATA).
+ NOTE: Deleting WORK.TAE_F (memtype=DATA).
+ NOTE: Deleting WORK.TAE_FINAL (memtype=DATA).
+ NOTE: Deleting WORK.TAE_FINAL1 (memtype=DATA).
+ NOTE: Deleting WORK.TDM_1 (memtype=DATA).
+ NOTE: Deleting WORK.TDM_S (memtype=DATA).
+ NOTE: Deleting WORK.TOTPATS (memtype=DATA).
+ NOTE: Deleting WORK.VS (memtype=DATA).
+ NOTE: Deleting WORK.VS1 (memtype=DATA).
+ NOTE: Deleting WORK.VS2 (memtype=DATA).
+ NOTE: Deleting WORK.VS3 (memtype=DATA).
+ NOTE: Deleting WORK.VS4 (memtype=DATA).
+ NOTE: Deleting WORK.VSPT_ENDT (memtype=DATA).
+ NOTE: Deleting WORK.VSPT_STTM (memtype=DATA).
+ NOTE: Deleting WORK.VSTPT (memtype=DATA).
+ NOTE: Deleting WORK.VS_HEIGHT (memtype=DATA).
+ NOTE: Deleting WORK.VS_WEIGHT (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.07 seconds
+       cpu time            0.05 seconds
+       
+ 
+ 96         
+ 97         /* Bring SDTM EX and ADSL Dataset */
+ 98         
+ 99         data adsl(keep=usubjid saffl trt01pn trt01p weight);
+ 100        set adsllib.adsl;
+ 101        run;
+ 
+ NOTE: There were 34 observations read from the data set ADSLLIB.ADSL.
+ NOTE: The data set WORK.ADSL has 34 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 102        proc sort data=adsl out=adsl_s;
+ 103        by usubjid;
+ 104        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.ADSL.
+ NOTE: The data set WORK.ADSL_S has 34 observations and 5 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 105        
+ 106        data adex;
+ 107        set sdtmlib.ex;
+ 108        run;
+ 
+ NOTE: There were 62 observations read from the data set SDTMLIB.EX.
+ NOTE: The data set WORK.ADEX has 62 observations and 16 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 109        
+ 110        proc sort data=adex out=adex_s;
+ 111        by usubjid;
+ 112        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.ADEX.
+ NOTE: The data set WORK.ADEX_S has 62 observations and 16 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 113        
+ 114        
+ 115        
+ 116        data adex_1;
+ 117        merge adsl_s adex_s(in=inex);
+ 118        by usubjid;
+ 119        
+ 120        if inex;
+ 121        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.ADSL_S.
+ NOTE: There were 62 observations read from the data set WORK.ADEX_S.
+ NOTE: The data set WORK.ADEX_1 has 62 observations and 20 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 122        
+ 123        data adex_2;
+ 124        set adex_1;
+ 125        
+ 126        attrib dosep label="Planned Treatment Dose" format=best12.
+ 127           doscump label="Cumulative Planned Treatment Dose" format=best12.
+ 128           doseu label="Treatment Dose Units"
+ 129           adtlabel="Analysis Date"format=yymmdd10.
+ 130           atmlabel="Analysis Time"format=hhmm.
+ 131           adtmlabel="Analysis DateTime"format=is8601dt.
+ 132           adylabel="Analysis Relative Day"
+ 133           ASTDTlabel="Analysis Start Date"format=yymmdd10.
+ 134           ASTTMlabel="Analysis Start Time"format=hhmm.
+ 135           ASTDTMlabel="Analysis Start DateTime"format=is8601dt.
+ 136           ASTDYlabel="Analysis Start Relative Day"
+ 137           AENDTlabel="Analysis End Date"format=yymmdd10.
+ 138           AENTMlabel="Analysis End Time"format=hhmm.
+ 139           AENDTMlabel="Analysis End DateTime"format=is8601dt.
+ 140           AENDYlabel="Analysis End Relative Day "
+ 141           AVISITlabel="Analysis Visit"
+ 142           PARAMlabel="Parameter"
+ 143           PARAMCD  label="Parameter Code"
+ 144           PARAMNlabel="Parameter (N)"format=1.
+ 145           AVALlabel="Analysis Value"
+ 146        ;
+ 147        
+ 148        /**----------- Define Dose Variables  ----------------**/;
+ 149        dosep = exdose;
+ 150        doscump = exdose;
+ 151        doseu = exdosu;
+ 152        
+ 153        /**----------- Define all the Timing Variables ----------------**/;
+ 154        adt = input(exstdtc,is8601da.);
+ 155        atm = input(substr(exstdtc,12),is8601tm.);
+ 156        adtm = input(exstdtc,is8601dt.);
+ 157        ady = input(exstdtc,is8601da.) - adt +1;
+ 158        ASTDT = input(exstdtc,is8601da.);
+ 159        ASTTM = input(substr(exstdtc,12),is8601tm.);
+ 160        ASTDTM = input(exstdtc,is8601dt.);
+ 161        ASTDY = input(exstdtc,is8601da.) - adt +1;
+ 162        AENDT = input(exendtc,is8601da.);
+ 163        AENTM = input(substr(exendtc,12),is8601tm.);
+ 164        AENDTM = input(exendtc,is8601dt.);
+ 165        AENDY = input(exstdtc,is8601da.) - adt +1;
+ 166        AVISIT = exstdy;
+ 167        AVISITN = 1;
+ 168        
+ 169        /**----------- Analysis Parameter Variables for Dose (mg) ----------------**/;
+ 170        
+ 171        PARAM = "PROD Dosage(mg)         ";
+ 172        PARAMCD = "DOSE  ";
+ 173        PARAMN = 1;
+ 174        AVAL = EXDOSE;
+ 175        
+ 176        
+ 177        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.ADEX_1.
+ NOTE: The data set WORK.ADEX_2 has 62 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 178        
+ 179        data adex_3;
+ 180        set adex_2;
+ 181        
+ 182        /**----------- Analysis Param Variables for mg/kg----------------**/;
+ 183        
+ 184        PARAM = "PROD Dosage for Weight";
+ 185        PARAMCD = "DOSEWT";
+ 186        PARAMN = 2;
+ 187        AVAL = EXDOSE/weight;
+ 188        
+ 189        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.ADEX_2.
+ NOTE: The data set WORK.ADEX_3 has 62 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 190        
+ 191        
+ 192        /**----------- Merge(Concatenate) both parameters (adex_2 and adex_3) into a single dataset ----------------**/;
+ 193        data adex_4;
+ 194        set adex_2 adex_3;
+ 195        
+ 196        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.ADEX_2.
+ NOTE: There were 62 observations read from the data set WORK.ADEX_3.
+ NOTE: The data set WORK.ADEX_4 has 124 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 197        
+ 198        proc sort data=adex_4 out=adex_5;
+ 199        by usubjid paramn;
+ 200        run;
+ 
+ NOTE: There were 124 observations read from the data set WORK.ADEX_4.
+ NOTE: The data set WORK.ADEX_5 has 124 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 201        
+ 202        data adex_5;
+ 203        set adex_5;
+ 204        
+ 205        by usubjid;
+ 206        attrib aseq label="Analysis Sequence Number" format=best12.;
+ 207        
+ 208        /**----------- generate SEQ per subject **/
+ 209        
+ 210        aseq+1;
+ 211        if first.usubjid then aseq=1;
+ 212        
+ 213        run;
+ 
+ NOTE: There were 124 observations read from the data set WORK.ADEX_5.
+ NOTE: The data set WORK.ADEX_5 has 124 observations and 42 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 214        
+ 215        **-------------------------------------------------------------------------------**;
+ 216        **          Create ADEX dataset with attributes                                **;
+ 217        **-------------------------------------------------------------------------------**;
+ 218        
+ 219        proc sql;
+ 220        create table adsllib.adex (label='Exposure') as
+ 221        select  studyid,
+ 222        usubjid,
+ 223        aseq,
+ 224        saffl,
+ 225        trt01p,
+ 226        trt01pn,
+ 227        weight,
+ 228        exseq,
+ 229        extrt,
+ 230        excat,
+ 231        exdose,
+ 232        exdosu,
+ 233        exdosfrm,
+ 234        exdosfrq,
+ 235        exroute,
+ 236        epoch,
+ 237        exstdtc,
+ 238        exendtc,
+ 239        exstdy,
+ 240        exendy,
+ 241        dosep,
+ 242        doscump,
+ 243        doseu,
+ 244        adt,
+ 245        atm,
+ 246        adtm,
+ 247        ady,
+ 248        astdt,
+ 249        asttm,
+ 250        astdtm,
+ 251        astdy,
+ 252        aendt,
+ 253        aentm,
+ 254        aendtm,
+ 255        aendy,
+ 256        avisit,
+ 257        avisitn,
+ 258        param,
+ 259        paramcd,
+ 260        paramn,
+ 261        aval
+ 262        from adex_5
+ 263        ;
+ NOTE: Table ADSLLIB.ADEX created, with 124 rows and 41 columns.
+ 
+ 264        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.06 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 265        
+ 266        proc print;
+ 267        run;
+ 
+ NOTE: There were 124 observations read from the data set ADSLLIB.ADEX.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           4.38 seconds
+       cpu time            4.36 seconds
+       
+ 
+ 268        
+ 269        
+ 270        
+ 271        
+ 272        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 284        

@@ -1,0 +1,361 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         
+ 74         
+ 75         /**-------------------------------------------------------------------------------------------**
+ 76         ** PROGRAM:    ADVS.SAS
+ 77         ** CREATED:    December 2019
+ 78         ** PURPOSE:    CREATE ADVS DATASET FROM SDTM VS DATASET
+ 79         ** PROGRAMMER: Deepti Shah
+ 80         ** INPUT:      sdtmlib.vs, adsllib.adsl
+ 81         ** OUTPUT:     adsllib.advs
+ 82         ** PROTOCOL:   PROD-124
+ 83         **-------------------------------------------------------------------------------------------**/
+ 84         /* ----------- SAS University Edition 9.4 ----------- */
+ 85         
+ 86         
+ 87         
+ 88         
+ 89         
+ 90         /* ----------- Clear work library ----------- */
+ 91         proc delete data=work._all_;
+ 92         run;
+ 
+ NOTE: Deleting WORK.ADAE_1 (memtype=DATA).
+ NOTE: Deleting WORK.ADAE_2 (memtype=DATA).
+ NOTE: Deleting WORK.ADSL (memtype=DATA).
+ NOTE: Deleting WORK.AE (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 93         
+ 94         /* Bring the SDTM VS dataset */
+ 95         
+ 96         data advs;
+ 97         set sdtmlib.vs;
+ 98         run;
+ 
+ NOTE: There were 1913 observations read from the data set SDTMLIB.VS.
+ NOTE: The data set WORK.ADVS has 1913 observations and 17 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 99         
+ 100        proc sort data=advs out=advs_s;
+ 101        by usubjid;
+ 102        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.ADVS.
+ NOTE: The data set WORK.ADVS_S has 1913 observations and 17 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 103        
+ 104        /* Bring the ADSL dataset for subject with baseline flag = true */
+ 105        
+ 106        data adsl(keep=usubjid saffl trt01pn trt01p TRTSDTM TRTEDTM );
+ 107        set adsllib.adsl(where=(saffl="Y"));
+ 108        run;
+ 
+ NOTE: There were 31 observations read from the data set ADSLLIB.ADSL.
+       WHERE saffl='Y';
+ NOTE: The data set WORK.ADSL has 31 observations and 6 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 109        proc sort data=adsl out=adsl_s;
+ 110        by usubjid;
+ 111        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.ADSL.
+ NOTE: The data set WORK.ADSL_S has 31 observations and 6 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 112        
+ 113        
+ 114        /* Use Merge to combine VS and ADSL dataset */
+ 115        
+ 116        data advs_1(drop=domain);
+ 117        merge adsl_s advs_s(in=invs);
+ 118        by usubjid;
+ 119        
+ 120        if invs;
+ 121        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.ADSL_S.
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_S.
+ NOTE: The data set WORK.ADVS_1 has 1913 observations and 21 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 122        
+ 123        data advs_2;
+ 124        set advs_1;
+ 125        
+ 126        attrib studyid label="Study Identifier" 
+ 127           usubjidlabel="Unique Subject Identifier"
+ 128           adtlabel="Analysis Date"format=yymmdd10.
+ 129           atmlabel="Analysis Time"format=hhmm.
+ 130           adtmlabel="Analysis DateTime"format=is8601dt.
+ 131           astdtlabel="Analysis Start Date"format=yymmdd10.
+ 132           asttmlabel="Analysis Start Time"format=hhmm.
+ 133           astdtMlabel="Analysis Start DateTime"format=is8601dt.
+ 134           avisitlabel="Analysis Visit"length=$80
+ 135           avisitNlabel="Analysis Visit (N)"
+ 136           paramlabel="Parameter"
+ 137           paramCD  label="Parameter Code"
+ 138           paramNlabel="Parameter (N)"length=3
+ 139           avallabel="Analysis Value"
+ 140           avalClabel="Analysis Value (C)"
+ 141        ;
+ 142        
+ 143        adt = input(vsdtc,is8601da.);
+ 144        atm = input(substr(vsdtc,12),is8601tm.);
+ 145        adtm = input(vsdtc,is8601dt.);
+ 146        astdt = input(vsdtc,is8601da.);
+ 147        asttm = input(substr(vsdtc,12),is8601tm.);
+ 148        astdtM = input(vsdtc,is8601dt.);
+ 149        
+ 150        avisit = visit;
+ 151        avisitN = input(visitnum,2.);
+ 152        
+ 153        /**----------- Analysis Parameter Variables ----------------**/;
+ 154        
+ 155        param = vstest;
+ 156        paramCD = vstestcd;
+ 157        
+ 158        select(paramcd);
+ 159        when("WEIGHT")paramN = 1;
+ 160        when("HEIGHT")paramN = 2;
+ 161        when("HR")paramN = 3;
+ 162        when("SYSBP")paramN = 4;
+ 163        when("DIABP")paramN = 5;
+ 164        when("O2SAT")paramN = 6;
+ 165        when("RESP")paramN = 7;
+ 166        when("TEMP")paramN = 8;
+ 167        end;
+ 168        
+ 169        aval = VSSTRESN;
+ 170        avalC = VSSTRESC;
+ 171        avisit = vstpt;
+ 172        avisitN = input(vstptnum,2.);
+ 173        
+ 174        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_1.
+ NOTE: The data set WORK.ADVS_2 has 1913 observations and 34 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 175        
+ 176        proc sort data=advs_2;
+ 177        by usubjid vsseq;
+ 178        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_2.
+ NOTE: The data set WORK.ADVS_2 has 1913 observations and 34 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 179        
+ 180        /**----------- generate Sequence number by subect and baseline flag -------**/;
+ 181        
+ 182        data advs_3;
+ 183        set advs_2;
+ 184        by usubjid;
+ 185        
+ 186        attrib aseq label="Analysis Sequence Number" format=best12.
+ 187           ablfllabel="Baseline Record Flag";
+ 188        
+ 189        aseq + 1 ;
+ 190        
+ 191        if first.usubjid then aseq=1;
+ 192        if vsblfl = "Y" then ablfl = "Y";
+ 193        
+ 194        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_2.
+ NOTE: The data set WORK.ADVS_3 has 1913 observations and 36 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 195        
+ 196        /**----------- BASE/BASEC ----------------**/;
+ 197        
+ 198        data advs_bl(keep=usubjid paramcd base basec ablfl);
+ 199        set advs_3(where=(ablfl = "Y"));
+ 200        
+ 201        attrib BASE label="Baseline Value" 
+ 202           BASEC label="Baseline Value (C)" ;
+ 203        
+ 204        BASE = aval;
+ 205        BASEC = avalc;
+ 206        
+ 207        run;
+ 
+ NOTE: There were 248 observations read from the data set WORK.ADVS_3.
+       WHERE ablfl='Y';
+ NOTE: The data set WORK.ADVS_BL has 248 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 208        
+ 209        /**----------- merge baseline with main dataset ----------------**/;
+ 210        
+ 211        proc sort data=advs_bl(drop=ablfl);
+ 212        by usubjid paramcd;
+ 213        run;
+ 
+ NOTE: There were 248 observations read from the data set WORK.ADVS_BL.
+ NOTE: The data set WORK.ADVS_BL has 248 observations and 4 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 214        
+ 215        proc sort data=advs_3;
+ 216        by usubjid paramcd;
+ 217        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_3.
+ NOTE: The data set WORK.ADVS_3 has 1913 observations and 36 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 218        
+ 219        data advs_4;
+ 220        merge advs_3(in=invs) advs_bl;
+ 221        
+ 222        by usubjid paramcd;
+ 223        
+ 224        if invs;
+ 225        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_3.
+ NOTE: There were 248 observations read from the data set WORK.ADVS_BL.
+ NOTE: The data set WORK.ADVS_4 has 1913 observations and 38 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 226        
+ 227        /* Determine the Change from baseline  */
+ 228        
+ 229        data advs_5;
+ 230        set advs_4;
+ 231        
+ 232        attrib CHG label="Change from Baseline";
+ 233        
+ 234        if paramcd not in( "WEIGHT" "HEIGHT") then do;
+ 235        if ablfl = "Y" and (vstpt not in ("STUDY DAY 1" "STUDY DAY 1 -5 min" "STUDY DAY 1 0 min" "STUDY DAY 1 5 min" )) then;
+ 236        do;
+ 237        CHG = aval-BASE;
+ 238        end;
+ 239        end;
+ 240        
+ 241        run;
+ 
+ NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+       237:10   237:15   
+ NOTE: There were 1913 observations read from the data set WORK.ADVS_4.
+ NOTE: The data set WORK.ADVS_5 has 1913 observations and 39 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 242        
+ 243        
+ 244        **-------------------------------------------------------------------------------**;
+ 245        **          Create ADVS dataset with attributes                                **;
+ 246        **-------------------------------------------------------------------------------**;
+ 247        
+ 248        proc sql;
+ 249        
+ 250        create table adsllib.advs (label='Vital Signs') as
+ 251        select  studyid,
+ 252        usubjid,
+ 253        aseq,
+ 254        saffl,
+ 255        trt01p,
+ 256        trt01pn,
+ 257        vsseq,
+ 258        vstestcd,
+ 259        vstest,
+ 260        vsorres,
+ 261        vsorresu,
+ 262        vsstresc,
+ 263        vsstresn,
+ 264        vsblfl,
+ 265        visitnum,
+ 266        visit,
+ 267        vsdtc,
+ 268        vstpt,
+ 269        vstptnum,
+ 270        adt,
+ 271        atm,
+ 272        adtm,
+ 273        astdt,
+ 274        asttm,
+ 275        astdtm,
+ 276        avisit,
+ 277        avisitn,
+ 278        param,
+ 279        paramcd,
+ 280        paramn,
+ 281        aval,
+ 282        avalc,
+ 283        base,
+ 284        basec,
+ 285        chg,
+ 286        ablfl
+ 287        from advs_5
+ 288        ;
+ NOTE: Table ADSLLIB.ADVS created, with 1913 rows and 36 columns.
+ 
+ 289        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.06 seconds
+       cpu time            0.03 seconds
+       
+ 
+ 290        
+ 291        proc print;
+ 292        run;
+ 
+ NOTE: There were 1913 observations read from the data set ADSLLIB.ADVS.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           1:19.84
+       cpu time            1:19.57
+       
+ 
+ 293        
+ 294        
+ 295        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 307        

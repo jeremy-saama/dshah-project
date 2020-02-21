@@ -1,0 +1,683 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         /**-------------------------------------------------------------------------------------------**
+ 75         ** PROGRAM:    TDM.SAS
+ 76         ** CREATED:    December 2019
+ 77         ** PURPOSE:    Create Demographics Table - 2
+ 78         ** PROGRAMMER: Deepti Shah
+ 79         ** INPUT:      adsllib.adsl
+ 80         ** OUTPUT:     Table 2 (DM_T2.rtf)
+ 81         ** PROTOCOL:   PROD-124
+ 82         **-------------------------------------------------------------------------------------------**/
+ 83         /* ----------- SAS University Edition 9.4 ----------- */
+ 84         
+ 85         
+ 86         
+ 87         **-------------------------------------------------------------------------------**;
+ 88         **         Custom Format                                                 **;
+ 89         **-------------------------------------------------------------------------------**;
+ 90         
+ 91         proc format ;
+ 92              value $PFormat
+ 93                "1"="n"
+ 94            "2"="Mean"
+ 95                "3"="SD"
+ 96                "4"="Median"
+ 97            "5"="Range (Min, Max)";
+ NOTE: Format $PFORMAT is already on the library WORK.FORMATS.
+ NOTE: Format $PFORMAT has been output.
+ 98         run;
+ 
+ NOTE: PROCEDURE FORMAT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 99         
+ 100        /* ----------- Clear the work library ----------- */
+ 101        
+ 102        
+ 103        proc delete data=work._all_;
+ 104        run;
+ 
+ NOTE: Deleting WORK.AGMEAN (memtype=DATA).
+ NOTE: Deleting WORK.AGMEAN1 (memtype=DATA).
+ NOTE: Deleting WORK.AGMEAN_T (memtype=DATA).
+ NOTE: Deleting WORK.AGMEAN_T1 (memtype=DATA).
+ NOTE: Deleting WORK.GENSTAT (memtype=DATA).
+ NOTE: Deleting WORK.GENSTAT1 (memtype=DATA).
+ NOTE: Deleting WORK.GENSTAT_S (memtype=DATA).
+ NOTE: Deleting WORK.GENSTAT_T (memtype=DATA).
+ NOTE: Deleting WORK.GENSTAT_T1 (memtype=DATA).
+ NOTE: Deleting WORK.HEIGHTM_1 (memtype=DATA).
+ NOTE: Deleting WORK.HEIGHTM_T1 (memtype=DATA).
+ NOTE: Deleting WORK.HTMEAN (memtype=DATA).
+ NOTE: Deleting WORK.HTMEAN_T (memtype=DATA).
+ NOTE: Deleting WORK.PRNT_ORDER (memtype=DATA).
+ NOTE: Deleting WORK.RACEST (memtype=DATA).
+ NOTE: Deleting WORK.RACESTAT (memtype=DATA).
+ NOTE: Deleting WORK.RACESTAT_T (memtype=DATA).
+ NOTE: Deleting WORK.RACESTAT_T1 (memtype=DATA).
+ NOTE: Deleting WORK.RACEST_S (memtype=DATA).
+ NOTE: Deleting WORK.TDM (memtype=DATA).
+ NOTE: Deleting WORK.TDM_1 (memtype=DATA).
+ NOTE: Deleting WORK.TDM_FINAL (memtype=DATA).
+ NOTE: Deleting WORK.TDM_FINAL1 (memtype=DATA).
+ NOTE: Deleting WORK.TDM_HEADER (memtype=DATA).
+ NOTE: Deleting WORK.TDM_S (memtype=DATA).
+ NOTE: Deleting WORK.TOTPATS (memtype=DATA).
+ NOTE: Deleting WORK.WEIGTHM_1 (memtype=DATA).
+ NOTE: Deleting WORK.WTMEAN (memtype=DATA).
+ NOTE: Deleting WORK.WTMEAN_T (memtype=DATA).
+ NOTE: Deleting WORK.WTMEAN_T1 (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.07 seconds
+       cpu time            0.06 seconds
+       
+ 
+ 105        
+ 106        /* ----------- Get only subject from ADSL with Baseline flag = true  ----------- */
+ 107        
+ 108        data tdm;
+ 109        set adsllib.adsl(where=(saffl="Y"));
+ 110        run;
+ 
+ NOTE: There were 31 observations read from the data set ADSLLIB.ADSL.
+       WHERE saffl='Y';
+ NOTE: The data set WORK.TDM has 31 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.03 seconds
+       
+ 
+ 111        
+ 112        /* ----------- Define the Total and All columns  ----------- */
+ 113        
+ 114        data tdm_1;
+ 115        set tdm;
+ 116        output;
+ 117        trt01pn=3;
+ 118        trt01p="Total";
+ 119        output;
+ 120        trt01pn=4;
+ 121        trt01p = "All";
+ 122        output;
+ 123        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.TDM.
+ NOTE: The data set WORK.TDM_1 has 93 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 124        proc sort data=tdm_1 out=tdm_s;
+ 125        by trt01pn trt01p;
+ 126        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_1.
+ NOTE: The data set WORK.TDM_S has 93 observations and 24 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 127        
+ 128        **-------------------------------------------------------------------------------**;
+ 129        **          Calculate Totals                                                **;
+ 130        **-------------------------------------------------------------------------------**;
+ 131        
+ 132        proc freq data=tdm_s noprint;
+ 133        tables trt01pn/list nocum nopercent out=TotPats;
+ 134        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.TOTPATS has 4 observations and 3 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 135        **----------- Assign Totals into Macro Varibles----------------**;
+ 136        
+ 137        data _null_;
+ 138        set TotPats;
+ 139        call symput("cohortTot"||compress(put(trt01pn,1.)),put(count,2.));
+ 140        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.TOTPATS.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 141        
+ 142        **-------------------------------------------------------------------------------**;
+ 143        **          Derive Race Statistics                                               **;
+ 144        **-------------------------------------------------------------------------------**;
+ 145        
+ 146        proc freq data=tdm_s noprint;
+ 147        tables trt01pn*race/list out=RaceStat;
+ 148        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.RACESTAT has 11 observations and 4 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 149        
+ 150        /**----------- concatenate required statistics----------------**/;
+ 151        
+ 152        data RaceSt (drop=count percent);
+ 153        set RaceStat;
+ 154        length stat $20;
+ 155        stat = strip(put(count,12.)) || " ("||strip(put(percent,4.1))||")";
+ 156        run;
+ 
+ NOTE: There were 11 observations read from the data set WORK.RACESTAT.
+ NOTE: The data set WORK.RACEST has 11 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.03 seconds
+       
+ 
+ 157        proc sort data=RaceSt out=RaceSt_s;
+ 158        by race;
+ 159        run;
+ 
+ NOTE: There were 11 observations read from the data set WORK.RACEST.
+ NOTE: The data set WORK.RACEST_S has 11 observations and 3 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 160        proc transpose data=RaceSt_s
+ 161        out=RaceStat_t(drop=_name_)
+ 162        prefix=cohort;
+ 163        id trt01pn;
+ 164        var stat;
+ 165        by race;
+ 166        run;
+ 
+ NOTE: There were 11 observations read from the data set WORK.RACEST_S.
+ NOTE: The data set WORK.RACESTAT_T has 3 observations and 5 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 167        
+ 168        /**-----------Generate printable table----------------**/;
+ 169        
+ 170        data racestat_t1;
+ 171        attrib printord format=best1.
+ 172        sortordformat=best1.
+ 173        PrintName length=$30;
+ 174        ;
+ 175        set RaceStat_t(rename=(race=printname));
+ 176        
+ 177        printord = 3;
+ 178        sortord+1;
+ 179        
+ 180        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.RACESTAT_T.
+ NOTE: The data set WORK.RACESTAT_T1 has 3 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 181        
+ 182        **-------------------------------------------------------------------------------**;
+ 183        **          Derive Weight Statistics                                             **;
+ 184        **-------------------------------------------------------------------------------**;
+ 185        
+ 186        
+ 187        proc means data=tdm_s n mean std min max median noprint  ;
+ 188        by trt01pn;
+ 189        var weight;
+ 190        output out=WtMean(drop=_type_) n= mean= std= min= max= median=/ autoname  ;
+ 191        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.WTMEAN has 4 observations and 8 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 192        
+ 193        
+ 194        
+ 195        /**----------- Convert variables to character before transpose to avoid log message----------------**/;
+ 196        
+ 197        data WeigthM_1(drop=_freq_ weight_n weight_mean weight_stddev weight_min weight_max weight_median);
+ 198        set wtmean;
+ 199        length wt_range $20 n mean sd median $6;
+ 200        n=strip(put(weight_n,8.));
+ 201        mean=strip(put(weight_mean,6.1));
+ 202        sd=strip(put(weight_stddev,6.1));
+ 203        median=strip(put(weight_median,6.1));
+ 204        wt_range = "("||strip(put(weight_min,6.))||","||strip(put(weight_max,6.))||")";
+ 205        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.WTMEAN.
+ NOTE: The data set WORK.WEIGTHM_1 has 4 observations and 6 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 206        proc transpose data=WeigthM_1
+ 207        out=wtmean_t
+ 208        prefix=Cohort;
+ 209        id trt01pn;
+ 210        var n mean sd median wt_range;
+ 211        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.WEIGTHM_1.
+ NOTE: The data set WORK.WTMEAN_T has 5 observations and 5 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 212        
+ 213        data wtmean_t1(drop=_name_);
+ 214        attrib printord format=best1.
+ 215        sortordformat=best1.
+ 216        PrintName length=$30 format=PFormat.;
+ 217        ;
+ 218        set wtmean_t;
+ 219        
+ 220        printord = 4;
+ 221        sortord+1;
+ 222        PrintName = put(sortord,1.);
+ 223        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.WTMEAN_T.
+ NOTE: The data set WORK.WTMEAN_T1 has 5 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 224        
+ 225        **-------------------------------------------------------------------------------**;
+ 226        **          Derive Height Stat                                                **;
+ 227        **-------------------------------------------------------------------------------**;
+ 228        
+ 229        
+ 230        proc means data=tdm_s n mean std min max median noprint  ;
+ 231        by trt01pn;
+ 232        var height;
+ 233        output out=HtMean(drop=_type_) n= mean= std= min= max= median=/ autoname  ;
+ 234        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.HTMEAN has 4 observations and 8 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 235        
+ 236        
+ 237        /**----------- Convert all variables to character to avoid log message----------------**/;
+ 238        
+ 239        data HeightM_1(drop=_freq_ height_n height_mean height_stddev height_min height_max height_median);
+ 240        set htmean;
+ 241        length ht_range $20 n mean sd median $6;
+ 242        n=strip(put(height_n,8.));
+ 243        mean=strip(put(height_mean,6.1));
+ 244        sd=strip(put(height_stddev,6.1));
+ 245        median=strip(put(height_median,6.1));
+ 246        ht_range = "("||strip(put(height_min,6.))||","||strip(put(height_max,6.))||")";
+ 247        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.HTMEAN.
+ NOTE: The data set WORK.HEIGHTM_1 has 4 observations and 6 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 248        proc transpose data=HeightM_1
+ 249        out=htmean_t
+ 250        prefix=Cohort;
+ 251        id trt01pn;
+ 252        var n mean sd median ht_range;
+ 253        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.HEIGHTM_1.
+ NOTE: The data set WORK.HTMEAN_T has 5 observations and 5 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 254        
+ 255        data HeightM_t1(drop=_name_);
+ 256        attrib printord format=best1.
+ 257        sortordformat=best1.
+ 258        PrintName length=$30 format=PFormat.;
+ 259        ;
+ 260        set htmean_t;
+ 261        
+ 262        printord = 5;
+ 263        sortord+1;
+ 264        PrintName = put(sortord,1.);
+ 265        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.HTMEAN_T.
+ NOTE: The data set WORK.HEIGHTM_T1 has 5 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 266        
+ 267        
+ 268        **-------------------------------------------------------------------------------**;
+ 269        **          Derive Age Stat                                                      **;
+ 270        **-------------------------------------------------------------------------------**;
+ 271        
+ 272        proc means data=tdm_s n mean std min max median noprint  ;
+ 273        by trt01pn;
+ 274        var age;
+ 275        output out=AgMean(drop=_type_) n= mean= std= min= max= median=/ autoname  ;
+ 276        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.AGMEAN has 4 observations and 8 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 277        
+ 278        
+ 279        **----------- Convert all variables to character to avoid log message----------------**;
+ 280        
+ 281        data agmean1(drop=_freq_ age_n age_mean age_stddev age_min age_max age_median);
+ 282        set agmean;
+ 283        length range $20 n mean sd median $6;
+ 284        n=strip(put(age_n,8.));
+ 285        mean=strip(put(age_mean,6.1));
+ 286        sd=strip(put(age_stddev,6.1));
+ 287        median=strip(put(age_median,6.1));
+ 288        range = "("||strip(put(age_min,6.))||","||strip(put(age_max,6.))||")";
+ 289        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.AGMEAN.
+ NOTE: The data set WORK.AGMEAN1 has 4 observations and 6 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 290        proc transpose data=agmean1
+ 291        out=agmean_t
+ 292        prefix=Cohort;
+ 293        id trt01pn;
+ 294        var n mean sd median range;
+ 295        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.AGMEAN1.
+ NOTE: The data set WORK.AGMEAN_T has 5 observations and 5 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 296        
+ 297        data agmean_t1(drop=_name_);
+ 298        attrib printord format=best1.
+ 299        sortordformat=best1.
+ 300        PrintName length=$30 format=PFormat.
+ 301        
+ 302        ;
+ 303        set agmean_t;
+ 304        
+ 305        printord = 1;
+ 306        sortord+1;
+ 307        PrintName = put(sortord,1.);
+ 308        
+ 309        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.AGMEAN_T.
+ NOTE: The data set WORK.AGMEAN_T1 has 5 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 310        
+ 311        
+ 312        **-------------------------------------------------------------------------------**;
+ 313        **          Derive Gender Stat                                                   **;
+ 314        **-------------------------------------------------------------------------------**;
+ 315        proc freq data=tdm_s noprint;
+ 316        tables sex*trt01pn/list out=GenStat;
+ 317        run;
+ 
+ NOTE: There were 93 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.GENSTAT has 8 observations and 4 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 318        
+ 319        **----------- concatenate required statistics----------------**;
+ 320        
+ 321        data genstat1 (drop=count percent);
+ 322        set genstat;
+ 323        length stat $20;
+ 324        stat = strip(put(count,12.)) || " ("||strip(put(percent,4.1))||")";
+ 325        run;
+ 
+ NOTE: There were 8 observations read from the data set WORK.GENSTAT.
+ NOTE: The data set WORK.GENSTAT1 has 8 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 326        proc sort data=genstat1 out=genstat_s;
+ 327        by sex;
+ 328        run;
+ 
+ NOTE: There were 8 observations read from the data set WORK.GENSTAT1.
+ NOTE: The data set WORK.GENSTAT_S has 8 observations and 3 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 329        proc transpose data=Genstat_s
+ 330        out=Genstat_t(drop=_name_)
+ 331        prefix=cohort;
+ 332        id trt01pn;
+ 333        var stat;
+ 334        by sex;
+ 335        run;
+ 
+ NOTE: There were 8 observations read from the data set WORK.GENSTAT_S.
+ NOTE: The data set WORK.GENSTAT_T has 2 observations and 5 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 336        
+ 337        /**-----------Generate table----------------**/;
+ 338        
+ 339        data genstat_t1(drop=sex);
+ 340        attrib printord format=best1.
+ 341        sortordformat=best1.
+ 342        PrintName length=$30;
+ 343        ;
+ 344        set genstat_t;
+ 345        
+ 346        printord = 2;
+ 347        if Sex = "Male" then sortord = 1;
+ 348        else sortord = 2;
+ 349        PrintName = sex;
+ 350        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.GENSTAT_T.
+ NOTE: The data set WORK.GENSTAT_T1 has 2 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 351        
+ 352        **-------------------------------------------------------------------------------**;
+ 353        **      Combine all the statistics and generate printable table values           **;
+ 354        **-------------------------------------------------------------------------------**;
+ 355        
+ 356        data tdm_final;
+ 357        set agmean_t1 genstat_t1 racestat_t1 wtmean_t1 HeightM_t1;
+ 358        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.AGMEAN_T1.
+ NOTE: There were 2 observations read from the data set WORK.GENSTAT_T1.
+ NOTE: There were 3 observations read from the data set WORK.RACESTAT_T1.
+ NOTE: There were 5 observations read from the data set WORK.WTMEAN_T1.
+ NOTE: There were 5 observations read from the data set WORK.HEIGHTM_T1.
+ NOTE: The data set WORK.TDM_FINAL has 20 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 359        
+ 360        /**----------- Set Parent Header----------------**/;
+ 361        
+ 362        data prnt_order;
+ 363        printord=1; sortord=0; printname="Age (yrs)    "; output;
+ 364        printord=2; sortord=0; printname="Sex n(%)     "; output;
+ 365        printord=3; sortord=0; printname="Race n(%)    "; output;
+ 366        printord=4; sortord=0; printname="Weight (kg)  "; output;
+ 367        printord=5; sortord=0; printname="Height (inch)"; output;
+ 368        run;
+ 
+ NOTE: The data set WORK.PRNT_ORDER has 5 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 369        
+ 370        data tdm_header;
+ 371        set tdm_final prnt_order;
+ 372        run;
+ 
+ NOTE: There were 20 observations read from the data set WORK.TDM_FINAL.
+ NOTE: There were 5 observations read from the data set WORK.PRNT_ORDER.
+ NOTE: The data set WORK.TDM_HEADER has 25 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 373        
+ 374        proc sort data=tdm_header;
+ 375        by printord sortord;
+ 376        run;
+ 
+ NOTE: There were 25 observations read from the data set WORK.TDM_HEADER.
+ NOTE: The data set WORK.TDM_HEADER has 25 observations and 7 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 377        
+ 378        /**----------- Set Indents for SubCategory----------------**/;
+ 379        
+ 380        data tdm_final1;
+ 381        set tdm_header;
+ 382        
+ 383        by printord sortord;
+ 384        length newname $130;
+ 385        
+ 386        if first.printord then newname= put(printname,$PFormat.);
+ 387        else newname =  "^R'\li220\ '" || put(printname,$PFormat.);
+ 388        run;
+ 
+ NOTE: There were 25 observations read from the data set WORK.TDM_HEADER.
+ NOTE: The data set WORK.TDM_FINAL1 has 25 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 389        
+ 390        **-------------------------------------------------------------------------------**;
+ 391        **         RTF SETUP                                **;
+ 392        **-------------------------------------------------------------------------------**;
+ 393        
+ 394        /**----- RTF SETUP -----**/;
+ 395        
+ 396        options nodate nonumber orientation=landscape;
+ 397        ods listing close ;
+ 398        ods escapechar='^' ;
+ 399        ods rtf style=TStyleRTF file="&outpath.DM_T2.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/DM_T2.rtf
+ 400        
+ 401        /**----- TITLES/FOOTNOTES -----**/;
+ 402        
+ 403        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 404        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 405        title3 j=center "Table 2" ;
+ 406        title4 j=center "Demographic and Baseline Characteristics" ;
+ 407        title5 j=left "Study Population: Safety" ;
+ 408        footnote1 j=left "&llastfoot adsllib.adsl" j=right "&rlastfoot tdm.sas";
+ 409        
+ 410        **-------------------------------------------------------------------------------**;
+ 411        **       BEGIN THE REPORT                                                        **;
+ 412        **-------------------------------------------------------------------------------**;
+ 413        
+ 414        /**----------- REPORT DEFINITION----------------**/;
+ 415        
+ 416        proc report data=tdm_final1  missing center center split='|' style(report)=[outputwidth=9.0in];
+ 417        
+ 418        column printord sortord newname cohort3 ("^S={borderbottomcolor=black borderbottomwidth=2} Evaluable Population"(cohort4
+ 418      !  cohort1 cohort2)) ;
+ 419        
+ 420        define newname/display "Characteristic" style(header)=[just=left] style(column)=[width=2.0 in];
+ 421        define cohort3/display "All Subject| (N=&cohorttot3)" style(column)=[width=1.2 in just=center];
+ 422        define cohort4/display "All | (N=&cohorttot4)" style(column)=[width=1.2 in just=center];
+ 423        define cohort1/display "Cohort 1 | (N=&cohorttot1)" style(column)=[width=1.2 in just=center];
+ 424        define cohort2/display "Cohort 2 | (N=&cohorttot2)" style(column)=[width=1.2 in just=center];
+ 425        
+ 426        define printord/order noprint;
+ 427        define sortord/order noprint;
+ 428        
+ 429        compute after printord;
+ 430          line ' ';
+ 431        endcomp;
+ 432        run ;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.24 seconds
+       cpu time            0.22 seconds
+       
+ NOTE: There were 25 observations read from the data set WORK.TDM_FINAL1.
+ 
+ 433        
+ 434        ods rtf close ;
+ 435        ods listing ;
+ 436        
+ 437        
+ 438        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 450        

@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<!-- saved from url=(0100)http://localhost:10080/SASStudio/38/sasexec/submissions/0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb/results -->
+<html class="ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="SAS 9.4" name="generator">
+<title>Results:  lvs82.sas</title>
+<style>
+/*<![CDATA[*/
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c section > table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c section > pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c div > table,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c div > pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c article > table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c article > pre,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j section > table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j section > pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j div > table,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j div > pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j article > table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j article > pre,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c p.note, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c p.warning, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c p.error, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c p.fatal,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j p.note, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j p.warning, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j p.error, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j p.fatal,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.c > table.layoutcontainer, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body.j > table.layoutcontainer { margin-left: auto; margin-right: auto }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.l table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.l pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.l p.note,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.l p.warning, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.l p.error, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.l p.fatal { margin-left: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.c table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.c pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.c p.note,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.c p.warning, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.c p.error, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.c p.fatal { margin-left: auto; margin-right: auto }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r p.note,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r table, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r pre, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r p.note,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r p.warning, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r p.error, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion.r p.fatal { margin-right: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb article, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb aside, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb details, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb figcaption, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb figure, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb footer, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb header, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb hgroup, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb nav, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb section { display: block }
+html.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb { font-size: 100% }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body { margin: 1em; font-size: 13px; line-height: 1.231 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb sup { position: relative; vertical-align: baseline; bottom: 0.25em; font-size: 0.8em }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb sub { position: relative; vertical-align: baseline; top: 0.25em; font-size: 0.8em }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb ul, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb ol { margin: 1em 0; padding: 0 0 0 40px }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb dd { margin: 0 0 0 40px }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb nav ul, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb img { border: 0; vertical-align: middle }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb svg:not(:root) { overflow: hidden }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb figure { margin: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb table { border-collapse: collapse; border-spacing: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutcontainer { border-collapse: separate; border-spacing: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb p { margin-top: 0; text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb h1.heading1 { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb h2.heading2 { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb h3.heading3 { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb h4.heading4 { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb h5.heading5 { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb h6.heading6 { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb span { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb table { margin-bottom: 1em }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb td, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb th { text-align: left; padding: 3px 6px; vertical-align: top }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb td[class$="fixed"], .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb th[class$="fixed"] { white-space: pre }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb section, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb article { padding-top: 1px; padding-bottom: 8px }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb hr.pagebreak { height: 0px; border: 0; border-bottom: 1px solid #c0c0c0; margin: 1em 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .stacked-value { text-align: left; display: block }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .stacked-cell > .stacked-value, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb td.data > td.data, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb th.data > td.data, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb th.data > th.data, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb td.data > th.data, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb th.header > th.header { border: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .stacked-cell > div.data { border-width: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer { white-space: nowrap; margin-bottom: 1em }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > p { margin: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > p > span { display: inline-block; width: 100%; white-space: normal }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch { display: table }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .toc { display: none }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .proc_note_group, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .proc_title_group { margin-bottom: 1em }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb p.proctitle { margin: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb p.note, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb p.warning, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb p.error, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb p.fatal { display: table }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .notebanner, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .warnbanner, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .errorbanner, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .fatalbanner,
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .notecontent, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .warncontent, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .errorcontent, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .fatalcontent { display: table-cell; padding: 0.5em }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .notebanner, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .warnbanner, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .errorbanner, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .fatalbanner { padding-right: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body > div > ol li { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .beforecaption > h4 { margin-top: 0; margin-bottom: 0 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .c { text-align: center }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .r { text-align: right }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .l { text-align: left }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .j { text-align: justify }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .d { text-align: right }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .b { vertical-align: bottom }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .m { vertical-align: middle }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .t { vertical-align: top }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .accessiblecaption {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb a:active { color: #800080 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .aftercaption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    padding-top: 4pt;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch { border: hidden; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .batch {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: 'SAS Monospace', 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    padding: 7px;
+    }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .beforecaption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .body {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bodydate {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    text-align: right;
+    vertical-align: top;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bycontentfolder {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .byline {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > colgroup > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > colgroup, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > * > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer > tfoot { border: none; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .bylinecontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .caption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .cell, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .container {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contentfolder, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contentitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contentproclabel, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contentprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contents {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: decimal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contentsdate {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .contenttitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .continued {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .data, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .dataemphasis {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .dataemphasisfixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .dataempty {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .datafixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .datastrong {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .datastrongfixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .date {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .document {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .errorbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .errorcontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .errorcontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .extendedpage {
+    background-color: #fafbfe;
+    border-style: solid;
+    border-width: 1pt;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+    text-align: center;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .fatalbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .fatalcontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .fatalcontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .folderaction {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footer {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footeremphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footeremphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footerempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footerfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footerstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .footerstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .frame {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .graph > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .graph > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .graph > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .graph > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .graph { border: hidden; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .graph {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .header {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headeremphasis {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headeremphasisfixed {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headerempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headerfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headersandfooters {
+    background-color: #edf2f9;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headerstrong {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .headerstrongfixed {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .heading1, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .heading2, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .heading3, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .heading4, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .heading5, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .heading6 { font-family: Arial, Helvetica, sans-serif }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .index {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .indexaction, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .indexitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .indexprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .indextitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutcontainer, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .layoutregion {
+    border-width: 0;
+    border-spacing: 30px;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .linecontent {
+    background-color: #fafbfe;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb a:link { color: #0000ff }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: disc;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list10 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list2 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: circle;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list3, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list4, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list5, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list6, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list7, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list8, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .list9 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: disc;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem10 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem2 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: circle;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem3, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem4, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem5, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem6, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem7, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem8, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .listitem9 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .note {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .notebanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .notecontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .notecontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .output > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .output > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .output > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .output > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .output { border: hidden; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .output {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pageno {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    text-align: right;
+    vertical-align: top;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pages {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: decimal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pagesdate {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pagesitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pagesproclabel, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pagesprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .pagestitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .paragraph {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > colgroup > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > colgroup, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > * > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip > tfoot { border: none; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .parskip {
+    border: none;
+    border-spacing: 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .prepage {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    text-align: left;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .proctitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .proctitlefixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooter {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooteremphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooteremphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooterempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooterfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooterstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowfooterstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheader {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheaderemphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheaderemphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheaderempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheaderfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheaderstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .rowheaderstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter10, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter2, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter3, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter4, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter5, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter6, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter7, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter8, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemfooter9 {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle10, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle2, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle3, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle4, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle5, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle6, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle7, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle8, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systemtitle9 {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > colgroup > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > colgroup, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > * > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer > tfoot { border: none; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .systitleandfootercontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .table > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .table > colgroup > col {
+    border-left: 1px solid #c1c1c1;
+    border-right: 0 solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .table > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .table > * > tr {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 0 solid #c1c1c1;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .table { border: hidden; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .table {
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > colgroup > col, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > colgroup, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > * > tr, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > thead, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > tbody, .ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer > tfoot { border: none; }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titleandnotecontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .titlesandfooters {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .usertext {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb a:visited { color: #800080 }
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .warnbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .warncontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb .warncontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+/*]]>*/
+</style>
+</head>
+<body class="body">
+<div id="div_0f27f661-ca0a-4b89-bb51-cd8dcfcdf9cb" class="c body">
+<h1 class="body toc">Results: lvs82.sas</h1>
+<section data-name="Report" data-sec-type="proc">
+<div id="IDX" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="systemtitle" style="width: 50%">CM Pharmaceuticals, Inc.</span> <span class="r systemtitle" style="width: 50%">Page </span> </p>
+<p><span class="systemtitle2" style="width: 50%">Protocol PROD-124</span> <span class="r systemtitle2" style="width: 50%">15DEC2019</span> </p>
+<p><span class="c systemtitle3">Listing 8.2</span> </p>
+<p><span class="c systemtitle4">Vital Signs (Respiration Rate and Temperature)</span> </p>
+</div>
+<h1 class="contentprocname toc">The Report Procedure</h1>
+<section>
+<h1 class="contentfolder toc">Detailed and/or summarized report</h1>
+<article aria-label="Table 1">
+<h1 class="contentitem toc">Table 1</h1>
+<table class="table" style="border-spacing: 0; width: 9in" aria-label="Detailed and/or summarized report">
+<caption aria-label="Detailed and/or summarized report"></caption>
+<colgroup><col><col><col><col><col><col><col></colgroup>
+<thead>
+<tr>
+<th class="c header" colspan="3" scope="colgroup">&nbsp;</th>
+<th class="c header" colspan="2" scope="colgroup"><span class="c" style="border-bottom: 2px #000000">Respiration Rate</span><br>(breaths/min)</th>
+<th class="c header" colspan="2" scope="colgroup"><span class="c" style="border-bottom: 2px #000000">Temperature </span><br>(C)</th>
+</tr>
+<tr>
+<th class="c header" scope="col">Subject</th>
+<th class="c header" scope="col">Cohort<sup>a</sup></th>
+<th class="c header" scope="col">Scheduled Timepoint</th>
+<th class="c header" scope="col">Value</th>
+<th class="c header" scope="col">Change<sup>b</sup></th>
+<th class="c header" scope="col">Value</th>
+<th class="c header" scope="col">Change<sup>b</sup></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="c data">PROD-124-44-101</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.4</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.3</td>
+<td class="c data" style="white-space: nowrap">-1.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-102</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-104</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data">2</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-105</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.4</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37</td>
+<td class="c data">0.6</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-106</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.9</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.4</td>
+<td class="c data" style="white-space: nowrap">-0.5</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-107</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.8</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.8</td>
+<td class="c data" style="white-space: nowrap">-1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-109</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.8</td>
+<td class="c data" style="white-space: nowrap">-0.3</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-110</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">18</td>
+<td class="c data">0</td>
+<td class="c data">36.9</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">36.4</td>
+<td class="c data" style="white-space: nowrap">-0.5</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-111</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">18</td>
+<td class="c data">0</td>
+<td class="c data">36.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">36.2</td>
+<td class="c data">0.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-113</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">20</td>
+<td class="c data">0</td>
+<td class="c data">36.8</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data" style="white-space: nowrap">-4</td>
+<td class="c data">36.3</td>
+<td class="c data" style="white-space: nowrap">-0.5</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-114</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">18</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-115</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">20</td>
+<td class="c data">0</td>
+<td class="c data">36.3</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">36.2</td>
+<td class="c data" style="white-space: nowrap">-0.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-116</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">18</td>
+<td class="c data">0</td>
+<td class="c data">37.5</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data">0</td>
+<td class="c data">36.8</td>
+<td class="c data" style="white-space: nowrap">-0.7</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-117</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.6</td>
+<td class="c data" style="white-space: nowrap">-0.4</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-118</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.4</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.3</td>
+<td class="c data" style="white-space: nowrap">-0.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-119</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.5</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data">2</td>
+<td class="c data">36.9</td>
+<td class="c data">0.4</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-120</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.1</td>
+<td class="c data" style="white-space: nowrap">-1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-121</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.9</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36</td>
+<td class="c data" style="white-space: nowrap">-0.9</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-122</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.2</td>
+<td class="c data">0.2</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-123</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.7</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37</td>
+<td class="c data">0.3</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-124</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">18</td>
+<td class="c data">0</td>
+<td class="c data">37.2</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">36.5</td>
+<td class="c data" style="white-space: nowrap">-0.7</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-125</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.6</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data">2</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">         &nbsp;</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-126</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">20</td>
+<td class="c data">0</td>
+<td class="c data">37.4</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">37.3</td>
+<td class="c data" style="white-space: nowrap">-0.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-127</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">15</td>
+<td class="c data">0</td>
+<td class="c data">37.4</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data">3</td>
+<td class="c data">36.3</td>
+<td class="c data" style="white-space: nowrap">-1.1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-128</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37</td>
+<td class="c data">0.9</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-129</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.9</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">18</td>
+<td class="c data">2</td>
+<td class="c data">36.1</td>
+<td class="c data" style="white-space: nowrap">-0.8</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-130</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.3</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.3</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-131</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.9</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0.2</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-132</td>
+<td class="c data">Cohort 1</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">37.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.1</td>
+<td class="c data" style="white-space: nowrap">-1</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-133</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">16</td>
+<td class="c data">0</td>
+<td class="c data">36.1</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">14</td>
+<td class="c data" style="white-space: nowrap">-2</td>
+<td class="c data">36.4</td>
+<td class="c data">0.3</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-134</td>
+<td class="c data">Cohort 2</td>
+<td class="data">Baseline</td>
+<td class="c data">26</td>
+<td class="c data">0</td>
+<td class="c data">36.8</td>
+<td class="c data">0</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="data">Study Day 2</td>
+<td class="c data">15</td>
+<td class="c data" style="white-space: nowrap">-11</td>
+<td class="c data">36.1</td>
+<td class="c data" style="white-space: nowrap">-0.7</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="7">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<div class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="systemfooter" style="font-size: 10pt">\brdrt\brdrs\super a\nosupersub  Cohort 1 Sequence: Bag in Infusion 1 / Bottle in Infusion 2, Cohort 2 Sequence: Bottle in Infusion 1 / Bag in Infusion 2.</span> </p>
+<p><span class="systemfooter2" style="font-size: 10pt">\super b\nosupersub  Change from baseline.</span> </p>
+<p><span class="systemfooter3" style="width: 50%">Data Source: adsllib.advs</span> <span class="r systemfooter3" style="width: 50%">Program: lvs82.sas</span> </p>
+</div>
+</section>
+</div>
+
+
+</body></html>

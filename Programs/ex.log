@@ -1,0 +1,198 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         /**-------------------------------------------------------------------------------------------**
+ 74         ** PROGRAM:    EX.SAS
+ 75         ** CREATED:    November 2019
+ 76         ** PURPOSE:    Create SDTM - EX dataset from Raw input data.
+ 77         ** PROGRAMMER: Deepti Shah
+ 78         ** INPUT:   rawlib.exposure
+ 79         ** OUTPUT:   sdtm.ex
+ 80         ** PROTOCOL:   PROD-124
+ 81         **-------------------------------------------------------------------------------------------*/
+ 82         /* ----------- SAS University Edition 9.4 ----------- */
+ 83         
+ 84         
+ 85         
+ 86         data ex_e1;
+ 87         
+ 88          length studyid $8
+ 89                 domain $4
+ 90                     usubjid $20
+ 91                     exseq $2
+ 92                     extrt $200
+ 93         excat $100
+ 94         exdosu $10
+ 95          exdosfrm $20
+ 96         exdosfrq $30
+ 97                     exroute $30
+ 98                     epoch $30
+ 99                     exstdtc $12
+ 100                    exendtc $12
+ 101                    exstdy $15
+ 102                    exendy $15
+ 103                    ;
+ 104        
+ 105        set rawlib.exposure;
+ NOTE: Data file RAWLIB.EXPOSURE.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 106        
+ 107        
+ 108            studyid = proto;
+ 109            domain = 'EX';
+ 110            usubjid = strip(proto) || '-' || put(inv_no,z2.) || '-' || put(patid,z3.);
+ 111            exseq = strip(seq);
+ 112        
+ 113            if strip(cohort) = 1 then extrt = 'Cohort 1';
+ 114            else if strip(cohort) = 2 then extrt = 'Cohort 2';
+ 115            else extrt = "";
+ 116        
+ 117        excat = strip(mode);
+ 118        exdose =  proddose;
+ 119            exdosu = "mg";
+ 120         exdosfrm= "SUSPENSION";
+ 121        exdosfrq= "Every 4 minutes";
+ 122         exroute= "Intravenous";
+ 123        epoch= period;
+ 124        exstdy= "Study Day 1";
+ 125        exendy= "Study Day 1";
+ 126        
+ 127        
+ 128            keep studyid domain usubjid exseq extrt excat exdose exdosu exdosfrq epoch exstdy exdosfrm exroute exendy;
+ 129        
+ 130         
+ 131        run;
+ 
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       111:19   113:14   114:19   
+ NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+       113:8    114:13   
+ NOTE: Variable exstdtc is uninitialized.
+ NOTE: Variable exendtc is uninitialized.
+ NOTE: There were 62 observations read from the data set RAWLIB.EXPOSURE.
+ NOTE: The data set WORK.EX_E1 has 62 observations and 14 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 132        
+ 133        
+ 134        /* ----------- Set the treatment start date and end date  ----------- */
+ 135        
+ 136        data dm_treat(keep=usubjid exstdtc exendtc);
+ 137        set sdtmlib.dm;
+ 138        
+ 139        exstdtc = rfstdtc;
+ 140        exendtc = rfendtc;
+ 141        
+ 142        run;
+ 
+ NOTE: There were 34 observations read from the data set SDTMLIB.DM.
+ NOTE: The data set WORK.DM_TREAT has 34 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 143        
+ 144        /* ----------- Sort the treatment data by usubjid ----------- */
+ 145        
+ 146        proc sort data=dm_treat;
+ 147        by usubjid;
+ 148        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DM_TREAT.
+ NOTE: The data set WORK.DM_TREAT has 34 observations and 3 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 149        
+ 150        
+ 151        proc sort data=ex_e1;
+ 152        by usubjid;
+ 153        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EX_E1.
+ NOTE: The data set WORK.EX_E1 has 62 observations and 14 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 154        
+ 155        /* ----------- merge the data ----------- */
+ 156        
+ 157        data ex;
+ 158        merge ex_e1 (in= ex_1) dm_treat;
+ 159        by usubjid;
+ 160        if ex_1;
+ 161        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EX_E1.
+ NOTE: There were 34 observations read from the data set WORK.DM_TREAT.
+ NOTE: The data set WORK.EX has 62 observations and 16 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 162        
+ 163        
+ 164        
+ 165        
+ 166        **-------------------------------------------------------------------------------**;
+ 167        **          Create Final EX dataset with all the key variable                    **;
+ 168        **Use Proc SQL - Create Table statement to create final EX dataset **;
+ 169        **-------------------------------------------------------------------------------**;
+ 170        
+ 171        proc sql;
+ 172        
+ 173        create table sdtmlib.ex (label='Exposure') as
+ 174        select  studyid,
+ 175        domain,
+ 176        usubjid,
+ 177        exseq,
+ 178        extrt,
+ 179        excat,
+ 180        exdose,
+ 181        exdosu,
+ 182         exdosfrm,
+ 183        exdosfrq,
+ 184         exroute,
+ 185        epoch,
+ 186        exstdtc,
+ 187        exendtc,
+ 188        exstdy,
+ 189        exendy
+ 190        
+ 191        from ex
+ 192        ;
+ NOTE: Table SDTMLIB.EX created, with 62 rows and 16 columns.
+ 
+ 193        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.05 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 194        
+ 195        proc print;
+ 196        run;
+ 
+ NOTE: There were 62 observations read from the data set SDTMLIB.EX.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.44 seconds
+       cpu time            0.44 seconds
+       
+ 
+ 197        
+ 198        
+ 199        
+ 200        
+ 201        
+ 202        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 214        

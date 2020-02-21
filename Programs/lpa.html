@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<!-- saved from url=(0100)http://localhost:10080/SASStudio/38/sasexec/submissions/a6f45203-889d-45d4-88a4-5d3797c7dd35/results -->
+<html class="ods_a6f45203-889d-45d4-88a4-5d3797c7dd35" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="SAS 9.4" name="generator">
+<title>Results:  lpa.sas</title>
+<style>
+/*<![CDATA[*/
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c section > table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c section > pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c div > table,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c div > pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c article > table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c article > pre,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j section > table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j section > pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j div > table,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j div > pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j article > table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j article > pre,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c p.note, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c p.warning, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c p.error, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c p.fatal,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j p.note, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j p.warning, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j p.error, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j p.fatal,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.c > table.layoutcontainer, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body.j > table.layoutcontainer { margin-left: auto; margin-right: auto }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.l table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.l pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.l p.note,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.l p.warning, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.l p.error, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.l p.fatal { margin-left: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.c table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.c pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.c p.note,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.c p.warning, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.c p.error, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.c p.fatal { margin-left: auto; margin-right: auto }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r p.note,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r table, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r pre, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r p.note,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r p.warning, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r p.error, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion.r p.fatal { margin-right: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 article, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 aside, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 details, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 figcaption, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 figure, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 footer, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 header, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 hgroup, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 nav, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 section { display: block }
+html.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 { font-size: 100% }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body { margin: 1em; font-size: 13px; line-height: 1.231 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 sup { position: relative; vertical-align: baseline; bottom: 0.25em; font-size: 0.8em }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 sub { position: relative; vertical-align: baseline; top: 0.25em; font-size: 0.8em }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 ul, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 ol { margin: 1em 0; padding: 0 0 0 40px }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 dd { margin: 0 0 0 40px }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 nav ul, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 img { border: 0; vertical-align: middle }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 svg:not(:root) { overflow: hidden }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 figure { margin: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 table { border-collapse: collapse; border-spacing: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutcontainer { border-collapse: separate; border-spacing: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 p { margin-top: 0; text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 h1.heading1 { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 h2.heading2 { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 h3.heading3 { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 h4.heading4 { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 h5.heading5 { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 h6.heading6 { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 span { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 table { margin-bottom: 1em }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 td, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 th { text-align: left; padding: 3px 6px; vertical-align: top }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 td[class$="fixed"], .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 th[class$="fixed"] { white-space: pre }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 section, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 article { padding-top: 1px; padding-bottom: 8px }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 hr.pagebreak { height: 0px; border: 0; border-bottom: 1px solid #c0c0c0; margin: 1em 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .stacked-value { text-align: left; display: block }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .stacked-cell > .stacked-value, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 td.data > td.data, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 th.data > td.data, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 th.data > th.data, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 td.data > th.data, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 th.header > th.header { border: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .stacked-cell > div.data { border-width: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer { white-space: nowrap; margin-bottom: 1em }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > p { margin: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > p > span { display: inline-block; width: 100%; white-space: normal }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch { display: table }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .toc { display: none }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .proc_note_group, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .proc_title_group { margin-bottom: 1em }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 p.proctitle { margin: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 p.note, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 p.warning, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 p.error, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 p.fatal { display: table }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .notebanner, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .warnbanner, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .errorbanner, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .fatalbanner,
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .notecontent, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .warncontent, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .errorcontent, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .fatalcontent { display: table-cell; padding: 0.5em }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .notebanner, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .warnbanner, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .errorbanner, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .fatalbanner { padding-right: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body > div > ol li { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .beforecaption > h4 { margin-top: 0; margin-bottom: 0 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .c { text-align: center }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .r { text-align: right }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .l { text-align: left }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .j { text-align: justify }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .d { text-align: right }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .b { vertical-align: bottom }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .m { vertical-align: middle }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .t { vertical-align: top }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .accessiblecaption {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 a:active { color: #800080 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .aftercaption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    padding-top: 4pt;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch { border: hidden; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .batch {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: 'SAS Monospace', 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    padding: 7px;
+    }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .beforecaption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .body {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bodydate {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    text-align: right;
+    vertical-align: top;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bycontentfolder {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .byline {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > colgroup > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > colgroup, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > * > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer > tfoot { border: none; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .bylinecontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .caption {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .cell, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .container {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contentfolder, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contentitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contentproclabel, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contentprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contents {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: decimal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contentsdate {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .contenttitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .continued {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .data, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .dataemphasis {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .dataemphasisfixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .dataempty {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .datafixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .datastrong {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .datastrongfixed {
+    background-color: #ffffff;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .date {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .document {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .errorbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .errorcontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .errorcontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .extendedpage {
+    background-color: #fafbfe;
+    border-style: solid;
+    border-width: 1pt;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+    text-align: center;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .fatalbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .fatalcontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .fatalcontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .folderaction {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footer {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footeremphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footeremphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footerempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footerfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footerstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .footerstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .frame {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .graph > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .graph > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .graph > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .graph > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .graph { border: hidden; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .graph {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .header {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headeremphasis {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headeremphasisfixed {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headerempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headerfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headersandfooters {
+    background-color: #edf2f9;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headerstrong {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .headerstrongfixed {
+    background-color: #d8dbd3;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #000000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .heading1, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .heading2, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .heading3, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .heading4, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .heading5, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .heading6 { font-family: Arial, Helvetica, sans-serif }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .index {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .indexaction, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .indexitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .indexprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .indextitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutcontainer, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .layoutregion {
+    border-width: 0;
+    border-spacing: 30px;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .linecontent {
+    background-color: #fafbfe;
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 a:link { color: #0000ff }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: disc;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list10 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list2 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: circle;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list3, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list4, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list5, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list6, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list7, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list8, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .list9 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: disc;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem10 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem2 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: circle;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem3, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem4, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem5, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem6, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem7, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem8, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .listitem9 {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: square;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .note {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .notebanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .notecontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .notecontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .output > colgroup {
+    border-left: 1px solid #c1c1c1;
+    border-right: 1px solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .output > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .output > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .output > tfoot {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .output { border: hidden; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .output {
+    background-color: #fafbfe;
+    border: 1px solid #c1c1c1;
+    border-collapse: separate;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pageno {
+    background-color: #fafbfe;
+    border-spacing: 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    text-align: right;
+    vertical-align: top;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pages {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: decimal;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pagesdate {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pagesitem {
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    list-style-type: none;
+    margin-left: 6pt;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pagesproclabel, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pagesprocname {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .pagestitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .paragraph {
+    background-color: #fafbfe;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > colgroup > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > colgroup, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > * > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip > tfoot { border: none; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .parskip {
+    border: none;
+    border-spacing: 0;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+    }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .prepage {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    text-align: left;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .proctitle {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .proctitlefixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooter {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooteremphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooteremphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooterempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooterfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooterstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowfooterstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheader {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheaderemphasis {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheaderemphasisfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: italic;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheaderempty {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheaderfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheaderstrong {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .rowheaderstrongfixed {
+    background-color: #edf2f9;
+    border-color: #b0b7bb;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #112277;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter10, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter2, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter3, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter4, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter5, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter6, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter7, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter8, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemfooter9 {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle10, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle2, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle3, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle4, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle5, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle6, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle7, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle8, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systemtitle9 {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > colgroup > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > colgroup, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > * > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer > tfoot { border: none; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .systitleandfootercontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .table > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .table > colgroup > col {
+    border-left: 1px solid #c1c1c1;
+    border-right: 0 solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .table > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .table > * > tr {
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 0 solid #c1c1c1;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .table { border: hidden; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .table {
+    border-color: #c1c1c1;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > colgroup > col, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > colgroup, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > * > tr, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > thead, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > tbody, .ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer > tfoot { border: none; }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titleandnotecontainer {
+    background-color: #fafbfe;
+    border: none;
+    border-spacing: 1px;
+    color: #000000;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .titlesandfooters {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .usertext {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 a:visited { color: #800080 }
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .warnbanner {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: bold;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .warncontent {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: Arial, 'Albany AMT', Helvetica, Helv;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+.ods_a6f45203-889d-45d4-88a4-5d3797c7dd35 .warncontentfixed {
+    background-color: #fafbfe;
+    color: #112277;
+    font-family: 'Courier New', Courier;
+    font-size: x-small;
+    font-style: normal;
+    font-weight: normal;
+}
+/*]]>*/
+</style>
+</head>
+<body class="body">
+<div id="div_a6f45203-889d-45d4-88a4-5d3797c7dd35" class="c body">
+<h1 class="body toc">Results: lpa.sas</h1>
+<section data-name="Report" data-sec-type="proc">
+<div id="IDX" class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="systemtitle" style="width: 50%">CM Pharmaceuticals, Inc.</span> <span class="r systemtitle" style="width: 50%">Page </span> </p>
+<p><span class="systemtitle2" style="width: 50%">Protocol PROD-124</span> <span class="r systemtitle2" style="width: 50%">15DEC2019</span> </p>
+<p><span class="c systemtitle3">Listing 5</span> </p>
+<p><span class="c systemtitle4">PROD Administration</span> </p>
+</div>
+<h1 class="contentprocname toc">The Report Procedure</h1>
+<section>
+<h1 class="contentfolder toc">Detailed and/or summarized report</h1>
+<article aria-label="Table 1">
+<h1 class="contentitem toc">Table 1</h1>
+<table class="table" style="border-spacing: 0; width: 9in" aria-label="Detailed and/or summarized report">
+<caption aria-label="Detailed and/or summarized report"></caption>
+<colgroup><col><col><col><col><col><col><col><col></colgroup>
+<thead>
+<tr>
+<th class="c header" colspan="3" scope="colgroup">&nbsp;</th>
+<th class="c header" colspan="2" scope="colgroup"><span class="c" style="border-bottom: 2px #000000">Amount Administered</span></th>
+<th class="c header" colspan="3" scope="colgroup">&nbsp;</th>
+</tr>
+<tr>
+<th class="c header" scope="col">Subject/<br>Cohort<sup>a</sup></th>
+<th class="c header" scope="col">Weight<br>(kg)</th>
+<th class="c header" scope="col">Infusion Period/<br>Consfiguration</th>
+<th class="c header" scope="col">(mg)</th>
+<th class="c header" scope="col">(mg/kg)</th>
+<th class="c header" scope="col">Date</th>
+<th class="c header" scope="col">Start Time</th>
+<th class="c header" scope="col">Stop Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="c data">PROD-124-44-101/1</td>
+<td class="c data">103.6</td>
+<td class="c data">1/BAG</td>
+<td class="c data">46.0</td>
+<td class="c data">0.4</td>
+<td class="c data">09OCT2006</td>
+<td class="c data">9:16</td>
+<td class="c data">10:01</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">92.0</td>
+<td class="c data">0.9</td>
+<td class="c data">09OCT2006</td>
+<td class="c data">9:16</td>
+<td class="c data">10:01</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-102/1</td>
+<td class="c data">64.5</td>
+<td class="c data">1/BAG</td>
+<td class="c data">23.0</td>
+<td class="c data">0.4</td>
+<td class="c data">23OCT2006</td>
+<td class="c data">10:50</td>
+<td class="c data">11:35</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">52.9</td>
+<td class="c data">0.8</td>
+<td class="c data">23OCT2006</td>
+<td class="c data">10:50</td>
+<td class="c data">11:35</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-104/1</td>
+<td class="c data">50.0</td>
+<td class="c data">1/BAG</td>
+<td class="c data">20.7</td>
+<td class="c data">0.4</td>
+<td class="c data">05NOV2006</td>
+<td class="c data">9:20</td>
+<td class="c data">10:05</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">43.7</td>
+<td class="c data">0.9</td>
+<td class="c data">05NOV2006</td>
+<td class="c data">9:20</td>
+<td class="c data">10:05</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-105/2</td>
+<td class="c data">101.8</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">85.1</td>
+<td class="c data">0.8</td>
+<td class="c data">05NOV2006</td>
+<td class="c data">11:09</td>
+<td class="c data">11:54</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">41.4</td>
+<td class="c data">0.4</td>
+<td class="c data">05NOV2006</td>
+<td class="c data">11:09</td>
+<td class="c data">11:54</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-106/2</td>
+<td class="c data">90.0</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">75.9</td>
+<td class="c data">0.8</td>
+<td class="c data">23OCT2006</td>
+<td class="c data">8:52</td>
+<td class="c data">9:37</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">39.1</td>
+<td class="c data">0.4</td>
+<td class="c data">23OCT2006</td>
+<td class="c data">8:52</td>
+<td class="c data">9:37</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-107/2</td>
+<td class="c data">76.4</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.9</td>
+<td class="c data">13OCT2006</td>
+<td class="c data">14:30</td>
+<td class="c data">15:15</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">13OCT2006</td>
+<td class="c data">14:30</td>
+<td class="c data">15:15</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-109/2</td>
+<td class="c data">74.5</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">71.3</td>
+<td class="c data">1.0</td>
+<td class="c data">11SEP2006</td>
+<td class="c data">14:21</td>
+<td class="c data">15:10</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">34.5</td>
+<td class="c data">0.5</td>
+<td class="c data">11SEP2006</td>
+<td class="c data">14:21</td>
+<td class="c data">15:10</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-110/2</td>
+<td class="c data">73.2</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">62.1</td>
+<td class="c data">0.8</td>
+<td class="c data">18SEP2006</td>
+<td class="c data">13:43</td>
+<td class="c data">14:28</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">18SEP2006</td>
+<td class="c data">13:43</td>
+<td class="c data">14:28</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-111/2</td>
+<td class="c data">81.8</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.8</td>
+<td class="c data">12NOV2006</td>
+<td class="c data">12:17</td>
+<td class="c data">13:02</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">12NOV2006</td>
+<td class="c data">12:17</td>
+<td class="c data">13:02</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-113/1</td>
+<td class="c data">80.0</td>
+<td class="c data">1/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">17SEP2006</td>
+<td class="c data">15:46</td>
+<td class="c data">16:31</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.9</td>
+<td class="c data">17SEP2006</td>
+<td class="c data">15:46</td>
+<td class="c data">16:31</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-114/1</td>
+<td class="c data">82.3</td>
+<td class="c data">1/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">25SEP2006</td>
+<td class="c data">13:29</td>
+<td class="c data">14:14</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.8</td>
+<td class="c data">25SEP2006</td>
+<td class="c data">13:29</td>
+<td class="c data">14:14</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-115/2</td>
+<td class="c data">79.5</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.9</td>
+<td class="c data">06OCT2006</td>
+<td class="c data">13:54</td>
+<td class="c data">14:41</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">32.2</td>
+<td class="c data">0.4</td>
+<td class="c data">06OCT2006</td>
+<td class="c data">13:54</td>
+<td class="c data">14:41</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-116/1</td>
+<td class="c data">122.7</td>
+<td class="c data">1/BAG</td>
+<td class="c data">52.9</td>
+<td class="c data">0.4</td>
+<td class="c data">08OCT2006</td>
+<td class="c data">11:09</td>
+<td class="c data">11:54</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">106</td>
+<td class="c data">0.9</td>
+<td class="c data">08OCT2006</td>
+<td class="c data">11:09</td>
+<td class="c data">11:54</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-117/1</td>
+<td class="c data">89.1</td>
+<td class="c data">1/BAG</td>
+<td class="c data">39.1</td>
+<td class="c data">0.4</td>
+<td class="c data">15SEP2006</td>
+<td class="c data">15:46</td>
+<td class="c data">16:31</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">75.9</td>
+<td class="c data">0.9</td>
+<td class="c data">15SEP2006</td>
+<td class="c data">15:46</td>
+<td class="c data">16:31</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-118/2</td>
+<td class="c data">84.1</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">75.9</td>
+<td class="c data">0.9</td>
+<td class="c data">10SEP2006</td>
+<td class="c data">13:45</td>
+<td class="c data">14:37</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">36.8</td>
+<td class="c data">0.4</td>
+<td class="c data">10SEP2006</td>
+<td class="c data">13:45</td>
+<td class="c data">14:37</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-119/2</td>
+<td class="c data">108.6</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">92.0</td>
+<td class="c data">0.8</td>
+<td class="c data">15SEP2006</td>
+<td class="c data">13:50</td>
+<td class="c data">14:37</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">52.9</td>
+<td class="c data">0.5</td>
+<td class="c data">15SEP2006</td>
+<td class="c data">13:50</td>
+<td class="c data">14:37</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-120/1</td>
+<td class="c data">71.8</td>
+<td class="c data">1/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">08OCT2006</td>
+<td class="c data">13:27</td>
+<td class="c data">14:12</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">62.1</td>
+<td class="c data">0.9</td>
+<td class="c data">08OCT2006</td>
+<td class="c data">13:27</td>
+<td class="c data">14:12</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-121/1</td>
+<td class="c data">77.7</td>
+<td class="c data">1/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">22SEP2006</td>
+<td class="c data">15:29</td>
+<td class="c data">16:14</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.9</td>
+<td class="c data">22SEP2006</td>
+<td class="c data">15:29</td>
+<td class="c data">16:14</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-122/1</td>
+<td class="c data">84.1</td>
+<td class="c data">1/BAG</td>
+<td class="c data">41.4</td>
+<td class="c data">0.5</td>
+<td class="c data">11SEP2006</td>
+<td class="c data">15:59</td>
+<td class="c data">16:47</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">78.2</td>
+<td class="c data">0.9</td>
+<td class="c data">11SEP2006</td>
+<td class="c data">15:59</td>
+<td class="c data">16:47</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-123/2</td>
+<td class="c data">64.1</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">52.9</td>
+<td class="c data">0.8</td>
+<td class="c data">25SEP2006</td>
+<td class="c data">15:22</td>
+<td class="c data">16:07</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">23.0</td>
+<td class="c data">0.4</td>
+<td class="c data">25SEP2006</td>
+<td class="c data">15:22</td>
+<td class="c data">16:07</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-124/1</td>
+<td class="c data">64.1</td>
+<td class="c data">1/BAG</td>
+<td class="c data">23.0</td>
+<td class="c data">0.4</td>
+<td class="c data">18SEP2006</td>
+<td class="c data">16:25</td>
+<td class="c data">17:10</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">52.9</td>
+<td class="c data">0.8</td>
+<td class="c data">18SEP2006</td>
+<td class="c data">16:25</td>
+<td class="c data">17:10</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-125/2</td>
+<td class="c data">68.1</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">78.2</td>
+<td class="c data">1.1</td>
+<td class="c data">08SEP2006</td>
+<td class="c data">13:33</td>
+<td class="c data">14:27</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">34.5</td>
+<td class="c data">0.5</td>
+<td class="c data">08SEP2006</td>
+<td class="c data">13:33</td>
+<td class="c data">14:27</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-126/2</td>
+<td class="c data">70.9</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">62.1</td>
+<td class="c data">0.9</td>
+<td class="c data">08OCT2006</td>
+<td class="c data">9:34</td>
+<td class="c data">10:18</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">08OCT2006</td>
+<td class="c data">9:34</td>
+<td class="c data">10:18</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-127/1</td>
+<td class="c data">86.4</td>
+<td class="c data">1/BAG</td>
+<td class="c data">39.1</td>
+<td class="c data">0.5</td>
+<td class="c data">06OCT2006</td>
+<td class="c data">15:30</td>
+<td class="c data">16:16</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">75.9</td>
+<td class="c data">0.9</td>
+<td class="c data">06OCT2006</td>
+<td class="c data">15:30</td>
+<td class="c data">16:16</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-128/1</td>
+<td class="c data">70.0</td>
+<td class="c data">1/BAG</td>
+<td class="c data">27.6</td>
+<td class="c data">0.4</td>
+<td class="c data">03NOV2006</td>
+<td class="c data">14:04</td>
+<td class="c data">14:49</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">59.8</td>
+<td class="c data">0.9</td>
+<td class="c data">03NOV2006</td>
+<td class="c data">14:04</td>
+<td class="c data">14:49</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-129/1</td>
+<td class="c data">95.5</td>
+<td class="c data">1/BAG</td>
+<td class="c data">39.1</td>
+<td class="c data">0.4</td>
+<td class="c data">22SEP2006</td>
+<td class="c data">13:33</td>
+<td class="c data">14:20</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">101</td>
+<td class="c data">1.1</td>
+<td class="c data">22SEP2006</td>
+<td class="c data">13:33</td>
+<td class="c data">14:20</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-130/2</td>
+<td class="c data">84.1</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.8</td>
+<td class="c data">09OCT2006</td>
+<td class="c data">10:48</td>
+<td class="c data">11:33</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">39.1</td>
+<td class="c data">0.5</td>
+<td class="c data">09OCT2006</td>
+<td class="c data">10:48</td>
+<td class="c data">11:33</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-131/2</td>
+<td class="c data">109.1</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">92.0</td>
+<td class="c data">0.8</td>
+<td class="c data">20OCT2006</td>
+<td class="c data">9:35</td>
+<td class="c data">10:21</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">50.6</td>
+<td class="c data">0.5</td>
+<td class="c data">20OCT2006</td>
+<td class="c data">9:35</td>
+<td class="c data">10:21</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-132/1</td>
+<td class="c data">90.0</td>
+<td class="c data">1/BAG</td>
+<td class="c data">41.4</td>
+<td class="c data">0.5</td>
+<td class="c data">10SEP2006</td>
+<td class="c data">15:32</td>
+<td class="c data">16:17</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BOTTLE</td>
+<td class="c data">62.1</td>
+<td class="c data">0.7</td>
+<td class="c data">10SEP2006</td>
+<td class="c data">15:32</td>
+<td class="c data">16:17</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-133/2</td>
+<td class="c data">65.5</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">52.9</td>
+<td class="c data">0.8</td>
+<td class="c data">16OCT2006</td>
+<td class="c data">8:54</td>
+<td class="c data">9:40</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.5</td>
+<td class="c data">16OCT2006</td>
+<td class="c data">8:54</td>
+<td class="c data">9:40</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+<tr>
+<td class="c data">PROD-124-44-134/2</td>
+<td class="c data">82.3</td>
+<td class="c data">1/BOTTLE</td>
+<td class="c data">69.0</td>
+<td class="c data">0.8</td>
+<td class="c data">17SEP2006</td>
+<td class="c data">14:00</td>
+<td class="c data">14:45</td>
+</tr>
+<tr>
+<td class="c data">&nbsp;</td>
+<td class="c data">&nbsp;</td>
+<td class="c data">2/BAG</td>
+<td class="c data">29.9</td>
+<td class="c data">0.4</td>
+<td class="c data">17SEP2006</td>
+<td class="c data">14:00</td>
+<td class="c data">14:45</td>
+</tr>
+<tr>
+<td class="c linecontent" colspan="8">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</article>
+</section>
+<div class="systitleandfootercontainer" style="border-spacing: 1px">
+<p><span class="systemfooter" style="font-size: 10pt"><sup>a</sup>Cohort 1 Sequence: Bag in Infusion 1 / Bottle in Infusion 2, Cohort 2 Sequence: Bottle in Infusion 1 / Bag in Infusion 2.</span> </p>
+<p><span class="systemfooter2" style="width: 50%">Data Source: adsllib.adex</span> <span class="r systemfooter2" style="width: 50%">Data Source: lpa.sas</span> </p>
+</div>
+</section>
+</div>
+
+
+</body></html>

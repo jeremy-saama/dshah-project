@@ -1,0 +1,182 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         /**-------------------------------------------------------------------------------------------**
+ 75         ** PROGRAM:    LVS82.SAS
+ 76         ** CREATED:    December 2019
+ 77         ** PURPOSE:    Create Vital Sign Listing 8.2
+ 78         ** PROGRAMMER: Deepti Shah
+ 79         ** INPUT:      adsllib.advs
+ 80         ** OUTPUT:     Listing 8.1 (VS_L82.rtf)
+ 81         ** PROTOCOL:   PROD-124
+ 82         **-------------------------------------------------------------------------------------------**/
+ 83         /* ----------- SAS University Edition 9.4 ----------- */
+ 84         
+ 85         
+ 86         /*Fetch data from ADVS dataset*/
+ 87         
+ 88         
+ 89         
+ 90         data lvs82;
+ 91         set adsllib.advs;
+ 92         run;
+ 
+ NOTE: There were 1913 observations read from the data set ADSLLIB.ADVS.
+ NOTE: The data set WORK.LVS82 has 1913 observations and 36 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 93         
+ 94         data resp(keep=usubjid trt01p trt01pn avisit avisitn aval chg rename=(aval=respval chg=respchg));
+ 95         set lvs82(where=(vstestcd="RESP" and ( vstpt="STUDY DAY 1" or vstpt = "STUDY DAY 2") ));
+ 96         run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.LVS82.
+       WHERE (vstestcd='RESP') and vstpt in ('STUDY DAY 1', 'STUDY DAY 2');
+ NOTE: The data set WORK.RESP has 62 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 97         
+ 98         data temp(keep=usubjid trt01p trt01pn avisit avisitn aval chg rename=(aval=tempval chg=tempchg));
+ 99         set lvs82(where=(vstestcd="TEMP" and ( vstpt="STUDY DAY 1" or vstpt = "STUDY DAY 2")));
+ 100        run;
+ 
+ NOTE: There were 61 observations read from the data set WORK.LVS82.
+       WHERE (vstestcd='TEMP') and vstpt in ('STUDY DAY 1', 'STUDY DAY 2');
+ NOTE: The data set WORK.TEMP has 61 observations and 7 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 101        
+ 102        /**----------- merge for final listing ----------------**/;
+ 103        
+ 104        proc sort data=resp;
+ 105        by usubjid avisitn avisit trt01pn trt01p;
+ 106        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.RESP.
+ NOTE: The data set WORK.RESP has 62 observations and 7 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 107        
+ 108        proc sort data=temp;
+ 109        by usubjid avisitn avisit trt01pn trt01p;
+ 110        run;
+ 
+ NOTE: There were 61 observations read from the data set WORK.TEMP.
+ NOTE: The data set WORK.TEMP has 61 observations and 7 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 111        
+ 112        data lvs82_f;
+ 113        merge resp
+ 114        temp
+ 115            ;
+ 116        
+ 117        attrib tpt length = $80;
+ 118        
+ 119        by usubjid avisitn avisit trt01pn trt01p;
+ 120        
+ 121        if AVISIT = "STUDY DAY 1" then tpt = "Baseline";
+ 122        else if AVISIT = "STUDY DAY 2" then tpt = "Study Day 2";
+ 123        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.RESP.
+ NOTE: There were 61 observations read from the data set WORK.TEMP.
+ NOTE: The data set WORK.LVS82_F has 62 observations and 10 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 124        
+ 125        proc sort data=lvs82_f out=lvs82_s;
+ 126        by usubjid avisitn avisit trt01pn trt01p;
+ 127        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.LVS82_F.
+ NOTE: The data set WORK.LVS82_S has 62 observations and 10 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 128        
+ 129        
+ 130        **-------------------------------------------------------------------------------**;
+ 131        **              Create Report Listing 8.2 for Vital Signs                            **;
+ 132        **-------------------------------------------------------------------------------**;
+ 133        
+ 134        /**----- RTF SETUP -----**/;
+ 135        options nodate nonumber orientation=landscape;
+ 136        ods listing close ;
+ 137        ods escapechar='^' ;
+ 138        ods rtf style=TStyleRTF file="&outpath.VS_L82.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/VS_L82.rtf
+ 139        
+ 140        /**----- TITLES/FOOTNOTES -----**/;
+ 141        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 142        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 143        title3 j=center "Listing 8.2" ;
+ 144        title4 j=center "Vital Signs (Respiration Rate and Temperature)" ;
+ 145        
+ 146        footnote1 h=10pt j=left "^R'\brdrt\brdrs\super a\nosupersub  Cohort 1 Sequence: Bag in Infusion 1 / Bottle in Infusion 2,
+ 146      !  Cohort 2 Sequence: Bottle in Infusion 1 / Bag in Infusion 2.'" ;
+ 147        footnote2 h=10pt j=left "^R'\super b\nosupersub  Change from baseline.'" ;
+ 148        
+ 149        footnote3 j=left "&llastfoot adsllib.advs" j=right "&rlastfoot lvs82.sas";
+ 150        
+ 151        /**----- REPORT DEFINITION -----**/;
+ 152        proc report data=lvs82_s missing center split='|' style(report)={cellpadding=.1in} style=[outputwidth=9.0in];
+ 153        
+ 154           column usubjid trt01p tpt ("^S={borderbottomcolor=black borderbottomwidth=2} Respiration Rate| (breaths/min)"(respval
+ 154      ! respchg))
+ 155             ("^S={borderbottomcolor=black borderbottomwidth=2} Temperature | (C)"(tempval tempchg))
+ 156           ;
+ 157        
+ 158           define usubjid / order "Subject" center ;
+ 159           define trt01p / order "Cohort^{super a}" CENTER ;
+ 160           define tpt / "Scheduled Timepoint";
+ 161           define respval /display "Value" center;
+ 162           define respchg /display "Change^{super b}" center;
+ 163           define tempval /display "Value" center;
+ 164           define tempchg /display "Change^{super b}" center;
+ 165        
+ 166           compute after usubjid;
+ 167           line " ";
+ 168           endcomp;
+ 169        
+ 170        run;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.22 seconds
+       cpu time            0.22 seconds
+       
+ NOTE: There were 62 observations read from the data set WORK.LVS82_S.
+ 
+ 171        
+ 172        /**----- CLOSE RTF AND RESET TITLES/FOOTNOTES -----**/;
+ 173        ods rtf close ;
+ 174        ods listing ;
+ 175        
+ 176        options date number ;
+ 177        title ;
+ 178        footnote ;
+ 179        
+ 180        
+ 181        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 193        

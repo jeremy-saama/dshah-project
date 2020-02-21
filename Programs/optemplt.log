@@ -1,0 +1,125 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         
+ 74         proc template ;
+ 75            define style TStyleRTF ;
+ 76               parent=styles.rtf ;
+ 77         
+ 78               style table from table /
+ 79                  Background=_UNDEF_
+ 80                  rules=groups   /* PUTS BOTTOM BORDER ON ROW HEADERS */
+ 81                  frame=above
+ 82                  cellspacing=1.0
+ 83                  cellpadding=1.0
+ 84                  borderwidth=1.5pt
+ 85                  ;
+ 86         
+ 87               replace fonts /
+ 88                  'TitleFont2'         = ("Times New Roman",10pt,Bold)
+ 89                  'TitleFont'          = ("Times New Roman",10pt,Bold)
+ 90                  'StrongFont'         = ("Times New Roman",10pt,Bold)
+ 91                  'EmphasisFont'       = ("Times New Roman",10pt,Italic)
+ 92                  'FixedEmphasisFont'  = ("Times New Roman",10pt,Italic)
+ 93                  'FixedStrongFont'    = ("Times New Roman",10pt,Bold)
+ 94                  'FixedHeadingFont'   = ("Times New Roman",10pt)
+ 95                  'BatchFixedFont'     = ("Times New Roman",10pt)
+ 96                  'FixedFont'          = ("Times New Roman",10pt)
+ 97                  'headingEmphasisFont'= ("Times New Roman",10pt,Italic)
+ 98                  'headingFont'        = ("Times New Roman",10pt,Bold)    /* FONT FOR COLUMN HEADERS */
+ 99                  'docFont'            = ("Times New Roman",9pt)
+ 100                 ;
+ 101        
+ 102              replace Body from Document /
+ 103                 bottommargin = .75in
+ 104                 topmargin    = 1.25in
+ 105                 rightmargin  = 1in
+ 106                 leftmargin   = 1in
+ 107                 ;
+ 108        
+ 109              replace HeadersAndFooters from cell /
+ 110                 font = fonts('HeadingFont')
+ 111                 foreground = _undef_/*colors('headerfg')*/
+ 112                 background = _undef_/*lightgrey*/
+ 113                 ;
+ 114        
+ 115              replace TitlesAndFooters from Container /
+ 116                 font = Fonts('TitleFont')
+ 117                 background = _undef_
+ 118                 foreground = _undef_/*colors('headerfg')*/
+ 119                 rules = ALL
+ 120                 just  = CENTER
+ 121                 ;
+ 122        
+ 123              replace PageNo from Container /
+ 124                 font        = Fonts('docFont')
+ 125                 background  = colors('systitlebg')
+ 126                 foreground  = colors('systitlefg')
+ 127                 cellspacing = 0
+ 128                 cellpadding = 0
+ 129                 ;
+ 130           end ;
+ NOTE: STYLE 'TStyleRTF' has been saved to: TMPLTLIB.TEMPLAT
+ 131        
+ 132        define style PStyleRTF ;        /* PORTRAIT FOR IN-TEXT TABLES */
+ 133              parent=styles.rtf ;
+ 134        
+ 135              style table from table /
+ 136                 Background =_UNDEF_
+ 137                 cellpadding=3pt      /* AMOUNT OF WHITE SPACE ON EACH OF THE FOUR SIDES OF THE CONTENT IN A CELL - IF 0 THEN
+ 137      ! LINES DISAPPEAR IN PDF */
+ 138                 borderwidth=.5pt
+ 139                 ;
+ 140        
+ 141              replace fonts /
+ 142                 'TitleFont2'         = ("Times New Roman, Arial",10pt,Bold)
+ 143                 'TitleFont'          = ("Times New Roman, Arial",10pt,Bold)
+ 144                 'StrongFont'         = ("Times New Roman, Arial",10pt,Bold)
+ 145                 'EmphasisFont'       = ("Times New Roman, Arial",10pt,Italic)
+ 146                 'FixedEmphasisFont'  = ("Times New Roman, Arial",10pt,Italic)
+ 147                 'FixedStrongFont'    = ("Times New Roman, Arial",10pt,Bold)
+ 148                 'FixedHeadingFont'   = ("Times New Roman, Arial",10pt)
+ 149                 'BatchFixedFont'     = ("Times New Roman, Arial",10pt)
+ 150                 'FixedFont'          = ("Times New Roman, Arial",10pt)
+ 151                 'headingEmphasisFont'= ("Times New Roman, Arial",10pt,Italic)
+ 152                 'headingFont'        = ("Times New Roman, Arial",10pt,Bold)    /* FONT FOR COLUMN HEADERS */
+ 153                 'docFont'            = ("Times New Roman, Arial",10pt)
+ 154                 ;
+ 155              replace Body from Document /
+ 156                 bottommargin = 1in
+ 157                 topmargin    = 1in
+ 158                 rightmargin  = 1in
+ 159                 leftmargin   = 1in
+ 160                 ;
+ 161              replace HeadersAndFooters from cell /
+ 162                 font = fonts('HeadingFont')
+ 163                 foreground = colors('headerfg')
+ 164                 background = _UNDEF_     /* #DCDCDC LIGHT GRAY - _UNDEF_ if need clear background */
+ 165                 ;
+ 166              replace TitlesAndFooters from Container /
+ 167                 font = Fonts('TitleFont')
+ 168                 background = _undef_
+ 169                 foreground = colors('systitlefg')
+ 170                 rules = ALL
+ 171                 just  = CENTER
+ 172                 ;
+ 173              replace PageNo from Container /
+ 174                 font        = Fonts('docFont')
+ 175                 background  = colors('systitlebg')
+ 176                 foreground  = colors('systitlefg')
+ 177                 cellpadding = 0
+ 178                 ;
+ 179           end ;
+ NOTE: STYLE 'PStyleRTF' has been saved to: TMPLTLIB.TEMPLAT
+ 180        
+ 181         run ;
+ NOTE: PROCEDURE TEMPLATE used (Total process time):
+       real time           0.04 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 182        
+ 183        
+ 184        
+ 185        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 197        

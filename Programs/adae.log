@@ -1,0 +1,231 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         /**-------------------------------------------------------------------------------------------**
+ 75         ** PROGRAM:    ADAE.SAS
+ 76         ** CREATED:    December 2019
+ 77         ** PURPOSE:    CREATE ADVERSE EVENT DATASET FROM SDTM AE DATASET
+ 78         ** PROGRAMMER: Deepti Shah
+ 79         ** INPUT:      sdtmlib.ae, adsllib.adsl
+ 80         ** OUTPUT:     adsllib.adae
+ 81         ** PROTOCOL:   PROD-124
+ 82         **-------------------------------------------------------------------------------------------**/
+ 83         /* ----------- SAS University Edition 9.4 ----------- */
+ 84         
+ 85         
+ 86         /* ----------- Clear work library ----------- */
+ 87         
+ 88         proc delete data=work._all_;
+ 89         run;
+ 
+ NOTE: Deleting WORK.ADEX (memtype=DATA).
+ NOTE: Deleting WORK.ADEX_1 (memtype=DATA).
+ NOTE: Deleting WORK.ADEX_2 (memtype=DATA).
+ NOTE: Deleting WORK.ADEX_3 (memtype=DATA).
+ NOTE: Deleting WORK.ADEX_4 (memtype=DATA).
+ NOTE: Deleting WORK.ADEX_5 (memtype=DATA).
+ NOTE: Deleting WORK.ADEX_S (memtype=DATA).
+ NOTE: Deleting WORK.ADSL (memtype=DATA).
+ NOTE: Deleting WORK.ADSL_S (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 90         
+ 91         /* Bring the SDTM AE dataset */
+ 92         
+ 93         data ae;
+ 94         set sdtmlib.ae;
+ 95         run;
+ 
+ NOTE: There were 14 observations read from the data set SDTMLIB.AE.
+ NOTE: The data set WORK.AE has 14 observations and 19 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 96         
+ 97         /* sort the data by usubjid */
+ 98         
+ 99         proc sort;
+ 100        by usubjid;
+ 101        run;
+ 
+ NOTE: There were 14 observations read from the data set WORK.AE.
+ NOTE: The data set WORK.AE has 14 observations and 19 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 102        
+ 103        /* Bring the ADSL dataset */
+ 104        
+ 105        data adsl(keep= usubjid subjid siteid trt01p trt01pn age sex race saffl trtsdt trtstm trtsdtm trtedt trtetm trtedtm);
+ 106        set adsllib.adsl;
+ 107        run;
+ 
+ NOTE: There were 34 observations read from the data set ADSLLIB.ADSL.
+ NOTE: The data set WORK.ADSL has 34 observations and 15 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 108        
+ 109        proc sort;
+ 110        by usubjid;
+ 111        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.ADSL.
+ NOTE: The data set WORK.ADSL has 34 observations and 15 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 112        
+ 113        /* Merge ADSL AE and SDTM AE dataset */
+ 114        
+ 115        data adae_1;
+ 116        merge ae(in=a)
+ 117          adsl (in=b);
+ 118        by usubjid;
+ 119        
+ 120        if a;
+ 121        run;
+ 
+ NOTE: There were 14 observations read from the data set WORK.AE.
+ NOTE: There were 34 observations read from the data set WORK.ADSL.
+ NOTE: The data set WORK.ADAE_1 has 14 observations and 33 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 122        
+ 123        /* Derive Analysis variables */
+ 124        
+ 125        data adae_2;
+ 126        set adae_1;
+ 127        
+ 128        format astdt aendt is8601da.;
+ 129        format adurn is8601tm.;
+ 130        format asttm aentm arelsettm HHMM.;
+ 131        format astdtm aendtm  is8601dt.;
+ 132        
+ 133        /* Derive start and end date/times*/
+ 134        
+ 135        astdt = input(aestdtc,is8601da.);
+ 136        asttm = input(substr(aestdtc,12),is8601tm.);
+ 137        astdtm = input(aestdtc,is8601dt.);
+ 138        
+ 139        aendt = input(aeendtc,is8601da.);
+ 140        aentm = input(substr(aeendtc,12),is8601tm.);
+ 141        aendtm = input(aeendtc,is8601dt.);
+ 142        
+ 143        /* Derive Relative Time to administration */
+ 144        
+ 145        astdy = astdt - trtsdt + 1;
+ 146        aendy = aendt - trtsdt + 1;
+ 147        adurn = aendtm - astdtm;
+ 148        
+ 149        
+ 150        /*Derive analysis flags */
+ 151        
+ 152        if astdtm > trtsdtm then trtemfl = "Y";
+ 153        if aerel = "Possibly" or aerel = "Probably" or aerel = "Definitely" then anl01fl = "Y";
+ 154        
+ 155        
+ 156        /* Onset Time Relative to Prod */
+ 157        arelsettm = astdtm - trtsdtm;
+ 158        
+ 159        run;
+ 
+ NOTE: There were 14 observations read from the data set WORK.ADAE_1.
+ NOTE: The data set WORK.ADAE_2 has 14 observations and 45 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 160        
+ 161        
+ 162        
+ 163        **-------------------------------------------------------------------------------**;
+ 164        **          Create ADAE dataset with attributes                                **;
+ 165        **-------------------------------------------------------------------------------**;
+ 166        
+ 167        proc sql;
+ 168        
+ 169        create table adsllib.adae (label='Adverse Events') as
+ 170        select  studyid,
+ 171        usubjid,
+ 172        subjid,
+ 173        siteid,
+ 174        aeseq,
+ 175        age,
+ 176        sex,
+ 177        race,
+ 178        saffl,
+ 179        trt01p,
+ 180        trt01pn,
+ 181        trtsdt,
+ 182        trtstm,
+ 183        trtsdtM,
+ 184        trtedt,
+ 185        trtetm,
+ 186        trtedtm,
+ 187        aeterm,
+ 188        aedecod,
+ 189        aeptcd,
+ 190        aebodsys,
+ 191        aebdsycd,
+ 192        aesoc,
+ 193        aesoccd,
+ 194        aesev,
+ 195        aeser,
+ 196        aeacn,
+ 197        aeacnoth,
+ 198        aerel,
+ 199        aestdtc,
+ 200        astdt,
+ 201        asttm,
+ 202        astdtm,
+ 203        aendt,
+ 204        aentm,
+ 205        aendtm,
+ 206        astdy,
+ 207        aendy,
+ 208        adurn,
+ 209        trtemfl,
+ 210        anl01fl,
+ 211            arelsettm
+ 212        from adae_2;
+ NOTE: Table ADSLLIB.ADAE created, with 14 rows and 42 columns.
+ 
+ 213        ;
+ 214        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.04 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 215        
+ 216        proc print;
+ 217        run;
+ 
+ NOTE: There were 14 observations read from the data set ADSLLIB.ADAE.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.86 seconds
+       cpu time            0.86 seconds
+       
+ 
+ 218        
+ 219        
+ 220        
+ 221        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 233        

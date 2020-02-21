@@ -1,0 +1,247 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         /**-------------------------------------------------------------------------------------------**
+ 74         ** PROGRAM:    ADSL.SAS
+ 75         ** CREATED:    November 2019
+ 76         ** PURPOSE:    CREATE ADSL DATASET FROM SDTM DM DATA
+ 77         ** PROGRAMMER: Deepti Shah
+ 78         ** INPUT:      sdtmlib.dm
+ 79         ** OUTPUT:     adsllib.adsl
+ 80         ** PROTOCOL:   PROD-124
+ 81         **-------------------------------------------------------------------------------------------**
+ 82         /* ----------- SAS University Edition 9.4 ----------- */
+ 83         
+ 84         
+ 85         /* Bring SDTM DM dataset */
+ 86         
+ 87         data adsl_a1;
+ 88         
+ 89         set sdtmlib.dm;
+ 90         
+ 91         /* Define and format the treatment date and time variables */
+ 92         format rficdt yymmdd10.
+ 93            trtsdt trtedt tr01sdt tr01edt is8601da.
+ 94         trtsdtm trtedtm  is8601dt.
+ 95         trtstm trtetm tr01stm tr01etm is8601tm. ;
+ 96         
+ 97         
+ 98         /* Derive the safety flag based on reference start date and time. */
+ 99         
+ 100        if rfstdtc = "" then saffl = "N";
+ 101        else saffl = "Y";
+ 102        
+ 103        trt01p = armcd;
+ 104        trtseqp = arm;
+ 105        
+ 106        if trt01p = "Cohort 1" then trt01pn = 1;
+ 107        else if trt01p = "Cohort 2" then trt01pn = 2;
+ 108        
+ 109        rficdt = input(rficdtc,is8601da.);
+ 110        
+ 111        **----------- Derive Treatment Start dates and End dates----------------**;
+ 112        if rfstdtc ne "" then
+ 113        do;
+ 114        
+ 115        trtsdtc  = trim(rfstdtc) || ":00";
+ 116        trtsdt   = input(trtsdtc,is8601da.);
+ 117        trtstm   = input(substr(trtsdtc,12,8),is8601tm.);
+ 118        trtsdtm  = input(trtsdtc,is8601dt.);
+ 119        tr01sdt  = input(trtsdtc,is8601da.);
+ 120        tr01stm  = input(substr(trtsdtc,12,8),is8601tm.);
+ 121        
+ 122        trtedtc = trim(rfendtc) || ":00";
+ 123        trtedt  = input(trtedtc,is8601da.);
+ 124        trtetm  = input(substr(trtedtc,12,8),is8601tm.);
+ 125        trtedtm = input(trtedtc,is8601dt.);
+ 126        tr01edt = input(trtedtc,is8601da.);
+ 127        tr01etm = input(substr(trtedtc,12,8),is8601tm.);
+ 128        
+ 129        
+ 130        end;
+ 131        
+ 132        
+ 133         drop rfstdtc armcd rficdtc;
+ 134        
+ 135        run;
+ 
+ NOTE: There were 34 observations read from the data set SDTMLIB.DM.
+ NOTE: The data set WORK.ADSL_A1 has 34 observations and 32 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 136        
+ 137        **----------- Get Race Other from DM Supplemental dataset----------------**;
+ 138        
+ 139        data adsl_dm_sup(keep= usubjid raceoth);
+ 140        set sdtmlib.suppdm;
+ 141        
+ 142        length raceoth $25;
+ 143        raceoth = qval;
+ 144        
+ 145        run;
+ 
+ NOTE: There were 1 observations read from the data set SDTMLIB.SUPPDM.
+ NOTE: The data set WORK.ADSL_DM_SUP has 1 observations and 2 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 146        
+ 147        **----------- Get baseline weight from VS dataset----------------**;
+ 148        
+ 149        data vs_weight(keep= usubjid weight );
+ 150        set sdtmlib.vs (where = (vstestcd="WEIGHT" and VSBLFL="Y"));
+ 151        
+ 152         attrib weight format=5.1;
+ 153        weight=input(vsorres,best.);
+ 154        
+ 155        run;
+ 
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       153:15   
+ NOTE: There were 31 observations read from the data set SDTMLIB.VS.
+       WHERE (vstestcd='WEIGHT') and (VSBLFL='Y');
+ NOTE: The data set WORK.VS_WEIGHT has 31 observations and 2 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 156        
+ 157        
+ 158        
+ 159        proc sort;
+ 160        by usubjid;
+ 161        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.VS_WEIGHT.
+ NOTE: The data set WORK.VS_WEIGHT has 31 observations and 2 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 162        
+ 163        **----------- Get baseline height from VS dataset----------------**;
+ 164        
+ 165        data vs_height(keep= usubjid height);
+ 166        set sdtmlib.vs (where =(vstestcd="HEIGHT" and VSBLFL="Y") );
+ 167        
+ 168        attrib height format=5.1;
+ 169        height=input(vsorres,best.);
+ 170        run;
+ 
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       169:15   
+ NOTE: There were 31 observations read from the data set SDTMLIB.VS.
+       WHERE (vstestcd='HEIGHT') and (VSBLFL='Y');
+ NOTE: The data set WORK.VS_HEIGHT has 31 observations and 2 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 171        
+ 172        proc sort;
+ 173        by usubjid;
+ 174        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.VS_HEIGHT.
+ NOTE: The data set WORK.VS_HEIGHT has 31 observations and 2 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 175        
+ 176        **----------- Merge all the temp dataset and form the final ADSL dataset----------------**;
+ 177        
+ 178        data adsl_temp;
+ 179        merge adsl_a1 vs_weight vs_height adsl_dm_sup;
+ 180        by usubjid;
+ 181        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.ADSL_A1.
+ NOTE: There were 31 observations read from the data set WORK.VS_WEIGHT.
+ NOTE: There were 31 observations read from the data set WORK.VS_HEIGHT.
+ NOTE: There were 1 observations read from the data set WORK.ADSL_DM_SUP.
+ NOTE: The data set WORK.ADSL_TEMP has 34 observations and 35 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 182        
+ 183        proc print data=adsl_temp;
+ 184        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.ADSL_TEMP.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.60 seconds
+       cpu time            0.60 seconds
+       
+ 
+ 185        
+ 186        
+ 187        
+ 188        **-------------------------------------------------------------------------------**;
+ 189        **          Create Final ADSL dataset with all the key variable                    **;
+ 190        **Use Proc SQL - Create Table statement to create final ADSL dataset **;
+ 191        **-------------------------------------------------------------------------------**;
+ 192        
+ 193        
+ 194        proc sql;
+ 195        
+ 196        create table adsllib.adsl (label='Demographics and Baseline Characteristics') as
+ 197        select  studyid,
+ 198        usubjid,
+ 199        subjid,
+ 200        siteid,
+ 201        brthdtc,
+ 202        age,
+ 203        ageu,
+ 204        sex,
+ 205        race,
+ 206        raceoth,
+ 207        saffl,
+ 208        arm,
+ 209        trt01p,
+ 210        trt01pn,
+ 211        trtseqp,
+ 212        trtsdt,
+ 213        trtstm,
+ 214        trtsdtm,
+ 215        trtedt,
+ 216        trtetm,
+ 217        trtedtm,
+ 218        rficdt,
+ 219        height,
+ 220        weight
+ 221        from adsl_temp
+ 222        ;
+ NOTE: Table ADSLLIB.ADSL created, with 34 rows and 24 columns.
+ 
+ 223        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.04 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 224        
+ 225        proc print;
+ 226        run;
+ 
+ NOTE: There were 34 observations read from the data set ADSLLIB.ADSL.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.34 seconds
+       cpu time            0.33 seconds
+       
+ 
+ 227        
+ 228        
+ 229        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 241        

@@ -1,0 +1,178 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         /**-------------------------------------------------------------------------------------------**
+ 75         ** PROGRAM:    AE.SAS
+ 76         ** CREATED:    November 2019
+ 77         ** PURPOSE:    Create SDTM - AE dataset from Raw input data.
+ 78         ** PROGRAMMER: Deepti Shah
+ 79         ** INPUT:   rawlib.ae
+ 80         ** OUTPUT:   sdtm.ae
+ 81         ** PROTOCOL:   PROD-124
+ 82         **-------------------------------------------------------------------------------------------*/
+ 83         /* ----------- SAS University Edition 9.4 ----------- */
+ 84         
+ 85         
+ 86         
+ 87         data ae_a1;
+ 88         
+ 89          length studyid $8
+ 90                 domain $4
+ 91                     usubjid $20
+ 92                     aeseq $2
+ 93                     aeterm $200
+ 94                     aedecod $100
+ 95                     aebodsys $200
+ 96                     aesev $15
+ 97                     aeser $1
+ 98                     aeacn $100
+ 99                     aeacnoth $100
+ 100                    aerel $27
+ 101                    aestdtc $19
+ 102                    aeendtc $19
+ 103                    aesoc $100
+ 104                    aesoccd $8
+ 105                    aeptcd $5
+ 106        
+ 107        
+ 108                    ;
+ 109        
+ 110        set rawlib.ae;
+ NOTE: Data file RAWLIB.AE.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 111        where ( missing(aeanycd) <> 0 or aeterm <> "" );
+ NOTE: The "<>" operator is interpreted as "not equals".
+ 112        
+ 113            studyid = proto;
+ 114            domain = 'AE';
+ 115            usubjid = strip(proto) || '-' || put(inv_no,z2.) || '-' || put(patid,z3.);
+ 116            aeseq = strip(seq);
+ 117            aeterm = upcase(strip(aeterm));
+ 118        
+ 119            /* ----------- convert and concatenate the date and time fields  ----------- */
+ 120        
+ 121            aestdt_temp =  STRIP(PUT(YEAR(aestdt),4.)) || '-' || STRIP(PUT(MONTH(aestdt),Z2.)) || '-' ||
+ 121      ! STRIP(PUT(DAY(aestdt),Z2.)) ;
+ 122            aesttm_temp = put(aesttm,TOD5.);
+ 123        aestdtc = aestdt_temp || "T" || aesttm_temp;
+ 124        
+ 125            aeendt_temp =  STRIP(PUT(YEAR(aeendt),4.)) || '-' || STRIP(PUT(MONTH(aeendt),Z2.)) || '-' ||
+ 125      ! STRIP(PUT(DAY(aeendt),Z2.)) ;
+ 126            aeentm_temp = put(aeentm,TOD5.);
+ 127        aeendtc = aeendt_temp || "T" || aeentm_temp;
+ 128        
+ 129        aedecod = upcase(aedecod);
+ 130        
+ 131        if aerelcd = 1 then aerel = "UNRELATED";
+ 132        else if aerelcd = 2 then aerel = "POSSIBLY";
+ 133        else if aerelcd = 3 then aerel = "PROBABLY";
+ 134        else if aerelcd = 4 then aerel = "DEFINITELY";
+ 135        else aerel = "";
+ 136        
+ 137        if aesevcd = 1 then aesev = "MILD";
+ 138        else if aesevcd = 2 then aesev = "MOEDERATE";
+ 139        else if aesevcd = 3 then aesev = "SEVERE";
+ 140        else if aesevcd = 4 then aesev = "LIFE-THREATENING";
+ 141        else aesev = "";
+ 142        
+ 143        if aesercd = 4 then aeser = 'Y';
+ 144        else aeser = 'N';
+ 145        
+ 146        if aenoatcd=0 then aeacn = "DOSE NOT CHANGED";
+ 147        else if aetxcd=1 then aeacn = "NOT APPLICABLE";
+ 148        else if aeprencd=2 then aeacn = "DRUG WITHDRAWN";
+ 149        else if aedccd=3 then aeacn = "DRUG WITHDRAWN";
+ 150        else if aesercd=4 then aeacn = "NOT APPLICABLE";
+ 151        else aeacn = "";
+ 152        
+ 153        if aetxcd=1 then aeacnoth = "TREATMENT";
+ 154        else if aedccd=3 then aeacnoth = "DISCONTINUED TRIAL";
+ 155        else if aesercd=4 then aeacnoth = "SAE REPORTED";
+ 156        else aeacnoth = "";
+ 157        
+ 158        
+ 159            aeptcd = aeprefcd;
+ 160            aebodsys = aesoc;
+ 161            aebdsycd = aesoccd;
+ 162        
+ 163        
+ 164        aesoc = strip(aesoc);
+ 165            aesoccd = strip(aesoccd);
+ 166        
+ 167            keep studyid domain usubjid aeseq aeterm aestdtc aeendtc aerel aesoc aesoccd aedecod aeacn aeacnoth aesevcd aesev
+ 167      ! aeser aeptcd aebodsys aebdsycd;
+ 168        
+ 169         
+ 170        run;
+ 
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       116:19   
+ NOTE: There were 14 observations read from the data set RAWLIB.AE.
+       WHERE (MISSING(aeanycd) not = 0) or (aeterm not = ' ');
+ NOTE: The data set WORK.AE_A1 has 14 observations and 19 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 171        
+ 172        
+ 173        
+ 174        
+ 175        
+ 176        
+ 177        
+ 178        **-------------------------------------------------------------------------------**;
+ 179        **          Create Final AE dataset with all the key variable                    **;
+ 180        **Use Proc SQL - Create Table statement to create final AE dataset **;
+ 181        **-------------------------------------------------------------------------------**;
+ 182        
+ 183        proc sql;
+ 184        
+ 185            create table sdtmlib.ae(label = "Adverse Events") as
+ 186        
+ 187        
+ 188                select  studyid,
+ 189            domain,
+ 190            usubjid,
+ 191            aeseq,
+ 192            aeterm,
+ 193            aestdtc,
+ 194            aeendtc,
+ 195            aerel,
+ 196            aesoc,
+ 197            aesoccd,
+ 198            aedecod,
+ 199            aeacn,
+ 200            aeacnoth,
+ 201            aesevcd,
+ 202            aesev,
+ 203            aeser,
+ 204            aeptcd,
+ 205            aebodsys,
+ 206            aebdsycd
+ 207                from ae_a1;
+ NOTE: Table SDTMLIB.AE created, with 14 rows and 19 columns.
+ 
+ 208        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 209        
+ 210        proc print;
+ 211        run;
+ 
+ NOTE: There were 14 observations read from the data set SDTMLIB.AE.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.15 seconds
+       cpu time            0.14 seconds
+       
+ 
+ 212        
+ 213        
+ 214        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 226        

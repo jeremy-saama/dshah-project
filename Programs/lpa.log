@@ -1,0 +1,142 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         
+ 75         /**-------------------------------------------------------------------------------------------**
+ 76         ** PROGRAM:    LPA.SAS
+ 77         ** CREATED:    December 2019
+ 78         ** PURPOSE:    Create Listing 5 - Prod Administration using Exposure Dataset
+ 79         ** PROGRAMMER: Deepti Shah
+ 80         ** INPUT:      adsllib.adex
+ 81         ** OUTPUT:     Listing 5 - Prod Administration (L5)
+ 82         ** PROTOCOL:   PROD-124
+ 83         **-------------------------------------------------------------------------------------------**/
+ 84         /* ----------- SAS University Edition 9.4 ----------- */
+ 85         
+ 86         /*Fetch data from EX dataset*/
+ 87         
+ 88         proc delete data=work._all_;
+ 89         run;
+ 
+ NOTE: Deleting WORK.ADSL (memtype=DATA).
+ NOTE: Deleting WORK.ADSL_S (memtype=DATA).
+ NOTE: Deleting WORK.ADVS (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_1 (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_2 (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_3 (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_4 (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_5 (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_BL (memtype=DATA).
+ NOTE: Deleting WORK.ADVS_S (memtype=DATA).
+ NOTE: Deleting WORK.DM_D1 (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 90         
+ 91         data lst_ex;
+ 92         
+ 93            set adsllib.adex(where=(paramn=1));
+ 94            format adate date9.;
+ 95         
+ 96         **----------- Derive columns needed for Listing display----------------**;
+ 97         
+ 98         col1 = catx("/",usubjid,trt01pn);
+ 99         wt = put(weight,6.1);
+ 100        
+ 101        infper = substr(epoch,18,1);
+ 102        col3 = catx("/",infper,excat);
+ 103        
+ 104        amt=put(aval,4.1);
+ 105        
+ 106        adt_n_c = put(adt,YYMMDD10.);
+ 107        adate = input (adt_n_c, e8601da10.);
+ 108        
+ 109        mgkg = put(amt/wt, 7.1);
+ 110        
+ 111        run;
+ 
+ NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+       109:13   109:17   
+ NOTE: There were 62 observations read from the data set ADSLLIB.ADEX.
+       WHERE paramn=1;
+ NOTE: The data set WORK.LST_EX has 62 observations and 49 variables.
+ NOTE: At least one W.D format was too small for the number to be printed. The decimal may be shifted by the "BEST" format.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 112        
+ 113        proc sort data=lst_ex;
+ 114        by usubjid;
+ 115        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.LST_EX.
+ NOTE: The data set WORK.LST_EX has 62 observations and 49 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 116        
+ 117        /*Create Listing 5 - Prod Administration*/
+ 118        
+ 119        /**----- RTF SETUP -----**/;
+ 120        options nodate nonumber orientation=landscape missing=' ';
+ 121        ods listing close ;
+ 122        ods escapechar='^' ;
+ 123        ods rtf style=TStyleRTF file="&outpath.EX_L5.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/EX_L5.rtf
+ 124        
+ 125        /**----- TITLES/FOOTNOTES -----**/;
+ 126        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 127        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 128        title3 j=center "Listing 5" ;
+ 129        title4 j=center "PROD Administration" ;
+ 130        footnote1 h=10pt j=left   "^{super a}Cohort 1 Sequence: Bag in Infusion 1 / Bottle in Infusion 2, Cohort 2 Sequence:
+ 130      ! Bottle in Infusion 1 / Bag in Infusion 2.";
+ 131        footnote2 j=left "&llastfoot adsllib.adex" j=right "&llastfoot lpa.sas";
+ 132        
+ 133        
+ 134        
+ 135        /**----- REPORT DEFINITION -----**/;
+ 136        proc report data=lst_ex missing nowindows center split='|' style(report)={cellpadding=.1in} style=[outputwidth=9.0in];
+ 137        
+ 138           column col1 wt col3 ("^S={borderbottomcolor=black borderbottomwidth=2} Amount Administered"(amt mgkg)) adate asttm
+ 138      ! aentm;
+ 139        
+ 140           define col1 /display order order=data "Subject/|Cohort^{super a}" center ;
+ 141           define wt /display order order=data "Weight|(kg)" CENTER ;
+ 142           define col3 /display "Infusion Period/|Consfiguration" center;
+ 143           define amt /display "(mg)" center;
+ 144           define mgkg /display "(mg/kg)" center;
+ 145           define adate /display "Date" center;
+ 146           define asttm /display "Start Time" center;
+ 147           define aentm /display "Stop Time" center;
+ 148        
+ 149           compute after col1;
+ 150           line " ";
+ 151           endcomp;
+ 152        
+ 153        run;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.23 seconds
+       cpu time            0.21 seconds
+       
+ NOTE: There were 62 observations read from the data set WORK.LST_EX.
+ 
+ 154        
+ 155        **----- CLOSE RTF AND RESET TITLES/FOOTNOTES -----**;
+ 156        ods rtf close ;
+ 157        ods listing ;
+ 158        
+ 159        options date number ;
+ 160        title ;
+ 161        footnote ;
+ 162        
+ 163        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 175        

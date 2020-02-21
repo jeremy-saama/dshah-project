@@ -1,0 +1,870 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         
+ 75         
+ 76         /**-------------------------------------------------------------------------------------------**
+ 77         ** PROGRAM:    TEX.SAS
+ 78         ** CREATED:    December 2019
+ 79         ** PURPOSE:    Create Exposure Table - 6
+ 80         ** PROGRAMMER: Deepti Shah
+ 81         ** INPUT:      adsllib.adsl
+ 82         ** OUTPUT:     Table 6 (EX_T6.rtf)
+ 83         ** PROTOCOL:   PROD-124
+ 84         **-------------------------------------------------------------------------------------------**/
+ 85         
+ 86         
+ 87         
+ 88         proc delete data=work._all_;
+ 89         run;
+ 
+ NOTE: Deleting WORK.BAGCONFIG (memtype=DATA).
+ NOTE: Deleting WORK.BAGCONFIG_S (memtype=DATA).
+ NOTE: Deleting WORK.BTLCONFIG (memtype=DATA).
+ NOTE: Deleting WORK.BTLCONFIG_S (memtype=DATA).
+ NOTE: Deleting WORK.DUMMY (memtype=DATA).
+ NOTE: Deleting WORK.EX (memtype=DATA).
+ NOTE: Deleting WORK.EX_S (memtype=DATA).
+ NOTE: Deleting WORK.IP_BAG (memtype=DATA).
+ NOTE: Deleting WORK.IP_BTL (memtype=DATA).
+ NOTE: Deleting WORK.MG_BAG (memtype=DATA).
+ NOTE: Deleting WORK.MG_BAG_T (memtype=DATA).
+ NOTE: Deleting WORK.MG_BTL (memtype=DATA).
+ NOTE: Deleting WORK.MG_BTL_T (memtype=DATA).
+ NOTE: Deleting WORK.MG_TOTAL (memtype=DATA).
+ NOTE: Deleting WORK.MG_TOTAL_T (memtype=DATA).
+ NOTE: Deleting WORK.TDM (memtype=DATA).
+ NOTE: Deleting WORK.TDM_1 (memtype=DATA).
+ NOTE: Deleting WORK.TDM_S (memtype=DATA).
+ NOTE: Deleting WORK.TEX (memtype=DATA).
+ NOTE: Deleting WORK.TEX1 (memtype=DATA).
+ NOTE: Deleting WORK.TEX2 (memtype=DATA).
+ NOTE: Deleting WORK.TEX_FIN (memtype=DATA).
+ NOTE: Deleting WORK.TEX_FINAL1 (memtype=DATA).
+ NOTE: Deleting WORK.TEX_HEADER (memtype=DATA).
+ NOTE: Deleting WORK.TOTAL_MODE (memtype=DATA).
+ NOTE: Deleting WORK.TOTPATS (memtype=DATA).
+ NOTE: Deleting WORK.WTEX (memtype=DATA).
+ NOTE: Deleting WORK.WTEX_S (memtype=DATA).
+ NOTE: Deleting WORK.WTEX_S1 (memtype=DATA).
+ NOTE: Deleting WORK.WTEX_S2 (memtype=DATA).
+ NOTE: Deleting WORK.WT_BAG (memtype=DATA).
+ NOTE: Deleting WORK.WT_BAG_T (memtype=DATA).
+ NOTE: Deleting WORK.WT_BTL (memtype=DATA).
+ NOTE: Deleting WORK.WT_BTL_T (memtype=DATA).
+ NOTE: Deleting WORK.WT_TOTAL (memtype=DATA).
+ NOTE: Deleting WORK.WT_TOTAL_T (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 90         
+ 91         **-------------------------------------------------------------------------------**;
+ 92         **          Calculate Safety population count from adsl                   **;
+ 93         **-------------------------------------------------------------------------------**;
+ 94         
+ 95         data tdm;
+ 96         set adsllib.adsl(where=(saffl="Y"));
+ 97         run;
+ 
+ NOTE: There were 31 observations read from the data set ADSLLIB.ADSL.
+       WHERE saffl='Y';
+ NOTE: The data set WORK.TDM has 31 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 98         data tdm_1;
+ 99         set tdm;
+ 100        output;
+ 101        trt01pn=3;
+ 102        trt01p="Total";
+ 103        output;
+ 104        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.TDM.
+ NOTE: The data set WORK.TDM_1 has 62 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 105        proc sort data=tdm_1 out=tdm_s;
+ 106        by trt01pn trt01p;
+ 107        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.TDM_1.
+ NOTE: The data set WORK.TDM_S has 62 observations and 24 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 108        
+ 109        /**----------- calculate the pop count ----------------**/;
+ 110        
+ 111        proc freq data=tdm_s noprint;
+ 112        tables trt01pn/list nocum nopercent out=TotPats;
+ 113        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.TOTPATS has 3 observations and 3 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 114        
+ 115        /**----------- Assign Totals into Macro Varibles----------------**/;
+ 116        
+ 117        data _null_;
+ 118        set TotPats;
+ 119        call symputx("cohortTot"||compress(put(trt01pn,1.)),put(count,2.));
+ 120        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.TOTPATS.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 121        
+ 122        **-------------------------------------------------------------------------------**;
+ 123        **         Bring in EXPOSURE analysis data                    **;
+ 124        **-------------------------------------------------------------------------------**;
+ 125        
+ 126        data ex;
+ 127        set adsllib.adex;
+ 128        run;
+ 
+ NOTE: There were 124 observations read from the data set ADSLLIB.ADEX.
+ NOTE: The data set WORK.EX has 124 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 129        
+ 130        **-------------------------------------------------------------------------------**;
+ 131        **  Derive Totals  for Bag and Bottle         **;
+ 132        **-------------------------------------------------------------------------------**;
+ 133        
+ 134        proc freq data=ex noprint;
+ 135        tables excat/list nocum nopercent out=total_mode(drop=percent);
+ 136        run;
+ 
+ NOTE: There were 124 observations read from the data set WORK.EX.
+ NOTE: The data set WORK.TOTAL_MODE has 2 observations and 2 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 137        
+ 138        /**----------- Assign totals in macro variables ----------------**/;
+ 139        
+ 140        data _null_;
+ 141        set total_mode;
+ 142        call symputx(compress(excat)||"N",put(count,2.));
+ 143        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.TOTAL_MODE.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 144        
+ 145        /**----------- Check Mode Totals ----------------**/;
+ 146        
+ 147        **-------------------------------------------------------------------------------**;
+ 148        **       Segregate weight-based amount administered to a new dataset      **;
+ 149        **-------------------------------------------------------------------------------**;
+ 150        
+ 151        data wtex;
+ 152        set ex(where=(paramcd="DOSEWT"));
+ 153        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EX.
+       WHERE paramcd='DOSEWT';
+ NOTE: The data set WORK.WTEX has 62 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 154        
+ 155        
+ 156        **-------------------------------------------------------------------------------**;
+ 157        ** Derive Total Statistics for Bag and Bottle                             **;
+ 158        **-------------------------------------------------------------------------------**;
+ 159        proc sort data=ex out=ex_s;
+ 160        by excat;
+ 161        run;
+ 
+ NOTE: There were 124 observations read from the data set WORK.EX.
+ NOTE: The data set WORK.EX_S has 124 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 162        
+ 163        /**----------- Stat for Bag and Bottle based for mg----------------**/;
+ 164        
+ 165        proc means data=ex_s noprint;
+ 166        var exdose;
+ 167        by excat;
+ 168        output out=mg_total(drop=_type_ _freq_) n=N mean=Mean Std=SD median=Median min=Min max=Max;
+ 169        run;
+ 
+ NOTE: There were 124 observations read from the data set WORK.EX_S.
+ NOTE: The data set WORK.MG_TOTAL has 2 observations and 7 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 170        
+ 171        data mg_total;
+ 172        set mg_total;
+ 173        format range $40.;
+ 174        RANGE = "(" || put(min, best3.0) || "," || put(max, best3.0) || ")";
+ 175        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.MG_TOTAL.
+ NOTE: The data set WORK.MG_TOTAL has 2 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 176        
+ 177        /**----------- Transpose ----------------**/;
+ 178        
+ 179        proc transpose data=mg_total
+ 180           out=mg_total_t;
+ 181           var n mean sd median range;
+ 182           id excat;
+ 183        run;
+ 
+ NOTE: Numeric variables in the input data set will be converted to character in the output data set.
+ NOTE: There were 2 observations read from the data set WORK.MG_TOTAL.
+ NOTE: The data set WORK.MG_TOTAL_T has 5 observations and 3 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 184        
+ 185        data mg_total_t;
+ 186        set mg_total_t;
+ 187        printord=1;
+ 188        sortord=1;
+ 189        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.MG_TOTAL_T.
+ NOTE: The data set WORK.MG_TOTAL_T has 5 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 190        
+ 191        /**----------- Stat for Bag and Bottle based for mg/kg----------------**/;
+ 192        
+ 193        proc sort data=wtex out=wtex_s;
+ 194        by excat;
+ 195        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.WTEX.
+ NOTE: The data set WORK.WTEX_S has 62 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 196        
+ 197        proc means data=wtex_s noprint;
+ 198        var aval;
+ 199        by excat;
+ 200        output out=wt_total(drop=_type_ _freq_) n=N mean=Mean Std=SD median=Median min=Min max=Max;
+ 201        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.WTEX_S.
+ NOTE: The data set WORK.WT_TOTAL has 2 observations and 7 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 202        
+ 203        data wt_total;
+ 204        set wt_total;
+ 205        format range $40.;
+ 206        RANGE = "(" || put(min, best2.0) || "," || put(max, best2.0) || ")";
+ 207        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.WT_TOTAL.
+ NOTE: The data set WORK.WT_TOTAL has 2 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 208        
+ 209        /**----------- Transpose ----------------**/;
+ 210        
+ 211        proc transpose data=wt_total
+ 212           out=wt_total_t;
+ 213           var n mean sd median range;
+ 214           id excat;
+ 215        run;
+ 
+ NOTE: Numeric variables in the input data set will be converted to character in the output data set.
+ NOTE: There were 2 observations read from the data set WORK.WT_TOTAL.
+ NOTE: The data set WORK.WT_TOTAL_T has 5 observations and 4 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 216        
+ 217        data wt_total_t;
+ 218        set wt_total_t;
+ 219        printord=2;
+ 220        sortord=1;
+ 221        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.WT_TOTAL_T.
+ NOTE: The data set WORK.WT_TOTAL_T has 5 observations and 6 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 222        
+ 223        **-------------------------------------------------------------------------------**;
+ 224        ** Derive Bag Config Statistics by Infusion Period 1 & 2                   **;
+ 225        **-------------------------------------------------------------------------------**;
+ 226        data bagconfig;
+ 227        set ex(where=(EXCAT="BAG"));
+ 228        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EX.
+       WHERE EXCAT='BAG';
+ NOTE: The data set WORK.BAGCONFIG has 62 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 229        
+ 230        /**----------- Assign totals in macro variables ----------------**/;
+ 231        
+ 232        proc freq data=bagconfig noprint;
+ 233        tables epoch/list nocum nopercent out=IP_Bag(drop=percent);
+ 234        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.BAGCONFIG.
+ NOTE: The data set WORK.IP_BAG has 2 observations and 2 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 235        
+ 236        data _null_;
+ 237        set IP_Bag;
+ 238        call symputx("BagIP"||substr(epoch,18),put(count,2.));
+ 239        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.IP_BAG.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 240        
+ 241        /**----------- Check Totals ----------------**/;
+ 242        
+ 243        
+ 244        **----------- Stat for Infusion Period 1 & 2 based for mg----------------**;
+ 245        
+ 246        proc sort data=bagconfig out=bagconfig_s;
+ 247        by epoch;
+ 248        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.BAGCONFIG.
+ NOTE: The data set WORK.BAGCONFIG_S has 62 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 249        
+ 250        proc means data=bagconfig_s  noprint;
+ 251        var exdose;
+ 252        by epoch;
+ 253        output out=mg_bag(drop=_type_ _freq_) n=N mean=Mean Std=SD median=Median min=Min max=Max;
+ 254        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.BAGCONFIG_S.
+ NOTE: The data set WORK.MG_BAG has 2 observations and 7 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 255        
+ 256        data mg_bag;
+ 257        set mg_bag;
+ 258        format range $40.;
+ 259        RANGE = "(" || put(min, best2.0) || "," || put(max, best2.0) || ")";
+ 260        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.MG_BAG.
+ NOTE: The data set WORK.MG_BAG has 2 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 261        
+ 262        
+ 263        /**----------- Transpose ----------------**/;
+ 264        
+ 265        proc transpose data=mg_bag
+ 266           out=mg_bag_t;
+ 267           var n mean sd median range;
+ 268           id epoch;
+ 269        run;
+ 
+ NOTE: Numeric variables in the input data set will be converted to character in the output data set.
+ NOTE: There were 2 observations read from the data set WORK.MG_BAG.
+ NOTE: The data set WORK.MG_BAG_T has 5 observations and 3 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 270        
+ 271        /**----------- Stat for Infusion Period 1 & 2 for mg/kg----------------**/;
+ 272        
+ 273        proc sort data=wtex out=wtex_s1;
+ 274        by epoch;
+ 275        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.WTEX.
+ NOTE: The data set WORK.WTEX_S1 has 62 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 276        
+ 277        proc means data=wtex_s1 noprint;
+ 278        var aval;
+ 279        by epoch;
+ 280        output out=wt_bag(drop=_type_ _freq_) n=N mean=Mean Std=SD median=Median min=Min max=Max;
+ 281        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.WTEX_S1.
+ NOTE: The data set WORK.WT_BAG has 2 observations and 7 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 282        
+ 283        data wt_bag;
+ 284        set wt_bag;
+ 285        format range $40.;
+ 286        RANGE = "(" || put(min, best2.0) || "," || put(max, best2.0) || ")";
+ 287        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.WT_BAG.
+ NOTE: The data set WORK.WT_BAG has 2 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 288        
+ 289        /**----------- Transpose ----------------**/;
+ 290        
+ 291        proc transpose data=wt_bag
+ 292           out=wt_bag_t;
+ 293           var n mean sd median range;
+ 294           id epoch;
+ 295        run;
+ 
+ NOTE: Numeric variables in the input data set will be converted to character in the output data set.
+ NOTE: There were 2 observations read from the data set WORK.WT_BAG.
+ NOTE: The data set WORK.WT_BAG_T has 5 observations and 4 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 296        
+ 297        **-------------------------------------------------------------------------------**;
+ 298        ** Derive Bottle Config Statistics by Infusion Period 1 & 2                   **;
+ 299        **-------------------------------------------------------------------------------**;
+ 300        data btlconfig;
+ 301        set ex(where=(EXCAT="BOTTLE"));
+ 302        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EX.
+       WHERE EXCAT='BOTTLE';
+ NOTE: The data set WORK.BTLCONFIG has 62 observations and 41 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 303        
+ 304        /**----------- Assign totals in macro variables ----------------**/;
+ 305        
+ 306        proc freq data=btlconfig noprint;
+ 307        tables epoch/list nocum nopercent out=IP_Btl(drop=percent);
+ 308        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.BTLCONFIG.
+ NOTE: The data set WORK.IP_BTL has 2 observations and 2 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 309        
+ 310        data _null_;
+ 311        set IP_Btl;
+ 312        call symputx("BtlIP"||substr(epoch,18),put(count,2.));
+ 313        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.IP_BTL.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 314        
+ 315        /**----------- Check Totals ----------------**/;
+ 316        
+ 317        %put &=btlip1;
+ BTLIP1=32
+ 318        %put &=btlip2;
+ BTLIP2=30
+ 319        
+ 320        /**----------- Stat for Infusion Period 1 & 2 based for mg----------------**/;
+ 321        
+ 322        proc sort data=btlconfig out=btlconfig_s;
+ 323        by epoch;
+ 324        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.BTLCONFIG.
+ NOTE: The data set WORK.BTLCONFIG_S has 62 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 325        
+ 326        proc means data=btlconfig_s  noprint;
+ 327        var exdose;
+ 328        by epoch;
+ 329        output out=mg_btl(drop=_type_ _freq_) n=N mean=Mean Std=SD median=Median min=Min max=Max;
+ 330        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.BTLCONFIG_S.
+ NOTE: The data set WORK.MG_BTL has 2 observations and 7 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 331        
+ 332        data mg_btl;
+ 333        set mg_btl;
+ 334        format range $40.;
+ 335        RANGE = "(" || put(min, best3.0) || "," || put(max, best3.0) || ")";
+ 336        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.MG_BTL.
+ NOTE: The data set WORK.MG_BTL has 2 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 337        
+ 338        /**----------- Transpose ----------------**/;
+ 339        
+ 340        proc transpose data=mg_btl
+ 341           out=mg_btl_t;
+ 342           var n mean sd median range;
+ 343           id epoch;
+ 344        run;
+ 
+ NOTE: Numeric variables in the input data set will be converted to character in the output data set.
+ NOTE: There were 2 observations read from the data set WORK.MG_BTL.
+ NOTE: The data set WORK.MG_BTL_T has 5 observations and 3 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 345        
+ 346        /**----------- Stat for Infusion Period 1 & 2 for mg/kg----------------**/;
+ 347        
+ 348        proc sort data=wtex out=wtex_s2;
+ 349        by epoch;
+ 350        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.WTEX.
+ NOTE: The data set WORK.WTEX_S2 has 62 observations and 41 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 351        
+ 352        proc means data=wtex_s2 noprint;
+ 353        var aval;
+ 354        by epoch;
+ 355        output out=wt_btl(drop=_type_ _freq_) n=N mean=Mean Std=SD median=Median min=Min max=Max;
+ 356        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.WTEX_S2.
+ NOTE: The data set WORK.WT_BTL has 2 observations and 7 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 357        
+ 358        data wt_btl;
+ 359        set wt_btl;
+ 360        format range $40.;
+ 361        RANGE = "(" || put(min, best3.0) || "," || put(max, best3.0) || ")";
+ 362        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.WT_BTL.
+ NOTE: The data set WORK.WT_BTL has 2 observations and 8 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 363        
+ 364        /**----------- Transpose ----------------**/;
+ 365        
+ 366        proc transpose data=wt_btl
+ 367           out=wt_btl_t;
+ 368           var n mean sd median range;
+ 369           id epoch;
+ 370        run;
+ 
+ NOTE: Numeric variables in the input data set will be converted to character in the output data set.
+ NOTE: There were 2 observations read from the data set WORK.WT_BTL.
+ NOTE: The data set WORK.WT_BTL_T has 5 observations and 4 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 371        
+ 372        **-------------------------------------------------------------------------------**;
+ 373        **         Combine Statistics for Amount and Weight administration               **;
+ 374        **-------------------------------------------------------------------------------**;
+ 375        
+ 376        /**----------- append Total stat ----------------**/;
+ 377        
+ 378        data tex;
+ 379        set mg_total_t wt_total_t;
+ 380        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.MG_TOTAL_T.
+ NOTE: There were 5 observations read from the data set WORK.WT_TOTAL_T.
+ NOTE: The data set WORK.TEX has 10 observations and 6 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 381        
+ 382        /**----------- append Bag config ----------------**/;
+ 383        data tex1;
+ 384        set mg_bag_t wt_bag_t;
+ 385        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.MG_BAG_T.
+ NOTE: There were 5 observations read from the data set WORK.WT_BAG_T.
+ NOTE: The data set WORK.TEX1 has 10 observations and 4 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 386        
+ 387        /**----------- append bottle config ----------------**/;
+ 388        data tex2;
+ 389        set mg_btl_t wt_btl_t;
+ 390        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.MG_BTL_T.
+ NOTE: There were 5 observations read from the data set WORK.WT_BTL_T.
+ NOTE: The data set WORK.TEX2 has 10 observations and 4 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 391        
+ 392        **-------------------------------------------------------------------------------**;
+ 393        **          Merge all statistics                   **;
+ 394        **-------------------------------------------------------------------------------**;
+ 395        
+ 396        data tex_fin;
+ 397        set tex;
+ 398        set tex1;
+ 399        set tex2(rename=(infusion_period__1 = BtlIP1 infusion_period__2 = BtlIP2));
+ 400        run;
+ 
+ NOTE: There were 10 observations read from the data set WORK.TEX.
+ NOTE: There were 10 observations read from the data set WORK.TEX1.
+ NOTE: There were 10 observations read from the data set WORK.TEX2.
+ NOTE: The data set WORK.TEX_FIN has 10 observations and 10 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 401        
+ 402        /**----------- Set Parent Header----------------**/;
+ 403        
+ 404        data dummy;
+ 405        printord=1; sortord=0; printname="Amount Administered (mg)    "; output;
+ 406        printord=2; sortord=0; printname="Weight-based Amount Administered (mg/kg)      "; output;
+ 407        run;
+ 
+ NOTE: The data set WORK.DUMMY has 2 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 408        
+ 409        data tex_header;
+ 410        set tex_fin dummy;
+ 411        run;
+ 
+ NOTE: There were 10 observations read from the data set WORK.TEX_FIN.
+ NOTE: There were 2 observations read from the data set WORK.DUMMY.
+ NOTE: The data set WORK.TEX_HEADER has 12 observations and 11 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 412        
+ 413        proc sort data=tex_header;
+ 414        by printord sortord;
+ 415        run;
+ 
+ NOTE: There were 12 observations read from the data set WORK.TEX_HEADER.
+ NOTE: The data set WORK.TEX_HEADER has 12 observations and 11 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 416        
+ 417        /**----------- Set Indents for SubCategory----------------**/;
+ 418        
+ 419        data tex_final1;
+ 420        set tex_header;
+ 421        
+ 422        by printord sortord;
+ 423        length newname $130;
+ 424        
+ 425        if first.printord then newname= printname;
+ 426        else newname =  "^R'\li220\ '" || propcase(_name_);
+ 427        run;
+ 
+ NOTE: There were 12 observations read from the data set WORK.TEX_HEADER.
+ NOTE: The data set WORK.TEX_FINAL1 has 12 observations and 12 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 428        
+ 429        **-------------------------------------------------------------------------------**;
+ 430        **         RTF SETUP                                **;
+ 431        **-------------------------------------------------------------------------------**;
+ 432        
+ 433        /**----- RTF SETUP -----**/;
+ 434        
+ 435        options nodate nonumber orientation=landscape;
+ 436        ods listing close ;
+ 437        ods escapechar='^' ;
+ 438        ods rtf style=TStyleRTF file="&outpath.EX_T6.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/EX_T6.rtf
+ 439        
+ 440        /**----- TITLES/FOOTNOTES -----**/;
+ 441        
+ 442        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 443        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 444        title3 j=center "Table 6" ;
+ 445        title4 j=center "Exposure to PROD" ;
+ 446        title5 j=left "Study Population: Safety (N=&cohortTot3)" ;
+ 447        footnote1 j=left "&llastfoot adsllib.adex" j=right "&rlastfoot tex.sas";
+ 448        
+ 449        **-------------------------------------------------------------------------------**;
+ 450        **       BEGIN THE REPORT                                                        **;
+ 451        **-------------------------------------------------------------------------------**;
+ 452        
+ 453        /**----------- REPORT DEFINITION----------------**/;
+ 454        
+ 455        proc report data=tex_final1  missing center split='|' style(report)=[outputwidth=9.0in];
+ 456        
+ 457        column printord sortord newname ("^S={borderbottomcolor=black borderbottomwidth=2} Total"(Bag Bottle))
+ 458        ("^S={borderbottomcolor=black borderbottomwidth=2} Bag Configuration"(infusion_period__1 infusion_period__2))
+ 459        ("^S={borderbottomcolor=black borderbottomwidth=2} Bottle Configuration"(btlip1 btlip2));
+ 460        
+ 461        define newname/display "Parameter" style(header)=[just=left] ;
+ 462        define Bag/display "Bag| (N=&bagn)" style(column)=[just=center];
+ 463        define Bottle/display "Bottle | (N=&bottlen)" style(column)=[just=center];
+ 464        define infusion_period__1/display "Infusion|Period 1 | (N=&bagip1)" style(column)=[just=center];
+ 465        define infusion_period__2/display "Infusion|Period 2 | (N=&bagip2)" style(column)=[just=center];
+ 466        define btlip1/display "Infusion|Period 1 | (N=&btlip1)" style(column)=[just=center];
+ 467        define btlip2/display "Infusion|Period 2 | (N=&btlip2)" style(column)=[just=center];
+ 468        
+ 469        define printord/order noprint;
+ 470        define sortord/order noprint;
+ 471        
+ 472        compute after printord;
+ 473          line ' ';
+ 474        endcomp;
+ 475        run ;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.19 seconds
+       cpu time            0.17 seconds
+       
+ NOTE: There were 12 observations read from the data set WORK.TEX_FINAL1.
+ 
+ 476        
+ 477        ods rtf close ;
+ 478        ods listing ;
+ 479        title;
+ 480        footnote;
+ 481        
+ 482        
+ 483        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 495        

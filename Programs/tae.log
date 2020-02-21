@@ -1,0 +1,669 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         
+ 75         /**-------------------------------------------------------------------------------------------**
+ 76         ** PROGRAM:    TAE.SAS
+ 77         ** CREATED:    December 2019
+ 78         ** PURPOSE:    Create AE Table 7.2.1
+ 79         ** PROGRAMMER: Deepti Shah
+ 80         ** INPUT:   adsllib.adae
+ 81         ** OUTPUT:   Table 7.2.1 (AE_T721.rtf)
+ 82         ** PROTOCOL:   PROD-124
+ 83         **-------------------------------------------------------------------------------------------*/
+ 84         
+ 85         
+ 86         
+ 87         **-------------------------------------------------------------------------------**;
+ 88         **             BRING ADSL adae dataset                        **;
+ 89         **-------------------------------------------------------------------------------**;
+ 90         
+ 91         proc delete data=work._all_;
+ 92         run;
+ 
+ NOTE: Deleting WORK.AE (memtype=DATA).
+ NOTE: Deleting WORK.BS (memtype=DATA).
+ NOTE: Deleting WORK.BS_S (memtype=DATA).
+ NOTE: Deleting WORK.BS_STAT (memtype=DATA).
+ NOTE: Deleting WORK.BS_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.CH_STAT (memtype=DATA).
+ NOTE: Deleting WORK.CH_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.COHORT1 (memtype=DATA).
+ NOTE: Deleting WORK.COHORT1_S (memtype=DATA).
+ NOTE: Deleting WORK.COHORT1_STAT (memtype=DATA).
+ NOTE: Deleting WORK.COHORT1_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.COHORT2 (memtype=DATA).
+ NOTE: Deleting WORK.COHORT2_S (memtype=DATA).
+ NOTE: Deleting WORK.COHORT2_STAT (memtype=DATA).
+ NOTE: Deleting WORK.COHORT2_STAT1 (memtype=DATA).
+ NOTE: Deleting WORK.DM (memtype=DATA).
+ NOTE: Deleting WORK.SAE (memtype=DATA).
+ NOTE: Deleting WORK.SAE1 (memtype=DATA).
+ NOTE: Deleting WORK.SAE1_S (memtype=DATA).
+ NOTE: Deleting WORK.SAE1_S1 (memtype=DATA).
+ NOTE: Deleting WORK.SUB_AE (memtype=DATA).
+ NOTE: Deleting WORK.SUB_AE1 (memtype=DATA).
+ NOTE: Deleting WORK.SUB_AET (memtype=DATA).
+ NOTE: Deleting WORK.TAE_FINAL (memtype=DATA).
+ NOTE: Deleting WORK.TAE_FINAL_1 (memtype=DATA).
+ NOTE: Deleting WORK.TAE_FINAL_TEMP (memtype=DATA).
+ NOTE: Deleting WORK.TDM_1 (memtype=DATA).
+ NOTE: Deleting WORK.TDM_S (memtype=DATA).
+ NOTE: Deleting WORK.TOTPATS (memtype=DATA).
+ NOTE: PROCEDURE DELETE used (Total process time):
+       real time           0.05 seconds
+       cpu time            0.06 seconds
+       
+ 
+ 93         
+ 94         data ae;
+ 95         set adsllib.adae;
+ 96         run;
+ 
+ NOTE: There were 14 observations read from the data set ADSLLIB.ADAE.
+ NOTE: The data set WORK.AE has 14 observations and 42 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 97         
+ 98         /*Include AE reported after start of PROD administration */
+ 99         
+ 100        data sae(keep=usubjid aeseq trt01p trt01pn trtsdtm astdtm aeterm aebodsys aedecod );
+ 101        set ae(where=(saffl="Y" and astdtm>trtsdtm));
+ 102        run;
+ 
+ NOTE: There were 7 observations read from the data set WORK.AE.
+       WHERE (saffl='Y') and (astdtm>trtsdtm);
+ NOTE: The data set WORK.SAE has 7 observations and 9 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 103        
+ 104        proc sort data=sae nodupkey out=sae1;
+ 105        by usubjid;
+ 106        run;
+ 
+ NOTE: There were 7 observations read from the data set WORK.SAE.
+ NOTE: 2 observations with duplicate key values were deleted.
+ NOTE: The data set WORK.SAE1 has 5 observations and 9 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 107        
+ 108        **-------------------------------------------------------------------------------**;
+ 109        **          Derive Big N for Safety Population from adsllib.adsl                      **;
+ 110        **-------------------------------------------------------------------------------**;
+ 111        
+ 112        data dm;
+ 113        set adsllib.adsl;
+ 114        run;
+ 
+ NOTE: There were 34 observations read from the data set ADSLLIB.ADSL.
+ NOTE: The data set WORK.DM has 34 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 115        
+ 116        data tdm_1;
+ 117        set dm(where=(saffl="Y"));
+ 118        output;
+ 119        trt01pn=3;
+ 120        trt01p="Total";
+ 121        output;
+ 122        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.DM.
+       WHERE saffl='Y';
+ NOTE: The data set WORK.TDM_1 has 62 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 123        proc sort data=tdm_1 out=tdm_s;
+ 124        by trt01pn trt01p;
+ 125        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.TDM_1.
+ NOTE: The data set WORK.TDM_S has 62 observations and 24 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 126        
+ 127        proc freq data=tdm_s noprint;
+ 128        tables trt01pn/list nocum nopercent out=TotPats;
+ 129        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.TDM_S.
+ NOTE: The data set WORK.TOTPATS has 3 observations and 3 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 130        
+ 131        /**----------- Assign Totals into Macro Varibles----------------**/;
+ 132        
+ 133        data _null_;
+ 134        set TotPats;
+ 135        call symput("cohortTot"||compress(put(trt01pn,1.)),put(count,2.));
+ 136        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.TOTPATS.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 137        
+ 138        
+ 139        **-------------------------------------------------------------------------------**;
+ 140        **   Derive Statistics for Cohort 1                                  **;
+ 141        **-------------------------------------------------------------------------------**;
+ 142        
+ 143        /**----------- Cohort 1 Stat ----------------**/;
+ 144        data cohort1;
+ 145        set sae1(where=(trt01pn=1));
+ 146        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.SAE1.
+       WHERE trt01pn=1;
+ NOTE: The data set WORK.COHORT1 has 2 observations and 9 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 147        
+ 148        proc sort data=cohort1 out=cohort1_s;
+ 149        by aebodsys aedecod;
+ 150        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.COHORT1.
+ NOTE: The data set WORK.COHORT1_S has 2 observations and 9 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 151        proc means data=cohort1_s n noprint;
+ 152        var trt01pn;
+ 153        by aebodsys aedecod;
+ 154        output out=cohort1_stat(drop=_type_ _freq_) n= /autoname;
+ 155        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.COHORT1_S.
+ NOTE: The data set WORK.COHORT1_STAT has 2 observations and 3 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 156        
+ 157        /**----------- rename for table output and derive display values ----------------**/;
+ 158        data cohort1_stat1;
+ 159        set cohort1_stat(rename=(trt01pn_n=Cohort1));
+ 160        
+ 161        cohort1pct = Cohort1/&cohortTot1*100;
+ 162        n1pct = strip(put(Cohort1,best12.)) || " ("|| strip(put(cohort1pct,best4.1)) || ")";
+ 163        
+ 164        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.COHORT1_STAT.
+ NOTE: The data set WORK.COHORT1_STAT1 has 2 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 165        
+ 166        
+ 167        /**----------- Cohort 2 Stat ----------------**/;
+ 168        data cohort2;
+ 169        set sae1(where=(trt01pn=2));
+ 170        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.SAE1.
+       WHERE trt01pn=2;
+ NOTE: The data set WORK.COHORT2 has 3 observations and 9 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 171        
+ 172        proc sort data=cohort2 out=cohort2_s;
+ 173        by aebodsys aedecod;
+ 174        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.COHORT2.
+ NOTE: The data set WORK.COHORT2_S has 3 observations and 9 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 175        proc means data=cohort2_s n noprint;
+ 176        var trt01pn;
+ 177        by aebodsys aedecod;
+ 178        output out=cohort2_stat(drop=_type_ _freq_) n= /autoname;
+ 179        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.COHORT2_S.
+ NOTE: The data set WORK.COHORT2_STAT has 2 observations and 3 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 180        
+ 181        /**----------- rename for table output and derive display values ----------------**/;
+ 182        data cohort2_stat1;
+ 183        set cohort2_stat(rename=(trt01pn_n=Cohort2));
+ 184        
+ 185        cohort2pct = Cohort2/&cohortTot2*100;
+ 186        n2pct = strip(put(Cohort2,best12.)) || " ("|| strip(put(cohort2pct,best4.1)) || ")";
+ 187        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.COHORT2_STAT.
+ NOTE: The data set WORK.COHORT2_STAT1 has 2 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 188        
+ 189        /**----------- All Subjects Stat ----------------**/;
+ 190        
+ 191        proc sort data=sae1 out=sae1_s;
+ 192        by aebodsys aedecod;
+ 193        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.SAE1.
+ NOTE: The data set WORK.SAE1_S has 5 observations and 9 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 194        
+ 195        proc means data=sae1_s n noprint;
+ 196        var trt01pn;
+ 197        by aebodsys aedecod;
+ 198        output out=ch_stat(drop=_type_ _freq_) n= /autoname;
+ 199        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.SAE1_S.
+ NOTE: The data set WORK.CH_STAT has 4 observations and 3 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 200        
+ 201        /**----------- rename for table output and derive display values ----------------**/;
+ 202        data ch_stat1;
+ 203        set ch_stat(rename=(trt01pn_n=TotSub));
+ 204        
+ 205        chpct = TotSub/&cohortTot2*100;
+ 206        npct = strip(put(TotSub,best12.)) || " ("|| strip(put(chpct,best4.1)) || ")";
+ 207        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.CH_STAT.
+ NOTE: The data set WORK.CH_STAT1 has 4 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 208        
+ 209        /**----------- Subjects with AE ----------------**/;
+ 210        
+ 211        data sae1_s1;
+ 212        set sae1_s;
+ 213        output;
+ 214        trt01p = "Cohort 3";
+ 215        trt01pn = 3;
+ 216        output;
+ 217        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.SAE1_S.
+ NOTE: The data set WORK.SAE1_S1 has 10 observations and 9 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 218        
+ 219        proc freq data=sae1_s1 noprint;
+ 220        tables trt01pn/list nocum nopercent out= sub_ae;
+ 221        
+ 222        run;
+ 
+ NOTE: There were 10 observations read from the data set WORK.SAE1_S1.
+ NOTE: The data set WORK.SUB_AE has 3 observations and 3 variables.
+ NOTE: PROCEDURE FREQ used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 223        
+ 224        proc transpose data=sub_ae
+ 225           out=sub_aet(drop=_name_ _label_)
+ 226           prefix=cohort;
+ 227        var count;
+ 228        id trt01pn;
+ 229        run;
+ 
+ NOTE: There were 3 observations read from the data set WORK.SUB_AE.
+ NOTE: The data set WORK.SUB_AET has 1 observations and 3 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 230        
+ 231        data sub_ae1(drop=cohort1 cohort2 cohort3);
+ 232        set sub_aet;
+ 233        
+ 234        length npctn1pct n2pct$19. newname $130;
+ 235        
+ 236        npct  = put(cohort3,best12.);
+ 237        n1pct = put(cohort1,best12.);
+ 238        n2pct = put(cohort2,best12.);
+ 239        
+ 240        printord = 0;
+ 241        newname = "Subjects with Adverse Event(s)^{super d}";
+ 242        run;
+ 
+ NOTE: There were 1 observations read from the data set WORK.SUB_AET.
+ NOTE: The data set WORK.SUB_AE1 has 1 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 243        
+ 244        proc sort data=sub_ae1;
+ 245        by printord;
+ 246        run;
+ 
+ NOTE: There were 1 observations read from the data set WORK.SUB_AE1.
+ NOTE: The data set WORK.SUB_AE1 has 1 observations and 5 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 247        
+ 248        **-------------------------------------------------------------------------------**;
+ 249        **      Combine all the statistics and generate printable table values           **;
+ 250        **-------------------------------------------------------------------------------**;
+ 251        
+ 252        data tae_final_temp;
+ 253        set ch_stat1 cohort1_stat1 cohort2_stat1;
+ 254        select(AEBODSYS);
+ 255        when("GASTROINTESTINAL DISORDERS")printord=1;
+ 256        when("GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS")printord=2;
+ 257        when("NERVOUS SYSTEM DISORDERS")printord=3;
+ 258        when("VASCULAR DISORDERS")printord=4;
+ 259        end;
+ 260        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.CH_STAT1.
+ NOTE: There were 2 observations read from the data set WORK.COHORT1_STAT1.
+ NOTE: There were 2 observations read from the data set WORK.COHORT2_STAT1.
+ NOTE: The data set WORK.TAE_FINAL_TEMP has 8 observations and 12 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 261        
+ 262        proc sort data = ch_stat1;
+ 263        by aebodsys aedecod;
+ 264        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.CH_STAT1.
+ NOTE: The data set WORK.CH_STAT1 has 4 observations and 5 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 265        
+ 266        proc sort data = cohort2_stat1;
+ 267        by aebodsys aedecod;
+ 268        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.COHORT2_STAT1.
+ NOTE: The data set WORK.COHORT2_STAT1 has 2 observations and 5 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 269        
+ 270        proc sort data = cohort1_stat1;
+ 271        by aebodsys aedecod;
+ 272        run;
+ 
+ NOTE: There were 2 observations read from the data set WORK.COHORT1_STAT1.
+ NOTE: The data set WORK.COHORT1_STAT1 has 2 observations and 5 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 273        
+ 274        proc sort data=tae_final_temp;
+ 275        by printord;
+ 276        run;
+ 
+ NOTE: There were 8 observations read from the data set WORK.TAE_FINAL_TEMP.
+ NOTE: The data set WORK.TAE_FINAL_TEMP has 8 observations and 12 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 277        
+ 278        
+ 279        /**----------- Derive Stat for Bodysys based on Treatment group ----------------**/;
+ 280        
+ 281        data bs;
+ 282        set sae1;
+ 283        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.SAE1.
+ NOTE: The data set WORK.BS has 5 observations and 9 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 284        
+ 285        proc sort data=bs out=bs_s;
+ 286        by aebodsys ;
+ 287        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.BS.
+ NOTE: The data set WORK.BS_S has 5 observations and 9 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 288        proc means data=bs_s n noprint;
+ 289        var trt01pn;
+ 290        by aebodsys;
+ 291        output out=bs_stat(drop=_type_ _freq_) n= /autoname;
+ 292        run;
+ 
+ NOTE: There were 5 observations read from the data set WORK.BS_S.
+ NOTE: The data set WORK.BS_STAT has 4 observations and 2 variables.
+ NOTE: PROCEDURE MEANS used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 293        
+ 294        /**----------- rename for table output and derive percent values for display ----------------**/;
+ 295        data bs_stat1;
+ 296        set bs_stat(rename=(trt01pn_n=TotBS));
+ 297        
+ 298        bspct = TotBS/&cohortTot2*100;
+ 299        bsnpct = strip(put(TotBS,best12.)) || " ("|| strip(put(bspct,best4.1)) || ")";
+ 300        run;
+ 
+ NOTE: There were 4 observations read from the data set WORK.BS_STAT.
+ NOTE: The data set WORK.BS_STAT1 has 4 observations and 4 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 301        
+ 302        proc sort data=tae_final_temp;
+ 303        by printord;
+ 304        run;
+ 
+ NOTE: Input data set is already sorted, no sorting done.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 305        
+ 306        /**----------- Set Indents for SubCategory----------------**/;
+ 307        
+ 308        data tae_final_1(drop=aebodsys aedecod totsub chpct cohort1 cohort1pct cohort2 cohort2pct);
+ 309        set tae_final_temp;
+ 310        
+ 311        by printord;
+ 312        length newname $130;
+ 313        
+ 314        if first.printord then do;
+ 315        newname= aebodsys;
+ 316        n1pct = "";
+ 317        n2pct = "";
+ 318        output;
+ 319        end;
+ 320        else do;
+ 321        newname =  "^R'\li220\ '" || aedecod;
+ 322        output;
+ 323        end;
+ 324        run;
+ 
+ NOTE: There were 8 observations read from the data set WORK.TAE_FINAL_TEMP.
+ NOTE: The data set WORK.TAE_FINAL_1 has 8 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 325        
+ 326        data tae_final;
+ 327        set tae_final_1 sub_ae1;
+ 328        run;
+ 
+ NOTE: There were 8 observations read from the data set WORK.TAE_FINAL_1.
+ NOTE: There were 1 observations read from the data set WORK.SUB_AE1.
+ NOTE: The data set WORK.TAE_FINAL has 9 observations and 5 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 329        
+ 330        proc sort data=tae_final;
+ 331        by printord;
+ 332        run;
+ 
+ NOTE: There were 9 observations read from the data set WORK.TAE_FINAL.
+ NOTE: The data set WORK.TAE_FINAL has 9 observations and 5 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 333        
+ 334        **-------------------------------------------------------------------------------**;
+ 335        **         RTF SETUP                                **;
+ 336        **-------------------------------------------------------------------------------**;
+ 337        
+ 338        /**----- RTF SETUP -----**/;
+ 339        
+ 340        options nodate nonumber orientation=landscape;
+ 341        ods listing close ;
+ 342        ods escapechar='^' ;
+ 343        ods rtf style=TStyleRTF file="&outpath.AE_T721.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/AE_T721.rtf
+ 344        
+ 345        /**----- TITLES/FOOTNOTES -----**/;
+ 346        
+ 347        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 348        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 349        title3 j=center "Table 7.2.1" ;
+ 350        title4 j=center "Adverse Events^{super a} by Body System" ;
+ 351        title5 j=left "Study Population: Safety" ;
+ 352        
+ 353        
+ 354        
+ 355        footnote1 h=10pt j=left "^R'\brdrt\brdrs\super a\nosupersub  Includes all adverse events reported after start of PROD
+ 355      ! administration.'" ;
+ 356        footnote2 h=10pt j=left "^R'\super b\nosupersub  Subjects who had more than one event within a body system were counted
+ 356      ! once.'" ;
+ 357        footnote3 h=10pt j=left "^R'\super c\nosupersub Subjects who had more than one event assigned to the same preferred term
+ 357      ! were counted once.'" ;
+ 358        footnote4 h=10pt j=left "^R'\super d\nosupersub Subjects who had more than one event were counted once.'" ;
+ 359        
+ 360        footnote5 j=left "&llastfoot adsllib.adae" j=right "&rlastfoot tae.sas";
+ 361        
+ 362        **-------------------------------------------------------------------------------**;
+ 363        **       BEGIN THE REPORT                                                        **;
+ 364        **-------------------------------------------------------------------------------**;
+ 365        
+ 366        /**----------- REPORT DEFINITION----------------**/;
+ 367        
+ 368        proc report data=tae_final  missing center center split='|' style(report)=[outputwidth=9.0in];
+ 369        
+ 370        column printord newname npct n1pct n2pct;
+ 371        
+ 372        define newname/display "MedDRA Body System^{super b}|^R'\li220\ 'Preferred Term^{super c}" style(header)=[just=left]
+ 372      ! style(column)=[width=2.0 in];
+ 373        define npct/display "All Subjects| (N=&cohorttot3)| n(%)" style(column)=[width=1.2 in just=center];
+ 374        define n1pct/display "Cohort 1 | (N=&cohorttot1)| n(%)" style(column)=[width=1.2 in just=center];
+ 375        define n2pct/display "Cohort 2 | (N=&cohorttot2)| n(%)" style(column)=[width=1.2 in just=center];
+ 376        
+ 377        define printord/order noprint;
+ 378        
+ 379        compute after printord;
+ 380          line ' ';
+ 381        endcomp;
+ 382        run ;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.24 seconds
+       cpu time            0.20 seconds
+       
+ NOTE: There were 9 observations read from the data set WORK.TAE_FINAL.
+ 
+ 383        
+ 384        ods rtf close ;
+ 385        ods listing ;
+ 386        
+ 387        
+ 388        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 400        

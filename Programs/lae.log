@@ -1,0 +1,108 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         
+ 75         /**-------------------------------------------------------------------------------------------**
+ 76         ** PROGRAM:    LAE.SAS
+ 77         ** CREATED:    December 2019
+ 78         ** PURPOSE:    Create Listing 6 - Adverse Events
+ 79         ** PROGRAMMER: Deepti Shah
+ 80         ** INPUT:      adsllib.adae
+ 81         ** OUTPUT:     Listing 6 - Adverse Events
+ 82         ** PROTOCOL:   PROD-124
+ 83         **-------------------------------------------------------------------------------------------**/
+ 84         /* ----------- SAS University Edition 9.4 ----------- */
+ 85         
+ 86         
+ 87         /*Fetch data from AE dataset*/
+ 88         
+ 89         
+ 90         data lst_ae (keep=usubjid trt01pn age sex race col2 aebodsys aedecod aeterm col3 asttm arelsettm adurn aesev aerel aeacn
+ 90       ! );
+ 91            set adsllib.adae;
+ 92         
+ 93         attrib col2 length=$200
+ 94            col3 length=$300
+ 95             ;
+ 96         
+ 97         col2 = catx('^n',put(trt01pn, 1.),put(age, 4.),sex,race);
+ 98         col3 = catx('^n',aebodsys,aedecod,aeterm);
+ 99         
+ 100        run;
+ 
+ NOTE: There were 14 observations read from the data set ADSLLIB.ADAE.
+ NOTE: The data set WORK.LST_AE has 14 observations and 16 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 101        
+ 102        
+ 103        **-------------------------------------------------------------------------------**;
+ 104        **              Create List Report Listing 2                             **;
+ 105        **-------------------------------------------------------------------------------**;
+ 106        
+ 107        /**----- RTF SETUP -----**/;
+ 108        options nodate nonumber orientation=landscape ;
+ 109        ods listing close ;
+ 110        ods escapechar='^' ;
+ 111        ods rtf style=TStyleRTF file="&outpath.AE_L6.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/AE_L6.rtf
+ 112        
+ 113        /**----- TITLES/FOOTNOTES -----**/;
+ 114        
+ 115        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 116        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 117        title3 j=center "Listing 6" ;
+ 118        title4 j=center "Adverse Events" ;
+ 119        footnote1 h=10pt j=left
+ 120           "^R'\brdrt\brdrs\super a\nosupersub Cohort 1 Sequence: Bag in Infusion 1 / Bottle in Infusion 2, Cohort 2 Sequence:
+ 120      ! Bottle in Infusion 1 / Bag in Infusion 2.'";
+ 121        footnote2 h=10pt j=left "^R'\super b \nosupersub Relative to the start of PROD administration. Negative times indicate
+ 121      ! occurrence prior to the start of PROD'";
+ 122        footnote3 h=10pt j=left "^R'\super c \nosupersub Duration (D:H:M): D=Days; H=Hours; M=Minutes.'";
+ 123        footnote4;
+ 124        footnote5 j=left "&llastfoot adsllib.adae" j=right "&rlastfoot lae.sas";
+ 125        
+ 126        /**----- REPORT DEFINITION -----**/;
+ 127        proc report data=lst_ae missing nowindows center split='|' style(report)={cellpadding=.1in} style=[outputwidth=9.0in] ;
+ 128           column usubjid trt01pn age sex race Col2 aebodsys aedecod aeterm col3 asttm arelsettm adurn aesev aerel aeacn;
+ 129        
+ 130           define usubjid /display "Subject" CENTER;
+ 131           define trt01pn /noprint;
+ 132           define age /noprint;
+ 133           define sex /noprint;
+ 134           define race /noprint;
+ 135           define Col2 /display "Cohort^{super a} |Age |Sex |Race" left;
+ 136           define aebodsys /noprint;
+ 137           define aedecod /noprint;
+ 138           define aeterm /noprint;
+ 139           define Col3 /display "MedDRA Body System |MedDRA Preferred Term |CRF Verbatim Term" left;
+ 140           define asttm /display "Onset|Time|(HH:MM)" center;
+ 141           define arelsettm /display "Onset|Time ^{super b}|Relative|to PROD|(D:H:M)";
+ 142           define adurn /display "Duration|(D:H:M)^{super c}" center;
+ 143           define aesev /display "Severity" center;
+ 144           define aerel /display "Relationship to PROD" center;
+ 145           define aeacn /display "Action Taken" center;
+ 146        run ;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.15 seconds
+       cpu time            0.15 seconds
+       
+ NOTE: There were 14 observations read from the data set WORK.LST_AE.
+ 
+ 147        
+ 148        /**----- CLOSE RTF AND RESET TITLES/FOOTNOTES -----**/;
+ 149        ods rtf close ;
+ 150        ods listing ;
+ 151        
+ 152        options date number ;
+ 153        title ;
+ 154        footnote ;
+ 155        
+ 156        
+ 157        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 169        

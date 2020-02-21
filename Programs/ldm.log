@@ -1,0 +1,95 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ NOTE: ODS statements in the SAS Studio environment may disable some output features.
+ 73         
+ 74         
+ 75         /**-------------------------------------------------------------------------------------------**
+ 76         ** PROGRAM:    ldm.sas
+ 77         ** CREATED:    November 2019
+ 78         ** PURPOSE:    CREATE DM Listing
+ 79         ** PROGRAMMER: Deepti Shah
+ 80         ** INPUT:      adsllib.adsl
+ 81         ** OUTPUT:     Listing 2 (DM_L2.rtf)
+ 82         ** PROTOCOL:   PROD-124
+ 83         **-------------------------------------------------------------------------------------------*/
+ 84         /* ----------- SAS University Edition 9.4 ----------- */
+ 85         
+ 86         
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 87         data dm_d1 (drop=studyid subjid siteid race ageu arm brthdtc rficdt);
+ 88            set adsllib.adsl (where=(saffl = "Y"));
+ 89         
+ 90         format rficdtc brthdt date9.;
+ 91         
+ 92         
+ 93         cohort = trt01pn;
+ 94         
+ 95         rficdtc_temp = put(rficdt,YYMMDD10.);
+ 96         rficdtc = input (rficdtc_temp, e8601da10.);
+ 97         
+ 98         
+ 99         brthdt = input(brthdtc,e8601da10.);
+ 100        if raceoth ne "" then frace = propcase(strip(race)) || ", " || propcase(strip(raceoth)) ;
+ 101        else frace = propcase(strip(race));
+ 102        
+ 103        run;
+ 
+ NOTE: There were 31 observations read from the data set ADSLLIB.ADSL.
+       WHERE saffl='Y';
+ NOTE: The data set WORK.DM_D1 has 31 observations and 21 variables.
+ 
+ 104        
+ 105        options nodate nonumber orientation=landscape;
+ 106        ods listing close ;
+ 107        ods escapechar='^' ;
+ 108        ods rtf style=TStyleRTF file="&outpath.DM_L2.rtf" ;
+ NOTE: Writing RTF Body file: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/output/DM_L2.rtf
+ 109        
+ 110        /**----- TITLES/FOOTNOTES -----**/;
+ 111        title1 j=left "&ptitle1" j=right 'Page ^{pageof}' ;
+ 112        title2 j=left "&ptitle2" j=right "&sysdate9"  ;
+ 113        title3 j=center "Listing 2" ;
+ 114        title4 j=center "Demographics and Baseline Characteristics" ;
+ 115        footnote1 h=10pt j=left "^R'\brdrt\brdrs\super a\nosupersub Cohort 1 Sequence: Bag in Infusion 1 / Bottle in Infusion 2,
+ 115      ! Cohort 2 Sequence: Bottle in Infusion 1 / Bag in Infusion 2.'";
+ 116        footnote2 j=left "&llastfoot adsllib.adsl" j=right "&rlastfoot ldm.sas";
+ 117        
+ 118        
+ 119        
+ 120        /**----- REPORT DEFINITION -----**/;
+ 121        proc report data=dm_d1 missing nowindows center split='|' style(report)={cellpadding=.1in} style=[outputwidth=9.0in];
+ 122           column usubjid cohort rficdtc brthdt age sex frace weight height;
+ 123        
+ 124           define usubjid /display "Subject" CENTER;
+ 125           define cohort /display "Cohort^{super a}" CENTER;
+ 126           define rficdtc /display "Informed|Consent|Date" CENTER;
+ 127           define brthdt /display "Date of|Birth" CENTER;
+ 128           define age /display "Age (yrs)" CENTER;
+ 129           define sex /display "Sex" CENTER;
+ 130           define frace /display "Race" CENTER;
+ 131           define weight /display "Weight (kg)" CENTER;
+ 132           define height /display "Height|(inch)" CENTER;
+ 133        
+ 134        run ;
+ 
+ NOTE: PROCEDURE REPORT used (Total process time):
+       real time           0.18 seconds
+       cpu time            0.16 seconds
+       
+ NOTE: There were 31 observations read from the data set WORK.DM_D1.
+ 
+ 135        
+ 136        /**----- CLOSE RTF AND RESET TITLES/FOOTNOTES -----**/;
+ 137        ods rtf close ;
+ 138        ods listing ;
+ 139        
+ 140        options date number ;
+ 141        title ;
+ 142        footnote ;
+ 143        
+ 144        
+ 145        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 157        

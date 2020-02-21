@@ -1,0 +1,394 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         /**-------------------------------------------------------------------------------------------**
+ 74         ** PROGRAM:    VS.SAS
+ 75         ** CREATED:    November 2019
+ 76         ** PURPOSE:    Create SDTM - VS dataset from Raw input data.
+ 77         ** PROGRAMMER: Deepti Shah
+ 78         ** INPUT:   rawlib.vitals, rawlib.vitaltpt
+ 79         ** OUTPUT:   sdtm.vs
+ 80         ** PROTOCOL:   PROD-124
+ 81         **-------------------------------------------------------------------------------------------*/
+ 82         /* ----------- SAS University Edition 9.4 ----------- */
+ 83         
+ 84         
+ 85         /* ----------- Define custom format  ----------- */
+ 86         proc format;
+ 87             value $vsfmtpt 'STUDY DAY 1' = 1
+ 88                          'STUDY DAY 1 -5 min' = 2
+ 89                          'STUDY DAY 1 0 min' = 3
+ 90                          'STUDY DAY 1 5 min' = 4
+ 91                          'STUDY DAY 1 10 min' = 5
+ 92                          'STUDY DAY 1 15 min' = 6
+ 93                          'STUDY DAY 1 20 min' = 7
+ 94                          'STUDY DAY 1 25 min' = 8
+ 95                          'STUDY DAY 1 30 min' = 9
+ 96                          'STUDY DAY 1 35 min' = 10
+ 97                          'STUDY DAY 1 40 min' = 11
+ 98                          'STUDY DAY 1 45 min' = 12
+ 99                          'STUDY DAY 1 50 min' = 13
+ 100                         'STUDY DAY 1 55 min' = 14
+ 101                    'STUDY DAY 1 END OF INFUSION PERIOD #2' = 15
+ 102                         'STUDY DAY 1 1 HOUR AFTER INFUSION PERIOD #2' = 16
+ 103                         'STUDY DAY 2' = 17;
+ NOTE: Format $VSFMTPT has been output.
+ 104        
+ 105        run;
+ 
+ NOTE: PROCEDURE FORMAT used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 106        
+ 107        
+ 108        
+ 109        data vs (rename=(vsacttm = vstacttm)) ;
+ 110        set rawlib.vital;
+ NOTE: Data file RAWLIB.VITAL.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 111        run;
+ 
+ NOTE: There were 62 observations read from the data set RAWLIB.VITAL.
+ NOTE: The data set WORK.VS has 62 observations and 19 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 112        
+ 113        
+ 114        data vstpt ;
+ 115        set rawlib.vitaltpt;
+ NOTE: Data file RAWLIB.VITALTPT.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 116        visit = 'STUDY DAY 1';
+ 117        run;
+ 
+ NOTE: There were 401 observations read from the data set RAWLIB.VITALTPT.
+ NOTE: The data set WORK.VSTPT has 401 observations and 13 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 118        
+ 119        
+ 120        /* ----------- Used retain statement to copy value of study date for all the missing study date field for Day 1
+ 120      ! ----------- */
+ 121        
+ 122        data vs (drop= st_day_1 vsdt) ;
+ 123        set vs vstpt;
+ 124        by patid visit;
+ 125        
+ 126        format vsdt_temp mmddyy10.;
+ 127        
+ 128        if first.patid then st_day_1 = vsdt;
+ 129        retain st_day_1;
+ 130        
+ 131        if vsdt ne . then vsdt_temp = vsdt;
+ 132        else if vsdt = . then vsdt_temp = st_day_1;
+ 133        
+ 134        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.VS.
+ NOTE: There were 401 observations read from the data set WORK.VSTPT.
+ NOTE: The data set WORK.VS has 463 observations and 20 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 135        
+ 136        
+ 137        
+ 138        data vs1;
+ 139            length  studyid $8
+ 140                    domain $4
+ 141                    siteid $5
+ 142                    subjid $6
+ 143                    usubjid $20
+ 144                    visit $15
+ 145                    visitnum $2
+ 146                    vsblfl $6
+ 147                    vstpt $80
+ 148                    vstptnum $50
+ 149                    vsdtc $50
+ 150                    ;
+ 151        
+ 152            set vs;
+ 153        
+ 154            studyid = proto;
+ 155            domain = 'VS';
+ 156            siteid = put(inv_no,z2.) ;
+ 157            subjid = put(patid,z3.);
+ 158            usubjid = strip(proto) || '-' || put(inv_no,z2.) || '-' || put(patid,z3.);
+ 159        
+ 160            vsdtc_temp =  STRIP(PUT(YEAR(vsdt_temp),4.)) || '-' || STRIP(PUT(MONTH(vsdt_temp),Z2.)) || '-' ||
+ 160      ! STRIP(PUT(DAY(vsdt_temp),Z2.)) ;
+ 161        
+ 162            vsacttm = put(vstacttm,TOD5.);
+ 163        vsdtc = vsdtc_temp || "T" || vsacttm;
+ 164        
+ 165        
+ 166            If visit= "STUDY DAY 1" then visitnum = 1;
+ 167        else If Visit= "STUDY DAY 2" then Visitnum = 2;
+ 168        
+ 169        If (visit= "STUDY DAY 1" and vstptm="0 min") then vsblfl = "Y";
+ 170        
+ 171        if visit = "STUDY DAY 1" then vstpt = strip(visit) || " " || strip(vstptm);
+ 172        else if visit = "STUDY DAY 2" then vstpt = visit || vstptm;
+ 173        
+ 174        vstptnum = put(vstpt,vsfmtpt.);
+ 175        
+ 176        run;
+ 
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       166:45   167:47   
+ NOTE: There were 463 observations read from the data set WORK.VS.
+ NOTE: The data set WORK.VS1 has 463 observations and 32 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 177        
+ 178        
+ 179        
+ 180        data vs2;
+ 181        
+ 182            length  vstestcd $10
+ 183            vstest $30
+ 184            vsorresu $20
+ 185            vsstresu $20;
+ 186        
+ 187            set vs1;
+ 188        
+ 189        attrib vsorres length=8format=5.1;
+ 190        
+ 191        
+ 192        /*Put - Numeric to Character */
+ 193        /*Input - Character to Numeric */
+ 194        
+ 195        
+ 196            if heart > .z then
+ 197            do;
+ 198            vstestcd = 'HR';/* Vital Signs Test Short Name */
+ 199            vstest = 'Heart Rate';/* Vital Signs Test Name */
+ 200            vsorres = strip(put(round(heart,5.1),best.));/* Results or Findings in original units */
+ 201             vsorresu = 'beats/min';/* Unit of measure */ 
+ 202             vsstresu = "beats/min";/* Results or Findings in Standard units */
+ 203            output;
+ 204            end;
+ 205        
+ 206        if sysbp > .z then
+ 207            do;
+ 208            vstestcd = 'SYSBP';
+ 209            vstest = 'Systolic Blood Pressure';
+ 210            vsorres = strip(put(sysbp,5.1));
+ 211            vsorresu = 'mmHg';
+ 212            vsstresu = "mmHg";/* Results or Findings in Standard units */
+ 213            output;
+ 214            end;
+ 215        
+ 216            if diabp > .z then
+ 217            do;
+ 218            vstestcd = 'DIABP';
+ 219            vstest = 'Diastolic Blood Pressure';
+ 220            vsorres = strip(put(diabp,5.1));
+ 221            vsorresu = 'mmHg';
+ 222            vsstresu = "mmHg";/* Results or Findings in Standard units */
+ 223            output;
+ 224            end;
+ 225        
+ 226            if resp > .z then
+ 227            do;
+ 228            vstestcd = 'RESP';
+ 229            vstest = 'Respiration Rate';
+ 230            vsorres = strip(put(resp,5.1));
+ 231            vsorresu = 'breaths/min';
+ 232            vsstresu = "breaths/min";
+ 233            output;
+ 234            end;
+ 235        
+ 236            if o2sat > .z then
+ 237            do;
+ 238            vstestcd = 'O2SAT';
+ 239            vstest = 'Oxygen Saturation';
+ 240            vsorres = strip(put(o2sat,3.1));
+ 241            vsorresu = '%';
+ 242            vsstresu = "%";/* Results or Findings in Standard units */
+ 243            output;
+ 244            end;
+ 245        
+ 246            if temp > .z then
+ 247            do;
+ 248            vstestcd = 'TEMP';
+ 249            vstest = 'Temperature';
+ 250            vsorres = strip(put(temp,5.1));
+ 251            vsorresu = 'F';
+ 252            vsstresu = "C";
+ 253            output;
+ 254            end;
+ 255        
+ 256        if height > .z then
+ 257            do;
+ 258            vstestcd = 'HEIGHT';
+ 259            vstest = 'Height';
+ 260            vsorres = put(strip(height),5.1);
+ 261            vsorresu = 'in';
+ 262            vsstresu = "cm";/* Results or Findings in Standard units */
+ 263            output;
+ 264            end;
+ 265        
+ 266        
+ 267            if weight > .z then
+ 268            do;
+ 269            vstestcd = 'WEIGHT';
+ 270            vstest = 'Weight';
+ 271            vsorres = put(strip(weight),6.2);
+ 272            vsorresu = 'kg';
+ 273            vsstresu = "kg";/* Results or Findings in Standard units */
+ 274            output;
+ 275            end;
+ 276        
+ 277        
+ 278        
+ 279        
+ 280        run;
+ 
+ NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+       200:16   210:16   220:16   230:16   240:16   250:16   260:16   271:16   
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       260:26   271:26   
+ NOTE: There were 463 observations read from the data set WORK.VS1.
+ NOTE: The data set WORK.VS2 has 1913 observations and 37 variables.
+ NOTE: At least one W.D format was too small for the number to be printed. The decimal may be shifted by the "BEST" format.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 281        
+ 282        
+ 283        /* ----------- For values that are not in standard format, conver them  ----------- */
+ 284        
+ 285        data vs3;
+ 286        
+ 287            length vsstresc $10 vsstresn $5.1 vsstresu $20;
+ 288        
+ 289            set vs2;
+ 290        
+ 291        
+ 292            if upcase(vsorresu) = 'F' then do;
+ 293                vsstresn = round(5/9 *(input(vsorres,best.) - 32),.1);
+ 294                vsstresu = 'C';
+ 295            end;
+ 296            else if  upcase(vsorresu) = 'IN' then do;
+ 297                vsstresn = round(input(vsorres,best.) * 2.54,.1);
+ 298                vsstresu = 'cm';
+ 299            end;
+ 300            else do;
+ 301                vsstresn = input(vsorres,best.);
+ 302                vsstresu = vsorresu;
+ 303            end;
+ 304        
+ 305            vsstresc = strip(put(vsstresn,best.));
+                                              _____
+                                              484
+ NOTE 484-185: Format $BEST was not found or could not be loaded.
+ 
+ 306        
+ 307            keep studyid domain usubjid siteid subjid visit visitnum vstpt vstptm vsblfl vstptnum vstestcd vstest vsorres
+ 307      ! vsorresu vsstresc vsstresn vsstresu vsdtc;
+ 308        
+ 309        run;
+ 
+ NOTE: Numeric values have been converted to character values at the places given by: (Line):(Column).
+       293:20   293:38   297:20   297:32   301:20   301:26   
+ NOTE: There were 1913 observations read from the data set WORK.VS2.
+ NOTE: The data set WORK.VS3 has 1913 observations and 19 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 310        
+ 311        
+ 312        /* ----------- Define baseline flag : Last non missing value prior to the first dose  ----------- */
+ 313        
+ 314        data vs4;
+ 315            set vs3;
+ 316            by usubjid;
+ 317        
+ 318        If visit= "STUDY DAY 1" and ( vstestcd="WEIGHT" or vstestcd="HEIGHT" or vstestcd="RESP" or vstestcd="TEMP" ) then
+ 318      ! vsblfl = "Y";
+ 319        
+ 320            vsseq + 1;
+ 321            if first.usubjid then vsseq = 1;
+ 322        run;
+ 
+ NOTE: There were 1913 observations read from the data set WORK.VS3.
+ NOTE: The data set WORK.VS4 has 1913 observations and 20 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 323        
+ 324        
+ 325        
+ 326        **-------------------------------------------------------------------------------**;
+ 327        **          Create Final VS dataset with all the key variable                    **;
+ 328        **Use Proc SQL - Create Table statement to create final VS dataset **;
+ 329        **-------------------------------------------------------------------------------**;
+ 330        
+ 331        
+ 332        proc sql;
+ 333            create table sdtmlib.vs(label = "Vital Signs") as
+ 334                select studyid,
+ 335                        domain,
+ 336                        usubjid,
+ 337                        vsseq,
+ 338                        vstestcd,
+ 339                        vstest,
+ 340                        vsorres,
+ 341                        vsorresu,
+ 342                        vsstresc,
+ 343                        vsstresn,
+ 344                        vsstresu,
+ 345                        vsblfl,
+ 346                        visitnum,
+ 347                        visit,
+ 348                        vsdtc,
+ 349        vstpt,
+ 350        vstptnum
+ 351               from vs4;
+ NOTE: Table SDTMLIB.VS created, with 1913 rows and 17 columns.
+ 
+ 352        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.04 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 353        
+ 354        proc print;
+ 355        run;
+ 
+ NOTE: There were 1913 observations read from the data set SDTMLIB.VS.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           27.65 seconds
+       cpu time            27.52 seconds
+       
+ 
+ 356        
+ 357        
+ 358        
+ 359        
+ 360        
+ 361        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 373        

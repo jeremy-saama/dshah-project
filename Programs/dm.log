@@ -1,0 +1,615 @@
+ 
+ 1          OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 72         
+ 73         /**-------------------------------------------------------------------------------------------**
+ 74         ** PROGRAM:    DM.SAS
+ 75         ** CREATED:    November 2019
+ 76         ** PURPOSE:    Create SDTM - DM dataset from Raw input data.
+ 77         ** PROGRAMMER: Deepti Shah
+ 78         ** INPUT:   rawlib.Demo, rawlib.vital, rawlib.exposure
+ 79         ** OUTPUT:   sdtm.dm
+ 80         ** PROTOCOL:   PROD-124
+ 81         **-------------------------------------------------------------------------------------------*/
+ 82         /* ----------- SAS University Edition 9.4 ----------- */
+ 83         
+ 84         
+ 85         
+ 86         /* ----------- Change the path when running on different machine ----------- */
+ 87         %let directory_start = /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/Programs/;
+ 88         %let directory_end= .sas;
+ 89         %let fileName=msetup;
+ 90         
+ 91         %include "&directory_start.&fileName.&directory_end.";
+ NOTE: Libref RAWLIB was successfully assigned as follows: 
+       Engine:        V9 
+       Physical Name: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/Data/Original
+ NOTE: Libref SDTMLIB was successfully assigned as follows: 
+       Engine:        V9 
+       Physical Name: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/Data/SDTM
+ NOTE: Libref ADSLLIB was successfully assigned as follows: 
+       Engine:        V9 
+       Physical Name: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/Data/Analysis
+ NOTE: Libref TMPLTLIB was successfully assigned as follows: 
+       Engine:        V9 
+       Physical Name: /folders/myshortcuts/Deepti_Shah_Final_Project_2019/PROD124/programs
+ 166        
+ 167        options validvarname = upcase;
+ 168        
+ 169        
+ 170        **----------- Sort the raw input demo data----------------**;
+ 171        proc sort data=rawlib.demo;
+ NOTE: Data file RAWLIB.DEMO.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 172        by inv_no patid;
+ 173        run;
+ 
+ NOTE: Input data set is already sorted, no sorting done.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 174        
+ 175        
+ 176        *************************************************************************************************
+ 177        * STUDYID/DOMAIN/USUBJID/SUBJID/SITEID/birthdtC/SEX/RACE/COUNTRY/RFicdtC/AGE
+ 178        *************************************************************************************************;
+ 179        
+ 180        ** ------------ Derive a temporary SDTM DM dataset ------------ **;
+ 181        
+ 182        data demo_master;
+ 183        
+ 184        lengthstudyid $8
+ 185        domain $2
+ 186        usubjid $20
+ 187        subjid $6
+ 188        siteid $2
+ 189        brthdtc $19
+ 190        sex $8
+ 191        race $30
+ 192        country $3
+ 193        rficdtc $19
+ 194        ageu $10
+ 195        
+ 196        ;
+ 197        
+ 198        set rawlib.demo;
+ NOTE: Data file RAWLIB.DEMO.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 199        
+ 200        studyid = proto;
+ 201        domain = 'DM';
+ 202        usubjid = strip(proto) || '-' || put(inv_no,z2.) || '-' || put(patid,z3.);
+ 203        subjid = put(inv_no,z2.) || '-' || put(patid,z3.);
+ 204        siteid =  put(inv_no,z2.);
+ 205        brthdtc = strip(put(year(birthdt),4.)) || '-' || strip(put(month(birthdt),Z2.)) || '-' || strip(put(DAY(birthdt),Z2.));
+ 206        
+ 207        
+ 208        if upcase(sex) = 'M' then sex = 'Male';
+ 209        else if upcase(sex) = 'F' then sex = 'Female';
+ 210        
+ 211        ageu = 'years';
+ 212        race = race;
+ 213        country = 'USA';
+ 214        rficdtc =   put(icdt,is8601da.);
+ 215        
+ 216         %mage(indate=icdt, dobvar=birthdt) /* Call the mage macro that return the age. */
+ 217        
+ 218        run;
+ 
+ NOTE: There were 34 observations read from the data set RAWLIB.DEMO.
+ NOTE: The data set WORK.DEMO_MASTER has 34 observations and 21 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.03 seconds
+       cpu time            0.03 seconds
+       
+ 
+ 219        
+ 220        
+ 221        
+ 222        *************************************************************************************************
+ 223        * RFSTDTC - DERIVE DATE OF FIRST DOSE - FROM THE VITALS DATA.
+ 224        *************************************************************************************************;
+ 225        
+ 226        
+ 227        proc sort data = rawlib.vital(keep = inv_no patid vsdt visit) out = exstdt;
+ NOTE: Data file RAWLIB.VITAL.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 228             by inv_no patid vsdt;
+ 229        run;
+ 
+ NOTE: There were 62 observations read from the data set RAWLIB.VITAL.
+ NOTE: The data set WORK.EXSTDT has 62 observations and 4 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 230        
+ 231        data exstdt_1 (keep= inv_no patid vsdt visit where= (visit = 'STUDY DAY 1'));
+ 232        set exstdt;
+ 233        by inv_no patid;
+ 234        if first.patid then output exstdt_1;
+ 235        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EXSTDT.
+ NOTE: The data set WORK.EXSTDT_1 has 31 observations and 4 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 236        
+ 237        
+ 238        proc sort data=exstdt_1;
+ 239        by inv_no patid;
+ 240        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.EXSTDT_1.
+ NOTE: The data set WORK.EXSTDT_1 has 31 observations and 4 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 241        
+ 242        data vspt_sttm(keep=inv_no patid rfsttmc);
+ 243        set rawlib.vitaltpt(where=(VSTPTM="0 min"));
+ NOTE: Data file RAWLIB.VITALTPT.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 244        
+ 245        inv_no = put(inv_no,2.);
+ 246        patid = put(patid,3.);
+ 247        
+ 248        ** ------------ Start Time ------------ **;
+ 249        rfsttm = put(vstacttm,time5.);
+ 250        if length(strip(rfsttm)) < 5 then rfsttmc = "0"||strip(rfsttm);
+ 251        else rfsttmc = rfsttm;
+ 252        
+ 253        run;
+ 
+ NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+       245:11   246:10   
+ NOTE: There were 31 observations read from the data set RAWLIB.VITALTPT.
+       WHERE VSTPTM='0 min';
+ NOTE: The data set WORK.VSPT_STTM has 31 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 254        
+ 255        
+ 256        
+ 257        data demo_rfstdt;
+ 258            length rfstdt $20;
+ 259        
+ 260            merge demo_master(in=a)
+ 261                  exstdt_1(in=b);
+ 262            by inv_no patid;
+ 263        
+ 264        rfstdt = put(vsdt,is8601da.);
+ 265        
+ 266            drop vsdt;
+ 267        
+ 268        if a;
+ 269        
+ 270        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_MASTER.
+ NOTE: There were 31 observations read from the data set WORK.EXSTDT_1.
+ NOTE: The data set WORK.DEMO_RFSTDT has 34 observations and 23 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 271        
+ 272        data demo_rfstdtc;
+ 273            length rfstdtc $20;
+ 274        
+ 275            merge demo_rfstdt(in=a)
+ 276                  vspt_sttm (in=b);
+ 277            by inv_no patid;
+ 278        
+ 279        if length(strip(rfstdt)) > 1 then rfstdtc = strip(rfstdt) || "T" || strip(rfsttmc);
+ 280        else rfstdtc = '';
+ 281        
+ 282            drop rfstdt rfsttmc;
+ 283        
+ 284        if a;
+ 285        
+ 286        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_RFSTDT.
+ NOTE: There were 31 observations read from the data set WORK.VSPT_STTM.
+ NOTE: The data set WORK.DEMO_RFSTDTC has 34 observations and 23 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 287        
+ 288        
+ 289        
+ 290        *************************************************************************************************
+ 291        * RFENDTC - DERIVE DATE OF LAST DOSE - FROM THE VITALS DATA.
+ 292        *************************************************************************************************;
+ 293        
+ 294        proc sort data = rawlib.vital(keep = inv_no patid vsdt visit ) out = exendt;
+ NOTE: Data file RAWLIB.VITAL.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 295            by inv_no patid descending vsdt;
+ 296        run;
+ 
+ NOTE: There were 62 observations read from the data set RAWLIB.VITAL.
+ NOTE: The data set WORK.EXENDT has 62 observations and 4 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 297        
+ 298        data exendt_1 (keep= inv_no patid vsdt visit where=(visit = 'STUDY DAY 2'));
+ 299            set exendt;
+ 300            by inv_no patid;
+ 301        if first.patid then output exendt_1;
+ 302        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.EXENDT.
+ NOTE: The data set WORK.EXENDT_1 has 31 observations and 4 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 303        
+ 304        proc sort data = exendt_1;
+ 305            by inv_no patid descending vsdt;
+ 306        run;
+ 
+ NOTE: There were 31 observations read from the data set WORK.EXENDT_1.
+ NOTE: The data set WORK.EXENDT_1 has 31 observations and 4 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 307        
+ 308        
+ 309        
+ 310        data vspt_endt(keep=inv_no patid rfentmc);
+ 311        set rawlib.vitaltpt(where=(VSTPTM="END OF INFUSION PERIOD #2"));
+ NOTE: Data file RAWLIB.VITALTPT.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 312        inv_no = put(inv_no,2.);
+ 313        patid = put(patid,3.);
+ 314        
+ 315        ** ------------ End Time ------------ **;
+ 316        
+ 317        rfentm = put(vstacttm,time5.);
+ 318        if length(strip(rfentm))<5 then rfentmc = "0"||strip(rfentm);
+ 319        else rfentmc = rfentm;
+ 320        
+ 321        run;
+ 
+ NOTE: Character values have been converted to numeric values at the places given by: (Line):(Column).
+       312:11   313:10   
+ NOTE: There were 31 observations read from the data set RAWLIB.VITALTPT.
+       WHERE VSTPTM='END OF INFUSION PERIOD #2';
+ NOTE: The data set WORK.VSPT_ENDT has 31 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 322        
+ 323        
+ 324        data demo_rfendt ;
+ 325            length rfendt $20;
+ 326            merge demo_rfstdtc(in=a)
+ 327                  exendt_1(in=b);
+ 328            by inv_no patid;
+ 329        
+ 330        
+ 331        if missing(vsdt) then rfendt = "";
+ 332        else rfendt = put(vsdt,is8601da.);
+ 333        
+ 334            drop vsdt;
+ 335        
+ 336        if a;
+ 337        
+ 338        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_RFSTDTC.
+ NOTE: There were 31 observations read from the data set WORK.EXENDT_1.
+ NOTE: The data set WORK.DEMO_RFENDT has 34 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 339        
+ 340        
+ 341        data demo_rfendtc ;
+ 342            length rfendtc $20;
+ 343            merge demo_rfendt(in=a)
+ 344                  vspt_endt(in=b);
+ 345            by inv_no patid;
+ 346        
+ 347        
+ 348        if length(strip(rfendt)) > 1 then rfendtc = strip(rfendt) || "T" || strip(rfentmc);
+ 349        else rfendtc = '';
+ 350        
+ 351            drop rfendt rfentmc;
+ 352        
+ 353        if a;
+ 354        
+ 355        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_RFENDT.
+ NOTE: There were 31 observations read from the data set WORK.VSPT_ENDT.
+ NOTE: The data set WORK.DEMO_RFENDTC has 34 observations and 24 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.01 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 356        
+ 357        
+ 358        
+ 359        
+ 360        ************************************************************************************************
+ 361        * Derive ARM and ARMCD from Exposure Input data.
+ 362        ************************************************************************************************;
+ 363        
+ 364        
+ 365        proc sort data = rawlib.exposure(keep = inv_no patid cohort ) out = arm;
+ NOTE: Data file RAWLIB.EXPOSURE.DATA is in a format that is native to another host, or the file encoding does not match the session 
+       encoding. Cross Environment Data Access will be used, which might require additional CPU resources and might reduce 
+       performance.
+ 366             by inv_no patid cohort;
+ 367        run;
+ 
+ NOTE: There were 62 observations read from the data set RAWLIB.EXPOSURE.
+ NOTE: The data set WORK.ARM has 62 observations and 3 variables.
+ NOTE: PROCEDURE SORT used (Total process time):
+       real time           0.02 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 368        
+ 369        data arm_1 (keep= inv_no patid cohort);
+ 370        set arm;
+ 371        by inv_no patid;
+ 372        if first.patid then output arm_1;
+ 373        run;
+ 
+ NOTE: There were 62 observations read from the data set WORK.ARM.
+ NOTE: The data set WORK.ARM_1 has 31 observations and 3 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 374        
+ 375        
+ 376        ************************************************************************************************
+ 377        * Per SAP - Cohort 1 followed the sequence of Bag and then Bottle
+ 378        * Per SAP - Cohort 2 followed the sequence of Bottle and then Bag
+ 379        ************************************************************************************************;
+ 380        
+ 381        
+ 382        data demo_arm ;
+ 383            length arm $40 armcd $20;
+ 384        
+ 385            merge demo_rfendtc(in=a)
+ 386                  arm_1(in=b);
+ 387            by inv_no patid;
+ 388        
+ 389           if cohort = 1 then
+ 390           do;
+ 391           arm = 'Bag/Bottle';
+ 392           armcd = 'Cohort 1';
+ 393           actarm = 'Bag/Bottle';
+ 394           actarmcd = 'Cohort 1';
+ 395           end;
+ 396              
+ 397           if cohort = 2 then
+ 398           do;
+ 399           arm = 'Bottle/Bag';
+ 400           armcd = 'Cohort 2';
+ 401           actarm = 'Bottle/Bag';
+ 402           actarmcd = 'Cohort 2';
+ 403           end;
+ 404           
+ 405        
+ 406            drop cohort;
+ 407        
+ 408            if a ;
+ 409        
+ 410            keep studyid domain usubjid subjid siteid brthdtc sex race country rficdtc rfstdtc rfendtc age ageu armcd arm actarm
+ 410      ! actarmcd;
+ 411        
+ 412        
+ 413        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_RFENDTC.
+ NOTE: There were 31 observations read from the data set WORK.ARM_1.
+ NOTE: The data set WORK.DEMO_ARM has 34 observations and 18 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 414        
+ 415        
+ 416        **-------------------------------------------------------------------------------**;
+ 417        **          Create Final DM dataset with all the key variable                    **;
+ 418        **Use Proc SQL - Create Table statement to create final DM dataset **;
+ 419        **-------------------------------------------------------------------------------**;
+ 420        
+ 421        proc sql;
+ 422            create table sdtmlib.dm(label = "Demographic") as
+ 423                select
+ 424                studyid ,
+ 425                domain ,
+ 426                usubjid ,
+ 427                subjid ,
+ 428                rficdtc ,
+ 429                rfstdtc,
+ 430                rfendtc ,
+ 431                siteid ,
+ 432                brthdtc ,
+ 433                age ,
+ 434                ageu ,
+ 435                sex ,
+ 436                race ,
+ 437                armcd ,
+ 438                arm ,
+ 439                actarmcd,
+ 440        actarm ,
+ 441                country
+ 442               from demo_arm;
+ NOTE: Table SDTMLIB.DM created, with 34 rows and 18 columns.
+ 
+ 443        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.05 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 444        
+ 445        proc print;
+ 446        run;
+ 
+ NOTE: There were 34 observations read from the data set SDTMLIB.DM.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.31 seconds
+       cpu time            0.31 seconds
+       
+ 
+ 447        
+ 448        
+ 449        /*************************************************************/
+ 450        /******************END OF DM Processing **********************/
+ 451        /*************************************************************/
+ 452        
+ 453        
+ 454        
+ 455        
+ 456        
+ 457        /*************************************************************/
+ 458        /*****************SUPPDM Processing **************************/
+ 459        /*************************************************************/
+ 460        
+ 461        
+ 462        data demo_supp;
+ 463        set demo_master(keep = studyid domain usubjid raceoth);
+ 464        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_MASTER.
+ NOTE: The data set WORK.DEMO_SUPP has 34 observations and 4 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 465        
+ 466        proc transpose data=demo_supp out=demo_tran;
+ 467           by studyid domain usubjid;
+ 468           var raceoth;
+ 469        run;
+ 
+ NOTE: There were 34 observations read from the data set WORK.DEMO_SUPP.
+ NOTE: The data set WORK.DEMO_TRAN has 34 observations and 6 variables.
+ NOTE: PROCEDURE TRANSPOSE used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.01 seconds
+       
+ 
+ 470        
+ 471        data demo_supp1(drop = domain _name_ _label_ col1) ;
+ 472        set demo_tran (where=(col1 ^= ''));
+ 473        
+ 474        rdomain = domain;
+ 475        idvar = "";
+ 476        idvarval = "";
+ 477        
+ 478        qnam = _name_;
+ 479        qlabel = _label_;
+ 480        qval = left(trim(col1));
+ 481        
+ 482        qorig = "CRF";
+ 483        qeval = "";
+ 484        
+ 485        run;
+ 
+ NOTE: There were 1 observations read from the data set WORK.DEMO_TRAN.
+       WHERE col1 not = ' ';
+ NOTE: The data set WORK.DEMO_SUPP1 has 1 observations and 10 variables.
+ NOTE: DATA statement used (Total process time):
+       real time           0.00 seconds
+       cpu time            0.00 seconds
+       
+ 
+ 486        
+ 487        
+ 488        
+ 489        **-------------------------------------------------------------------------------**;
+ 490        **          Create Final SUPP DM dataset with all the key variable               **;
+ 491        **Use Proc SQL - Create Table statement to create final SUPP DM dataset**;
+ 492        **-------------------------------------------------------------------------------**;
+ 493        
+ 494        proc sql;
+ 495            create table sdtmlib.suppdm(label = "Suplemental Demographic") as
+ 496                select
+ 497        studyid,
+ 498        rdomain,
+ 499        usubjid,
+ 500        idvar,
+ 501        idvarval,
+ 502        qnam,
+ 503        qlabel,
+ 504        qval,
+ 505        qorig,
+ 506        qeval
+ 507               from demo_supp1;
+ NOTE: Table SDTMLIB.SUPPDM created, with 1 rows and 10 columns.
+ 
+ 508        quit;
+ NOTE: PROCEDURE SQL used (Total process time):
+       real time           0.04 seconds
+       cpu time            0.02 seconds
+       
+ 
+ 509        
+ 510        proc print;
+ 511        run;
+ 
+ NOTE: There were 1 observations read from the data set SDTMLIB.SUPPDM.
+ NOTE: PROCEDURE PRINT used (Total process time):
+       real time           0.04 seconds
+       cpu time            0.03 seconds
+       
+ 
+ 512        
+ 513        
+ 514        
+ 515        /*************************************************************/
+ 516        /**************END OF SUPPDM Processing **********************/
+ 517        /*************************************************************/
+ 518        
+ 519        
+ 520        
+ 521        
+ 522        
+ 523        
+ 524        OPTIONS NONOTES NOSTIMER NOSOURCE NOSYNTAXCHECK;
+ 536        
