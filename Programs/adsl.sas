@@ -40,14 +40,18 @@ data adsl_a1;
 	if rfstdtc ne "" then
 	do;
 		
-		trtsdtc  = trim(rfstdtc) || ":00";
+		trtsdtc  = ifc(lengthn(rfstdtc) eq 10, 
+		               trim(rfstdtc) || ":00",
+			       rfstdtc);
 		trtsdt   = input(trtsdtc,is8601da.);
 		trtstm   = input(substr(trtsdtc,12,8),is8601tm.);
 		trtsdtm  = input(trtsdtc,is8601dt.);
 		tr01sdt  = input(trtsdtc,is8601da.);
 		tr01stm  = input(substr(trtsdtc,12,8),is8601tm.);
 		
-		trtedtc = trim(rfendtc) || ":00";
+		trtsdtc  = ifc(lengthn(rfendtc) eq 10, 
+		               trim(rfendtc) || ":00",
+			       rfendtc);
 		trtedt  = input(trtedtc,is8601da.);
 		trtetm  = input(substr(trtedtc,12,8),is8601tm.);
 		trtedtm = input(trtedtc,is8601dt.);
